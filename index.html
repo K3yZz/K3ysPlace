@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K3yz Menu</title>
+  <style>
+    @font-face {
+      font-family: "font";
+      src: url("globalassets/font.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      overflow: hidden;
+      font-family: "font", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+    }
+
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    #titleText {
+      font-size: 32px;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      color: white;
+    }
+
+    #versionText {
+      font-size: 16px;
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      color: white;
+    }
+
+    #gamesContainer {
+      position: absolute;
+      top: 25%;
+      left: 5%;
+      display: flex;
+      z-index: 1000;
+    }
+
+    .game {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex-shrink: 0;
+      position: relative;
+      width: 200px;
+    }
+
+
+    .game img {
+      width: 150px;
+      height: 150px;
+      cursor: pointer;
+      border: 2px solid white;
+      border-radius: 10px;
+    }
+
+    .gameCard {
+      border: 2px solid white;
+      border-radius: 10px;
+      top: 210px;
+      padding: 15px;
+      background-color: rgba(21, 29, 58, 0.95);
+      color: white;
+      width: 300px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      margin-top: 10px;
+    }
+
+    .gameCard.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .gameTitle {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .gameVersion {
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+
+    .gameDescription {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .startGameButton {
+      font-size: 16px;
+      font-family: 'font', sans-serif;
+      border: 2px solid white;
+      border-radius: 10px;
+      margin-top: 10px;
+      padding: 10px 16px;
+      background-color: transparent;
+      cursor: pointer;
+      color: white;
+    }
+
+    .startGameButton:hover {
+      background-color: rgba(154, 149, 149, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="checkerboardBg"></canvas>
+  <span id="titleText">K3yz Place</span>
+  <span id="versionText">V1.0.0 - Alpha</span>
+  <div id="gamesContainer"></div>
+
+  <script type="module">
+    import { animateText } from "./globaljs/textEffects.js";
+
+    const games = [
+      { title: "Cube Game (NO WORK)", version: "V1.7.0-alpha", description: "Game about destroying shapes.", img: "globalassets/placeholder.png", link: "games/cubegame/game.html" },
+      { title: "Stock Market", version: "V1.0.0-alpha", description: "Game about stocks.", img: "globalassets/placeholder.png", link: "games/stockmarketgame/game.html" },
+      { title: "The wheel", version: "V1.0.0-alpha", description: "Tool for spins.", img: "globalassets/placeholder.png", link: "games/wheelgame/game.html" }
+    ];
+
+    const container = document.getElementById("gamesContainer");
+
+    games.forEach(game => {
+      const gameDiv = document.createElement("div");
+      gameDiv.className = "game";
+
+      const img = document.createElement("img");
+      img.src = game.img;
+      img.alt = game.title;
+
+      const card = document.createElement("div");
+      card.className = "gameCard";
+      card.innerHTML = `
+        <span class="gameTitle">${game.title}<br></span>
+        <span class="gameVersion">${game.version}<br></span>
+        <span class="gameDescription">${game.description}</span>
+        <button class="startGameButton" onclick="window.location.href='${game.link}'">Start Game</button>
+      `;
+
+      img.addEventListener("click", () => {
+        document.querySelectorAll(".gameCard").forEach(c => { if (c !== card) c.classList.remove("show"); });
+        card.classList.toggle("show");
+      });
+
+      gameDiv.appendChild(img);
+      gameDiv.appendChild(card);
+      container.appendChild(gameDiv);
+    });
+
+    Array.from(document.getElementsByClassName("startGameButton")).forEach(btn => {
+      animateText(btn, { wavy: true, hoverExplode: true });
+    });
+
+    const secret = "idk";
+    let typed = "";
+    document.addEventListener("keydown", e => {
+      typed += e.key.toLowerCase();
+      if (typed.length > secret.length) typed = typed.slice(-secret.length);
+      if (typed === secret) { window.location.href = 'stockmarket.html'; typed = ""; }
+    });
+  </script>
+
+  <script>
+    const canvas = document.getElementById("checkerboardBg");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const tileSize = 50;
+    const color1 = "#080A20";
+    const color2 = "#121832";
+
+    const patternCanvas = document.createElement('canvas');
+    patternCanvas.width = tileSize * 2;
+    patternCanvas.height = tileSize * 2;
+    const pCtx = patternCanvas.getContext('2d');
+
+    pCtx.fillStyle = color1;
+    pCtx.fillRect(0, 0, tileSize, tileSize);
+    pCtx.fillRect(tileSize, tileSize, tileSize, tileSize);
+    pCtx.fillStyle = color2;
+    pCtx.fillRect(tileSize, 0, tileSize, tileSize);
+    pCtx.fillRect(0, tileSize, tileSize, tileSize);
+
+    const pattern = ctx.createPattern(patternCanvas, 'repeat');
+
+    let offsetX = 0;
+    let offsetY = 0;
+    const speed = 0.3;
+
+    function drawCheckerboard() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(offsetX, offsetY);
+      ctx.fillStyle = pattern;
+      ctx.fillRect(-offsetX, -offsetY, canvas.width, canvas.height);
+      ctx.restore();
+      offsetX += speed;
+      offsetY -= speed;
+    }
+
+    function animate() {
+      drawCheckerboard();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawCheckerboard();
+    });
+  </script>
+</body>
+
+</html>

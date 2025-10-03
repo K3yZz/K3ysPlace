@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>The Wheel</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: #32363d;
+            padding-bottom: 50px;
+        }
+
+        canvas {
+            border: 5px solid #333;
+            border-radius: 50%;
+            background: white;
+            margin-top: 20px;
+        }
+
+        input,
+        button,
+        select {
+            margin: 5px;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+        }
+
+        #entriesList {
+            margin: 10px auto;
+            max-width: 500px;
+            color: white;
+        }
+
+        #secretMenu {
+            display: none;
+            margin-top: 10px;
+            background: #eee;
+            padding: 10px;
+            border: 2px dashed #999;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        .entry-buttons button {
+            margin-left: 5px;
+            padding: 2px 6px;
+        }
+
+        #messageBox {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #333;
+            padding: 10px;
+            background: #fffbe6;
+            border: 1px solid #ffd700;
+            border-radius: 6px;
+            display: none;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The Wheel</h1>
+
+    <div>
+        <input id="nameInput" placeholder="Name" />
+        <input id="weightInput" type="number" min="0.01" step="0.01" placeholder="Weight" />
+        <input id="colorInput" type="color" value="#ffcc66" />
+        <button id="submitButton" onclick="submitEntry()">Add</button>
+        <button id="cancelEdit" onclick="cancelEdit()" style="display: none;">
+            Cancel
+        </button>
+    </div>
+
+    <div id="entriesList"></div>
+
+    <canvas id="wheel" width="500" height="500"></canvas><br />
+    <button onclick="spin()">SPIN!</button>
+
+    <div style="margin-top: 20px;">
+        <input id="simCountInput" type="number" min="1" placeholder="Simulate X times" />
+        <button onclick="simulateSpins()">Simulate</button>
+    </div>
+    <pre id="simResultBox" style="white-space: pre-wrap; color: white; margin-top: 10px;"></pre>
+
+    <div id="messageBox"></div>
+
+    <div id="secretMenu">
+        <strong>Rig Menu</strong><br />
+        <label for="rigSelect">Rig winner: </label>
+        <select id="rigSelect">
+            <option value="">(Fair spin)</option>
+        </select>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
