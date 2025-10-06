@@ -5,6 +5,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>K3yz Menu</title>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init("GahAe28-OZFZT7Z4F");
+    })();
+  </script>
+
   <style>
     @font-face {
       font-family: "font";
@@ -134,14 +141,26 @@
   <span id="titleText">K3yz Place</span>
   <span id="versionText">V1.0.1 - Alpha</span>
   <div id="gamesContainer"></div>
+  <button id="bugReportButton" style="position:absolute; bottom:10%; right:5%; z-index:1000;">Report a Bug</button>
+  <div id="bugReportFormContainer"
+    style="display:none; position:absolute; bottom:15%; right:5%; z-index:1000; background:rgba(0,0,0,0.9); padding:15px; border:2px solid white; border-radius:10px; width:300px;">
+    <textarea id="bugDescription" placeholder="Describe the bug..."
+      style="width:100%; height:80px; margin-bottom:10px;"></textarea>
+    <input id="bugEmail" type="email" placeholder="Your email (optional)" style="width:100%; margin-bottom:10px;" />
+    <button id="submitBug" style="width:48%;">Submit</button>
+    <button id="cancelBug" style="width:48%;">Cancel</button>
+    <span id="bugFeedback" style="display:block; margin-top:5px;"></span>
+  </div>
 
+
+  <!--Game container-->
   <script type="module">
     import { animateText } from "./globaljs/textEffects.js";
 
     const games = [
       { title: "Cube Game (NO WORK)", version: "V1.0.0", description: "Game about destroying shapes.", img: "globalassets/placeholder.png", link: "games/cubegame/game.html" },
       { title: "Stock Market", version: "V1.0.0-alpha", description: "Game about stocks.", img: "globalassets/placeholder.png", link: "games/stockmarketgame/game.html" },
-      { title: "Casino", version: "V1.0.0-alpha", description: "Gambling.", img: "globalassets/placeholder.png", link: "#"},
+      { title: "Casino", version: "V1.0.0-alpha", description: "Gambling.", img: "globalassets/placeholder.png", link: "#" },
       { title: "The wheel", version: "V1.0.0-alpha", description: "Tool for spins.", img: "globalassets/placeholder.png", link: "games/wheelgame/game.html" }
     ];
 
@@ -177,7 +196,88 @@
     Array.from(document.getElementsByClassName("startGameButton")).forEach(btn => {
       animateText(btn, { wavy: true, hoverExplode: true });
     });
+  </script>
 
+  <!--Bug Report-->
+  <script>
+    const bugReportButton = document.getElementById("bugReportButton");
+    const bugReportFormContainer = document.getElementById("bugReportFormContainer");
+    const submitBug = document.getElementById("submitBug");
+    const cancelBug = document.getElementById("cancelBug");
+    const bugDescription = document.getElementById("bugDescription");
+    const bugEmail = document.getElementById("bugEmail");
+    const bugFeedback = document.getElementById("bugFeedback");
+
+    bugReportButton.addEventListener("click", () => {
+      bugReportFormContainer.style.display = "block";
+      bugReportButton.style.display = "none";
+    });
+
+    cancelBug.addEventListener("click", () => {
+      bugReportFormContainer.style.display = "none";
+      bugReportButton.style.display = "block";
+      bugDescription.value = "";
+      bugEmail.value = "";
+      bugFeedback.style.display = "none";
+    });
+
+    submitBug.addEventListener("click", async () => {
+      const description = bugDescription.value.trim();
+      const email = bugEmail.value.trim();
+
+      if (!description) {
+        bugFeedback.style.display = "block";
+        bugFeedback.style.color = "red";
+        bugFeedback.textContent = "Please describe the bug!";
+        return;
+      }
+
+      // Check monthly limit
+      const now = new Date();
+      const monthKey = `bugReports_${now.getFullYear()}_${now.getMonth()}`;
+      let count = parseInt(localStorage.getItem(monthKey)) || 0;
+
+      if (count >= 10) {
+        bugFeedback.style.display = "block";
+        bugFeedback.style.color = "red";
+        bugFeedback.textContent = "You have reached the 10 bug report limit for this month.";
+        return;
+      }
+
+      try {
+        const response = await emailjs.send("service_08aesw4", "template_1cis1r8", {
+          title: "Bug Report",
+          message: description,
+          email: email,
+          name: "bugReport",
+          time: Date.now
+        });
+
+        localStorage.setItem(monthKey, count + 1);
+
+        bugFeedback.style.display = "block";
+        bugFeedback.style.color = "lime";
+        bugFeedback.textContent = "Bug report sent! Thank you!";
+        setTimeout(() => {
+          bugReportFormContainer.style.display = "none";
+          bugReportButton.style.display = "block";
+          bugDescription.value = "";
+          bugEmail.value = "";
+          bugFeedback.style.display = "none";
+        }, 2000);
+
+      } catch (err) {
+        bugFeedback.style.display = "block";
+        bugFeedback.style.color = "red";
+        bugFeedback.textContent = "Failed to send bug report.";
+        console.error(err);
+      }
+    });
+
+  </script>
+
+  <!--Secret-->
+  <script>
     const secret = "idk";
     let typed = "";
     document.addEventListener("keydown", e => {
@@ -187,6 +287,7 @@
     });
   </script>
 
+  <!--Canvas Bg-->
   <script>
     const canvas = document.getElementById("checkerboardBg");
     const ctx = canvas.getContext("2d");
