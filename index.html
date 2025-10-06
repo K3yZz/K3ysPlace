@@ -5,10 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>K3yz Menu</title>
-  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  </script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  </script>
   <script type="text/javascript">
     (function () {
-      emailjs.init("GahAe28-OZFZT7Z4F");
+      emailjs.init({
+        publicKey: "GahAe28-OZFZT7Z4F",
+      });
     })();
   </script>
 
@@ -139,7 +143,7 @@
 <body>
   <canvas id="checkerboardBg"></canvas>
   <span id="titleText">K3yz Place</span>
-  <span id="versionText">V1.0.2 - Alpha</span>
+  <span id="versionText">V1.0.3 - Alpha</span>
   <div id="gamesContainer"></div>
   <button id="bugReportButton" style="position:absolute; bottom:10%; right:5%; z-index:1000;">Report a Bug</button>
   <div id="bugReportFormContainer"
@@ -232,28 +236,45 @@
         return;
       }
 
-      // Check monthly limit
       const now = new Date();
-      const monthKey = `bugReports_${now.getFullYear()}_${now.getMonth()}`;
-      let count = parseInt(localStorage.getItem(monthKey)) || 0;
+      const countKey = `bugReports_count`;
+      const startKey = `bugReports_start`;
+
+      let count = parseInt(localStorage.getItem(countKey)) || 0;
+      let startTimestamp = parseInt(localStorage.getItem(startKey)) || now.getTime();
+
+      const MS_IN_DAY = 24 * 60 * 60 * 1000;
+
+      // Reset if 31 days have passed
+      if (now.getTime() - startTimestamp >= 31 * MS_IN_DAY) {
+        count = 0;
+        startTimestamp = now.getTime();
+        localStorage.setItem(countKey, count);
+        localStorage.setItem(startKey, startTimestamp);
+      }
 
       if (count >= 10) {
+        const resetDate = new Date(startTimestamp + 31 * MS_IN_DAY);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         bugFeedback.style.display = "block";
         bugFeedback.style.color = "red";
-        bugFeedback.textContent = "You have reached the 10 bug report limit for this month.";
+        bugFeedback.textContent = `You have reached the 10 bug report limit. It will reset on ${resetDate.toLocaleString(undefined, options)}.`;
         return;
       }
 
+      // Increment count for this report
+      count++;
+      localStorage.setItem(countKey, count);
+      localStorage.setItem(startKey, startTimestamp);
+
       try {
-        const response = await emailjs.send("service_08aesw4", "template_1cis1r8", {
+        await emailjs.send("service_08aesw4", "template_1cis1r8", {
           title: "Bug Report",
           message: description,
           email: email,
           name: "bugReport",
-          time: Date.now
+          time: Date.now()
         });
-
-        localStorage.setItem(monthKey, count + 1);
 
         bugFeedback.style.display = "block";
         bugFeedback.style.color = "lime";
@@ -273,6 +294,7 @@
         console.error(err);
       }
     });
+
 
   </script>
 
