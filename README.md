@@ -2,7 +2,7 @@
 
 
 
-
+add bug reporting system
 
 
 
