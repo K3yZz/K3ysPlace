@@ -20,6 +20,7 @@ class Stock {
         this.totalSpent = 0;
         this.displayMin = price - 1;
         this.displayMax = price + 1;
+        this.visible = true;
     }
 
     step() {
@@ -50,16 +51,36 @@ let activeEventCount = 0;
 const stocks = [
     new Stock('AAPL', 150, 2, 'hsl(0,70%,50%)'),
     new Stock('GOOG', 2800, 12, 'hsl(120,70%,50%)'),
-    new Stock('TSLA', 700, 6, 'hsl(240,70%,50%)')
+    new Stock('AMZN', 700, 6, 'hsl(240,70%,50%)'),
+    new Stock('STEM', 1200, 8, 'hsl(300, 70%, 50%)'),
+    new Stock('GM', 0.1, 16, 'hsl(180, 70%, 50%)')
 ];
 
 const stockEvents = [
+    { name: "New iPhone", stock: "AAPL", impact: 1.15 },
     { name: "Tech Boom", stock: "AAPL", impact: 1.1 },
     { name: "Privacy Scandal", stock: "AAPL", impact: 0.9 },
+    { name: "Competition Releases", stock: "AAPL", impact: 0.88 },
+    //
+    { name: "Breaking News", stock: "GOOG", impact: 1.1 },
     { name: "Search Surge", stock: "GOOG", impact: 1.08 },
     { name: "Ad Revenue Drop", stock: "GOOG", impact: 0.92 },
-    { name: "EV Popularity", stock: "TSLA", impact: 1.12 },
-    { name: "Recall Issue", stock: "TSLA", impact: 0.88 }
+    { name: "Competition Releases", stock: "GOOG", impact: 0.9 },
+    //
+    { name: "Black Friday", stock: "AMZN", impact: 1.2 },
+    { name: "Holiday Season", stock: "AMZN", impact: 1.12 },
+    { name: "Rising Prices", stock: "AMZN", impact: 0.88 },
+    { name: "Negative News", stock: "AMZN", impact: 0.7 },
+    //
+    { name: "Steam Sale", stock: "STEM", impact: 1.20 },
+    { name: "Popular Game Release", stock: "STEM", impact: 1.09 },
+    { name: "Poor Game Quality", stock: "STEM", impact: 0.9 },
+    { name: "Privacy Breach", stock: "STEM", impact: 0.88 },
+    //
+    { name: "New Cars", stock: "GM", impact: 1.1 },
+    { name: "Positive Perfomance", stock: "GM", impact: 1.08 },
+    { name: "Increased Tariffs", stock: "GM", impact: 0.9 },
+    { name: "Vehicle Recall", stock: "GM", impact: 0.86 }
 ];
 
 // ------------------- Timer -------------------
@@ -91,7 +112,7 @@ function lerp(a, b, t) { return a + (b - a) * t; }
 
 // ------------------- Render Cash & Pause -------------------
 function renderCash() {
-    cashCard.innerHTML = `<div class="name">Cash</div><div>$${money.toFixed(2)}</div>`;
+    cashCard.innerHTML = `<div class="name">Cash</div><div>$${money.toLocaleString()}</div>`;
 }
 
 function renderPause() {
@@ -125,80 +146,136 @@ function renderPause() {
         renderPause();
     });
 }
-
-
 // ------------------- Portfolio -------------------
 function renderPortfolio() {
     portfolioDiv.innerHTML = '';
     stocks.forEach((s, i) => {
+        if (s.lastBuy === undefined) s.lastBuy = '1';
+        if (s.lastSell === undefined) s.lastSell = '1';
         const card = document.createElement('div');
         card.className = 'card';
         card.id = `stockCard${i}`;
-
-        const maxBuy = Math.floor(money / s.price);
-        const buyOptions = Array.from({ length: Math.min(maxBuy, 10) }, (_, n) => n + 1);
-        if (maxBuy > 10) buyOptions.push('Max');
-
-        const maxSell = s.amountOwned;
-        const sellOptions = Array.from({ length: Math.min(maxSell, 10) }, (_, n) => n + 1);
-        if (maxSell > 10) sellOptions.push('Max');
-
         card.innerHTML = `
-      <div class="name" style="color:${s.color}">${s.name}</div>
-      <div>Current: $<span class="currentPrice">${s.price.toFixed(2)}</span></div>
-      <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s.avgPrice().toFixed(2)}</div>
-      <div style="display:flex; gap:4px; align-items:center; margin-top:2px;">
-        <div class="dropdown-wrapper">
-          <select class="dropdown" id="buyAmt${i}">${buyOptions.map(v => `<option value="${v}">${v}</option>`).join('')}</select>
+        <div class="name" style="color:${s.color}; display:flex; justify-content:space-between; align-items:center;">
+          <span>${s.name}</span>
+          <button id="toggle${i}" class="secondary" style="font-size:12px; padding:2px 6px;">${s.visible ? 'Hide' : 'Show'}</button>
         </div>
-        <button onclick="buy(${i})">Buy</button>
-        <div class="dropdown-wrapper">
-          <select class="dropdown" id="sellAmt${i}">${sellOptions.map(v => `<option value="${v}">${v}</option>`).join('')}</select>
-        </div>
-        <button class="secondary" onclick="sell(${i})">Sell</button>
-      </div>
-    `;
+        <div>Current: $<span class="currentPrice">${s.price.toFixed(2)}</span></div>
+        <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s.avgPrice().toFixed(2)}</div>
+        <div class="small profit" style="color:${s.profit() >= 0 ? 'var(--profit)' : 'var(--loss)'}">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ''}</div>
+        <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <select id="buyAmt${i}" class="dropdown"></select>
+            <button onclick="buy(${i})">Buy</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <select id="sellAmt${i}" class="dropdown"></select>
+            <button class="secondary" onclick="sell(${i})">Sell</button>
+          </div>
+        </div>`;
         portfolioDiv.appendChild(card);
+        document.getElementById(`toggle${i}`).addEventListener('click', () => {
+            s.visible = !s.visible;
+            renderPortfolio();
+        });
+        const buySelect = document.getElementById(`buyAmt${i}`);
+        const sellSelect = document.getElementById(`sellAmt${i}`);
+        buySelect.addEventListener('change', () => { s.lastBuy = buySelect.value; });
+        sellSelect.addEventListener('change', () => { s.lastSell = sellSelect.value; });
+        const maxBuy = Math.floor(money / s.price);
+        const maxSell = s.amountOwned;
+        populateSelectOptions(buySelect, maxBuy, s.lastBuy);
+        populateSelectOptions(sellSelect, maxSell, s.lastSell);
     });
+    renderCash();
+}
+
+function populateSelectOptions(select, max, lastVal) {
+    const fixed = [1, 5, 10];
+    const opts = [];
+    fixed.forEach(v => { if (v <= max) opts.push(String(v)); });
+    if (max > 10) opts.push('Max');
+    if (opts.length === 0) opts.push('1');
+
+    while (select.options.length) select.remove(0);
+    opts.forEach(o => select.add(new Option(o, o)));
+
+    if (opts.includes(String(lastVal))) {
+        select.value = String(lastVal);
+    } else {
+        if (lastVal === 'Max' && opts.includes('Max')) {
+            select.value = 'Max';
+        } else {
+            const numericOpts = opts.filter(x => x !== 'Max').map(Number).sort((a, b) => a - b);
+            const desired = parseInt(lastVal, 10);
+            if (!isNaN(desired)) {
+                let pick = numericOpts.find(n => n >= desired);
+                if (!pick) pick = numericOpts[numericOpts.length - 1] || Number(opts[0]);
+                select.value = String(pick);
+            } else {
+                select.value = opts[0];
+            }
+        }
+    }
 }
 
 function updatePortfolioValues() {
     stocks.forEach((s, i) => {
         const card = document.getElementById(`stockCard${i}`);
         if (!card) return;
+
+        const maxBuy = Math.floor(money / s.price);
+        const maxSell = s.amountOwned;
+
         card.querySelector('.currentPrice').textContent = s.price.toFixed(2);
         card.querySelector('.owned').textContent = `Owned: ${s.amountOwned} | Avg: $${s.avgPrice().toFixed(2)}`;
+
+        const profitElem = card.querySelector('.profit');
+        if (s.amountOwned > 0) {
+            profitElem.textContent = `Profit: $${s.profit().toFixed(2)}`;
+            profitElem.style.color = s.profit() >= 0 ? 'var(--profit)' : 'var(--loss)';
+        } else profitElem.textContent = '';
+
+        const buySelect = document.getElementById(`buyAmt${i}`);
+        const sellSelect = document.getElementById(`sellAmt${i}`);
+
+        if (buySelect) populateSelectOptions(buySelect, maxBuy, s.lastBuy || buySelect.value);
+        if (sellSelect) populateSelectOptions(sellSelect, maxSell, s.lastSell || sellSelect.value);
     });
     renderCash();
 }
 
-// ------------------- Buy/Sell -------------------
 function buy(i) {
     const s = stocks[i];
-    const input = document.getElementById(`buyAmt${i}`);
-    let amount = input.value === 'Max' ? Math.floor(money / s.price) : parseInt(input.value) || 1;
+    const select = document.getElementById(`buyAmt${i}`);
+    const val = select ? select.value : s.lastBuy;
+    s.lastBuy = val;
+    let amount = val === 'Max' ? Math.floor(money / s.price) : parseInt(val, 10) || 1;
     if (amount < 1) return;
-    const totalCost = s.price * amount;
-    if (money >= totalCost) {
-        money -= totalCost;
+    const maxBuy = Math.floor(money / s.price);
+    if (amount > maxBuy) amount = maxBuy;
+    const total = s.price * amount;
+    if (money >= total && amount > 0) {
+        money -= total;
         s.amountOwned += amount;
-        s.totalSpent += totalCost;
-        renderPortfolio();
+        s.totalSpent += total;
         updatePortfolioValues();
     }
 }
 
 function sell(i) {
     const s = stocks[i];
-    const input = document.getElementById(`sellAmt${i}`);
-    let amount = input.value === 'Max' ? s.amountOwned : parseInt(input.value) || 1;
+    const select = document.getElementById(`sellAmt${i}`);
+    const val = select ? select.value : s.lastSell;
+    s.lastSell = val;
+    let amount = val === 'Max' ? s.amountOwned : parseInt(val, 10) || 1;
     if (amount < 1) return;
+    if (amount > s.amountOwned) amount = s.amountOwned;
     if (s.amountOwned >= amount) {
         money += s.price * amount;
         s.amountOwned -= amount;
         s.totalSpent -= s.avgPrice() * amount;
         if (s.amountOwned === 0) s.totalSpent = 0;
-        renderPortfolio();
         updatePortfolioValues();
     }
 }
@@ -219,8 +296,6 @@ function triggerRandomEvent() {
     msg.style.background = stock.color;
     msg.style.color = '#000';
 
-    const offset = ((activeEventCount % 5) - 2) * 30;
-    msg.style.left = `calc(50% + ${offset}px)`;
     eventContainer.appendChild(msg);
     activeEventCount++;
 
@@ -239,42 +314,29 @@ function triggerRandomEvent() {
     }, 3000);
 }
 
-setInterval(() => { if (Math.random() < 0.2) triggerRandomEvent(); }, 5000);
+setInterval(() => { if (Math.random() < 0.2 && !paused) triggerRandomEvent(); }, 5000);
 
 // ------------------- Draw -------------------
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const now = Date.now();
     const t = Math.min(1, Math.max(0, (now - lastUpdateTime) / Math.max(1, UPDATE_INTERVAL)));
-
     stocks.forEach((s, sIdx) => {
+        if (!s.visible) return;
         const recent = s.history.slice(-POINTS_SHOWN);
         if (!recent.length) return;
-
-        let maxP = Math.max(...recent);
-        let minP = Math.min(...recent);
-        if (!isFinite(maxP)) maxP = s.price || 1;
-        if (!isFinite(minP)) minP = 0;
-
-        let range = maxP - minP;
-        if (range <= 0) range = Math.max(1, Math.abs(maxP) * 0.02);
+        let maxP = Math.max(...recent), minP = Math.min(...recent);
+        if (!isFinite(maxP)) maxP = s.price || 1; if (!isFinite(minP)) minP = 0;
+        let range = maxP - minP; if (range <= 0) range = Math.max(1, Math.abs(maxP) * 0.02);
         const mid = (maxP + minP) / 2;
         const targetMax = mid + (range * RANGE_PAD) / 2;
         const targetMin = mid - (range * RANGE_PAD) / 2;
-
         s.displayMin = lerp(s.displayMin, targetMin, SCALE_SMOOTH);
         s.displayMax = lerp(s.displayMax, targetMax, SCALE_SMOOTH);
         if (s.displayMin < 0) s.displayMin = Math.max(0, s.displayMin);
-
         const L = recent.length;
         const scaleX = canvas.width / Math.max(1, L - 1);
-
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = s.color;
-        ctx.lineJoin = 'miter';
-        ctx.lineCap = 'butt';
-
+        ctx.beginPath(); ctx.lineWidth = 2; ctx.strokeStyle = s.color; ctx.lineJoin = 'miter'; ctx.lineCap = 'butt';
         for (let i = 0; i < L; i++) {
             const price = recent[i];
             const normalized = (price - s.displayMin) / (s.displayMax - s.displayMin);
@@ -283,55 +345,18 @@ function draw() {
             if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
         ctx.stroke();
-
-        // Draw average buy line if owned
         if (s.amountOwned) {
             const avgY = canvas.height - ((s.avgPrice() - s.displayMin) / (s.displayMax - s.displayMin)) * canvas.height;
-            ctx.beginPath();
-            ctx.strokeStyle = s.color;
-            ctx.setLineDash([4, 2]);
-            ctx.moveTo(0, avgY);
-            ctx.lineTo(canvas.width, avgY);
-            ctx.stroke();
-            ctx.setLineDash([]);
+            ctx.beginPath(); ctx.strokeStyle = s.color; ctx.setLineDash([4, 2]); ctx.moveTo(0, avgY); ctx.lineTo(canvas.width, avgY); ctx.stroke(); ctx.setLineDash([]);
         }
-
-        // Base horizontal line
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-        ctx.moveTo(0, canvas.height / 2);
-        ctx.lineTo(canvas.width, canvas.height / 2);
-        ctx.stroke();
-
-        // Labels
-        ctx.fillStyle = s.color;
-        ctx.font = '12px system-ui,sans-serif';
+        ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.moveTo(0, canvas.height / 2); ctx.lineTo(canvas.width, canvas.height / 2); ctx.stroke();
+        ctx.fillStyle = s.color; ctx.font = '12px system-ui,sans-serif';
         const latestDisplay = recent[recent.length - 1];
         ctx.fillText(`${s.name} $${latestDisplay.toFixed(2)}`, 8, 16 + sIdx * 18);
     });
-
-    // Hover line
     if (mouseX !== null) {
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-        ctx.moveTo(mouseX, 0);
-        ctx.lineTo(mouseX, canvas.height);
-        ctx.stroke();
-
-        stocks.forEach((s, sIdx) => {
-            const recent = s.history.slice(-POINTS_SHOWN);
-            const L = recent.length;
-            if (!L) return;
-            const scaleX = canvas.width / Math.max(1, L - 1);
-            const idx = Math.round(mouseX / scaleX);
-            if (idx >= 0 && idx < L) {
-                const price = recent[idx];
-                ctx.fillStyle = s.color;
-                ctx.fillText(`${s.name}: $${price.toFixed(2)}`, Math.min(mouseX + 10, canvas.width - 120), 26 + sIdx * 18);
-            }
-        });
+        ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvas.height); ctx.stroke();
     }
-
     requestAnimationFrame(draw);
 }
 
