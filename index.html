@@ -143,7 +143,7 @@
 <body>
   <canvas id="checkerboardBg"></canvas>
   <span id="titleText">K3yz Place</span>
-  <span id="versionText">V1.0.3 - Alpha</span>
+  <span id="versionText">V1.0.4 - Alpha</span>
   <div id="gamesContainer"></div>
   <button id="bugReportButton" style="position:absolute; bottom:10%; right:5%; z-index:1000;">Report a Bug</button>
   <div id="bugReportFormContainer"
@@ -159,13 +159,13 @@
 
   <!--Game container-->
   <script type="module">
-    import { animateText } from "./globaljs/textEffects.js";
+    import { animateText } from "./globalassets/textEffects.js";
 
     const games = [
-      { title: "Cube Game (NO WORK)", version: "V1.0.0", description: "Game about destroying shapes.", img: "globalassets/placeholder.png", link: "games/cubegame/game.html" },
-      { title: "Stock Market", version: "V1.0.0-alpha", description: "Game about stocks.", img: "globalassets/placeholder.png", link: "games/stockmarketgame/game.html" },
-      { title: "Casino", version: "V1.0.0-alpha", description: "Gambling.", img: "globalassets/placeholder.png", link: "#" },
-      { title: "The wheel", version: "V1.0.0-alpha", description: "Tool for spins.", img: "globalassets/placeholder.png", link: "games/wheelgame/game.html" }
+      { title: "Cube Game", version: "V1.0.0", description: "Destroy shapes.", img: "globalassets/placeholder.png", link: "globalassets/limbo.html" },
+      { title: "Stock Market", version: "V1.0.0-alpha", description: "Stonks.", img: "globalassets/placeholder.png", link: "games/stockmarketgame/game.html" },
+      { title: "Casino", version: "V1.0.0-alpha", description: "Losing is only a mentality. Keep gambling.", img: "globalassets/placeholder.png", link: "globalassets/limbo.html" },
+      { title: "The wheel", version: "V1.0.0-alpha", description: "Tool for spins. (type 'rig' for rig menu)", img: "globalassets/placeholder.png", link: "games/wheelgame/game.html" }
     ];
 
     const container = document.getElementById("gamesContainer");
