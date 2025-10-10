@@ -87,20 +87,39 @@ function deleteEntry(index) {
 function updateUI() {
     const totalWeight = entries.reduce((sum, e) => sum + e.weight, 0);
     const listDiv = document.getElementById("entriesList");
-    listDiv.innerHTML = "<strong>Entries:</strong><ul>" +
-        entries.map((e, i) => {
-            const percent = ((e.weight / totalWeight) * 100).toFixed(3);
-            return `
-        <li>
-          <span style="display:inline-block;width:15px;height:15px;background:${e.color};border-radius:50%;margin-right:5px;"></span>
-          ${e.name} (weight: ${e.weight.toFixed(2)}, ${percent}%)
-          <span class="entry-buttons">
+    listDiv.innerHTML = "<strong>Entries:</strong>";
+
+    entries.forEach((e, i) => {
+        const percent = ((e.weight / totalWeight) * 100).toFixed(3);
+
+        const entryDiv = document.createElement("div");
+        entryDiv.style.display = "flex";
+        entryDiv.style.alignItems = "center";
+        entryDiv.style.justifyContent = "space-between";
+        entryDiv.style.background = "rgba(255,255,255,0.05)";
+        entryDiv.style.padding = "4px 6px";
+        entryDiv.style.borderRadius = "6px";
+        entryDiv.style.marginBottom = "5px";
+
+        const infoDiv = document.createElement("div");
+        infoDiv.style.display = "flex";
+        infoDiv.style.alignItems = "center";
+        infoDiv.innerHTML = `
+            <span style="display:inline-block;width:15px;height:15px;background:${e.color};border-radius:50%;margin-right:8px;"></span>
+            ${e.name} (weight: ${e.weight.toFixed(2)}, ${percent}%)
+        `;
+
+        const btnDiv = document.createElement("div");
+        btnDiv.className = "entry-buttons";
+        btnDiv.innerHTML = `
             <button onclick="editEntry(${i})">Edit</button>
             <button onclick="deleteEntry(${i})">Delete</button>
-          </span>
-        </li>`;
-        }).join("") +
-        "</ul>";
+        `;
+
+        entryDiv.appendChild(infoDiv);
+        entryDiv.appendChild(btnDiv);
+        listDiv.appendChild(entryDiv);
+    });
 
     const rigSelect = document.getElementById("rigSelect");
     rigSelect.innerHTML = '<option value="">(Fair spin)</option>';
@@ -158,10 +177,10 @@ function drawWheel() {
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     ctx.lineWidth = 5;
-    ctx.strokeStyle = 'white';
+    ctx.strokeStyle = '#222';
     ctx.stroke();
 
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = '#222';
     ctx.beginPath();
     ctx.moveTo(centerX + radius - 20, centerY);
     ctx.lineTo(centerX + radius + 10, centerY - 15);

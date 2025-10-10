@@ -49,16 +49,16 @@ let mouseX = null;
 let activeEventCount = 0;
 
 const stocks = [
-    new Stock('AAPL', 150, 2, 'hsl(0,70%,50%)'),
-    new Stock('GOOG', 2800, 12, 'hsl(120,70%,50%)'),
-    new Stock('AMZN', 700, 6, 'hsl(240,70%,50%)'),
-    new Stock('STEM', 1200, 8, 'hsl(300, 70%, 50%)'),
-    new Stock('GM', 0.1, 16, 'hsl(180, 70%, 50%)')
+    new Stock('GOOG', 2800, 28, 'hsl(120,70%,50%)'), // ~1% per tick
+    new Stock('STEM', 1200, 12, 'hsl(300, 70%, 50%)'), // ~1% per tick
+    new Stock('AMZN', 700, 7, 'hsl(240,70%,50%)'),   // ~1% per tick
+    new Stock('AAPL', 150, 1.5, 'hsl(0,70%,50%)'),   // ~1% per tick
+    new Stock('GM', 0.05, 1, 'hsl(180, 70%, 50%)') // ~20% per tick, penny stock
 ];
 
 const stockEvents = [
     { name: "New iPhone", stock: "AAPL", impact: 1.15 },
-    { name: "Tech Boom", stock: "AAPL", impact: 1.1 },
+    { name: "Good Reviews", stock: "AAPL", impact: 1.1 },
     { name: "Privacy Scandal", stock: "AAPL", impact: 0.9 },
     { name: "Competition Releases", stock: "AAPL", impact: 0.88 },
     //
@@ -72,15 +72,20 @@ const stockEvents = [
     { name: "Rising Prices", stock: "AMZN", impact: 0.88 },
     { name: "Negative News", stock: "AMZN", impact: 0.7 },
     //
-    { name: "Steam Sale", stock: "STEM", impact: 1.20 },
+    { name: "Steam Sale", stock: "STEM", impact: 1.2 },
     { name: "Popular Game Release", stock: "STEM", impact: 1.09 },
     { name: "Poor Game Quality", stock: "STEM", impact: 0.9 },
     { name: "Privacy Breach", stock: "STEM", impact: 0.88 },
     //
-    { name: "New Cars", stock: "GM", impact: 1.1 },
-    { name: "Positive Perfomance", stock: "GM", impact: 1.08 },
-    { name: "Increased Tariffs", stock: "GM", impact: 0.9 },
-    { name: "Vehicle Recall", stock: "GM", impact: 0.86 }
+    { name: "New Cars", stock: "GM", impact: 1.5 },
+    { name: "Positive Perfomance", stock: "GM", impact: 1.1 },
+    { name: "Increased Tariffs", stock: "GM", impact: 0.8 },
+    { name: "Vehicle Recall", stock: "GM", impact: 0.7 },
+    //events that modify multiple stocks V
+    { name: "Global Panic", targets: "all", impact: 1.3},
+    { name: "Tech Boom", targets: ["AAPL", "GOOG", "AMZN", "STEM"], impact: 1.12 },
+    { name: "Regulation Shock", targets: ["GOOG", "AAPL"], impacts: { GOOG: 0.92, AAPL: 0.95 } },
+    { name: "Boycotting", targets: "all", impact: 0.7},
 ];
 
 // ------------------- Timer -------------------
@@ -160,7 +165,7 @@ function renderPortfolio() {
           <span>${s.name}</span>
           <button id="toggle${i}" class="secondary" style="font-size:12px; padding:2px 6px;">${s.visible ? 'Hide' : 'Show'}</button>
         </div>
-        <div>Current: $<span class="currentPrice">${s.price.toFixed(2)}</span></div>
+        <div>Current: $<span class="currentPrice">${s.price.toFixed(3)}</span></div>
         <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s.avgPrice().toFixed(2)}</div>
         <div class="small profit" style="color:${s.profit() >= 0 ? 'var(--profit)' : 'var(--loss)'}">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ''}</div>
         <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
@@ -283,39 +288,78 @@ function sell(i) {
 // ------------------- Events -------------------
 function triggerRandomEvent() {
     const event = stockEvents[Math.floor(Math.random() * stockEvents.length)];
-    const stock = stocks.find(s => s.name === event.stock);
-    if (!stock) return;
+    if (!event) return;
 
-    stock.price *= event.impact;
-    stock.history.push(stock.price);
-    updatePortfolioValues();
+    // Resolve targets -> array of Stock objects
+    let targets = [];
+    if (event.targets === "all") {
+        targets = stocks.slice(); // all stocks
+    } else if (Array.isArray(event.targets)) {
+        targets = event.targets
+            .map(name => stocks.find(s => s.name === name))
+            .filter(Boolean);
+    } else if (typeof event.filter === "function") {
+        targets = stocks.filter(event.filter);
+    } else if (event.stock) { // backward compatible single-stock
+        const s = stocks.find(x => x.name === event.stock);
+        if (s) targets.push(s);
+    } else {
+        // if no explicit targets, fallback to a random single stock
+        const s = stocks[Math.floor(Math.random() * stocks.length)];
+        if (s) targets.push(s);
+    }
 
-    const msg = document.createElement('div');
-    msg.className = 'eventMessage';
-    msg.textContent = `${event.name}: ${stock.name} ${event.impact > 1 ? '↑' : '↓'}${((event.impact - 1) * 100).toFixed(0)}%`;
-    msg.style.background = stock.color;
-    msg.style.color = '#000';
+    if (targets.length === 0) return;
 
-    eventContainer.appendChild(msg);
-    activeEventCount++;
+    // Apply impacts and create messages
+    targets.forEach(stock => {
+        // compute impact for this stock:
+        let impact = 1;
+        if (event.impacts && typeof event.impacts === "object") {
+            // map lookup (if missing, fallback to event.impact or 1)
+            impact = (event.impacts[stock.name] != null) ? event.impacts[stock.name] : (event.impact || 1);
+        } else if (typeof event.impact === "number") {
+            impact = event.impact;
+        } else {
+            impact = 1; // no-op if no impact specified
+        }
 
-    requestAnimationFrame(() => {
-        msg.style.top = '-20px';
-        msg.style.opacity = 1;
-    });
+        // apply impact
+        stock.price *= impact;
+        if (!isFinite(stock.price) || stock.price < 0) stock.price = Math.max(0, Math.abs(stock.price) || 0);
+        stock.history.push(stock.price);
 
-    setTimeout(() => {
-        msg.style.top = '-40px';
-        msg.style.opacity = 0;
+        // update UI numbers
+        updatePortfolioValues();
+
+        // create per-stock event message (you can combine into one if desired)
+        const msg = document.createElement('div');
+        msg.className = 'eventMessage';
+        const pct = ((impact - 1) * 100).toFixed(0);
+        msg.textContent = `${event.name}: ${stock.name} ${impact > 1 ? '↑' : (impact < 1 ? '↓' : '→')}${pct}%`;
+        msg.style.background = stock.color;
+        msg.style.color = '#000';
+        eventContainer.appendChild(msg);
+        activeEventCount++;
+
+        // animate & remove
+        requestAnimationFrame(() => {
+            msg.style.opacity = '1';
+            msg.style.transform = 'translateY(0)';
+
+        });
         setTimeout(() => {
-            eventContainer.removeChild(msg);
-            activeEventCount--;
-        }, 500);
-    }, 3000);
+            msg.style.top = '-40px';
+            msg.style.opacity = 0;
+            setTimeout(() => {
+                eventContainer.removeChild(msg);
+                activeEventCount--;
+            }, 500);
+        }, 3000);
+    });
 }
 
-setInterval(() => { if (Math.random() < 0.2 && !paused) triggerRandomEvent(); }, 5000);
-
+setInterval(() => { if (Math.random() < 0.2 && !paused) triggerRandomEvent(); }, 3500);
 // ------------------- Draw -------------------
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);

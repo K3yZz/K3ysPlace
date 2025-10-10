@@ -5,14 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>K3yz Menu</title>
-  </script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-  </script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script type="text/javascript">
     (function () {
-      emailjs.init({
-        publicKey: "GahAe28-OZFZT7Z4F",
-      });
+      emailjs.init({ publicKey: "GahAe28-OZFZT7Z4F" });
     })();
   </script>
 
@@ -25,11 +21,11 @@
     }
 
     body {
-      overflow: hidden;
-      font-family: "font", sans-serif;
       margin: 0;
       padding: 0;
+      font-family: "font", sans-serif;
       background-color: #000;
+      overflow: hidden;
     }
 
     canvas {
@@ -41,21 +37,31 @@
     }
 
     #titleText {
-      font-size: 32px;
+      font-size: clamp(24px, 5vw, 32px);
       position: absolute;
-      top: 10%;
+      top: 5%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       z-index: 1000;
       color: white;
     }
 
     #versionText {
-      font-size: 16px;
+      font-size: clamp(12px, 2.5vw, 16px);
       position: absolute;
-      top: 15%;
+      top: 12%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
+      z-index: 1000;
+      color: white;
+    }
+
+    #devNotes {
+      font-size: clamp(12px, 2.5vw, 16px);
+      position: absolute;
+      top: 18%;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 1000;
       color: white;
     }
@@ -63,20 +69,30 @@
     #gamesContainer {
       position: absolute;
       top: 25%;
-      left: 5%;
+      left: 2%;
+      /* small left margin */
+      right: 2%;
+      /* small right margin */
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      /* center games in each row */
+      gap: 20px;
+      /* spacing between games */
+      max-height: 70vh;
+      overflow: none;
+      /* internal scroll if too many games */
       z-index: 1000;
+      padding-right: 10px;
+      /* prevent scrollbar overlay */
     }
 
     .game {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      flex-shrink: 0;
-      position: relative;
+      align-items: center;
       width: 200px;
     }
-
 
     .game img {
       width: 150px;
@@ -89,16 +105,18 @@
     .gameCard {
       border: 2px solid white;
       border-radius: 10px;
-      top: 210px;
       padding: 15px;
       background-color: rgba(21, 29, 58, 0.95);
       color: white;
-      width: 300px;
+      width: 100%;
+      /* fill the parent .game */
+      box-sizing: border-box;
+      /* include padding in width */
+      margin-top: 10px;
       opacity: 0;
       transform: translateY(-10px);
       transition: opacity 0.3s ease, transform 0.3s ease;
       pointer-events: none;
-      margin-top: 10px;
     }
 
     .gameCard.show {
@@ -137,35 +155,74 @@
     .startGameButton:hover {
       background-color: rgba(154, 149, 149, 0.5);
     }
+
+    /* Feedback button & form top-right */
+    #bugReportButton {
+      position: absolute;
+      top: 5%;
+      right: 5%;
+      z-index: 1000;
+    }
+
+    #bugReportFormContainer {
+      display: none;
+      position: absolute;
+      top: 10%;
+      right: 5%;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      border: 2px solid white;
+      border-radius: 10px;
+      width: 300px;
+      max-width: 90vw;
+    }
+
+    #bugDescription,
+    #bugEmail {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    #submitBug,
+    #cancelBug {
+      width: 48%;
+    }
+
+    #bugFeedback {
+      display: block;
+      margin-top: 5px;
+    }
   </style>
 </head>
 
 <body>
   <canvas id="checkerboardBg"></canvas>
   <span id="titleText">K3yz Place</span>
-  <span id="versionText">V1.0.4 - Alpha</span>
+  <span id="versionText">V1.0.5 - Alpha</span>
+  <span id="devNotes">Need an icon for the casino! Please submit one!</span>
+
   <div id="gamesContainer"></div>
-  <button id="bugReportButton" style="position:absolute; bottom:10%; right:5%; z-index:1000;">Report a Bug</button>
-  <div id="bugReportFormContainer"
-    style="display:none; position:absolute; bottom:15%; right:5%; z-index:1000; background:rgba(0,0,0,0.9); padding:15px; border:2px solid white; border-radius:10px; width:300px;">
-    <textarea id="bugDescription" placeholder="Describe the bug..."
-      style="width:100%; height:80px; margin-bottom:10px;"></textarea>
-    <input id="bugEmail" type="email" placeholder="Your email (optional)" style="width:100%; margin-bottom:10px;" />
-    <button id="submitBug" style="width:48%;">Submit</button>
-    <button id="cancelBug" style="width:48%;">Cancel</button>
-    <span id="bugFeedback" style="display:block; margin-top:5px;"></span>
+
+  <button id="bugReportButton">Send Feedback</button>
+  <div id="bugReportFormContainer">
+    <textarea id="bugDescription" placeholder="Describe the bug/Suggest an idea..."></textarea>
+    <input id="bugEmail" type="email" placeholder="Your email (optional)" />
+    <button id="submitBug">Submit</button>
+    <button id="cancelBug">Cancel</button>
+    <span id="bugFeedback"></span>
   </div>
 
-
-  <!--Game container-->
   <script type="module">
     import { animateText } from "./globalassets/textEffects.js";
 
     const games = [
-      { title: "Cube Game", version: "V1.0.0", description: "Destroy shapes.", img: "globalassets/placeholder.png", link: "globalassets/limbo.html" },
-      { title: "Stock Market", version: "V1.0.0-alpha", description: "Stonks.", img: "globalassets/placeholder.png", link: "games/stockmarketgame/game.html" },
-      { title: "Casino", version: "V1.0.0-alpha", description: "Losing is only a mentality. Keep gambling.", img: "globalassets/placeholder.png", link: "globalassets/limbo.html" },
-      { title: "The wheel", version: "V1.0.0-alpha", description: "Tool for spins. (type 'rig' for rig menu)", img: "globalassets/placeholder.png", link: "games/wheelgame/game.html" }
+      { title: "Cube Game", version: "V0.0.0", description: "Destroy shapes. (ABANDONED FOR NOW)", img: "globalassets/gameIcons/cubegame.png", link: "globalassets/limbo.html" },
+      { title: "Stock Market", version: "V1.0.1-alpha", description: "Stonks.", img: "globalassets/gameIcons/stockMarket.png", link: "games/stockmarketgame/game.html" },
+      { title: "Casino", version: "V1.0.0-alpha", description: "Losing is only a mentality. Keep gambling.", img: "globalassets/gameIcons/casino.png", link: "games/casinogame/game.html" },
+      { title: "Placeholder", version: "V0.0.0", description: "This is an idea. Yet to be made.", img: "globalassets/gameIcons/placeholder.png", link: "globalassets/limbo.html" },
+      { title: "Severance Lumon Computer(?)", version: "V0.0.0", description: "This is an idea. Yet to be made.", img: "globalassets/gameIcons/placeholder.png", link: "globalassets/limbo.html" },
+      { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", img: "globalassets/gameIcons/wheel.png", link: "games/wheelgame/game.html" }
     ];
 
     const container = document.getElementById("gamesContainer");
@@ -202,7 +259,7 @@
     });
   </script>
 
-  <!--Bug Report-->
+  <!-- Bug Report JS -->
   <script>
     const bugReportButton = document.getElementById("bugReportButton");
     const bugReportFormContainer = document.getElementById("bugReportFormContainer");
@@ -236,37 +293,6 @@
         return;
       }
 
-      const now = new Date();
-      const countKey = `bugReports_count`;
-      const startKey = `bugReports_start`;
-
-      let count = parseInt(localStorage.getItem(countKey)) || 0;
-      let startTimestamp = parseInt(localStorage.getItem(startKey)) || now.getTime();
-
-      const MS_IN_DAY = 24 * 60 * 60 * 1000;
-
-      // Reset if 31 days have passed
-      if (now.getTime() - startTimestamp >= 31 * MS_IN_DAY) {
-        count = 0;
-        startTimestamp = now.getTime();
-        localStorage.setItem(countKey, count);
-        localStorage.setItem(startKey, startTimestamp);
-      }
-
-      if (count >= 10) {
-        const resetDate = new Date(startTimestamp + 31 * MS_IN_DAY);
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        bugFeedback.style.display = "block";
-        bugFeedback.style.color = "red";
-        bugFeedback.textContent = `You have reached the 10 bug report limit. It will reset on ${resetDate.toLocaleString(undefined, options)}.`;
-        return;
-      }
-
-      // Increment count for this report
-      count++;
-      localStorage.setItem(countKey, count);
-      localStorage.setItem(startKey, startTimestamp);
-
       try {
         await emailjs.send("service_08aesw4", "template_1cis1r8", {
           title: "Bug Report",
@@ -294,11 +320,9 @@
         console.error(err);
       }
     });
-
-
   </script>
 
-  <!--Secret-->
+  <!-- Secret Key -->
   <script>
     const secret = "idk";
     let typed = "";
@@ -309,7 +333,7 @@
     });
   </script>
 
-  <!--Canvas Bg-->
+  <!-- Canvas Background -->
   <script>
     const canvas = document.getElementById("checkerboardBg");
     const ctx = canvas.getContext("2d");
