@@ -70,22 +70,25 @@
       position: absolute;
       top: 25%;
       left: 2%;
-      /* small left margin */
       right: 2%;
-      /* small right margin */
+      max-height: 70vh;
+      overflow-y: auto;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding-right: 10px;
+    }
+
+    #myGames,
+    #portedGames,
+    #tools {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      /* center games in each row */
       gap: 20px;
-      /* spacing between games */
-      max-height: 70vh;
-      overflow: none;
-      /* internal scroll if too many games */
-      z-index: 1000;
-      padding-right: 10px;
-      /* prevent scrollbar overlay */
     }
+
 
     .game {
       display: flex;
@@ -199,10 +202,17 @@
 <body>
   <canvas id="checkerboardBg"></canvas>
   <span id="titleText">K3yz Place</span>
-  <span id="versionText">V1.0.5 - Alpha</span>
+  <span id="versionText">V1.1.0 - Alpha</span>
   <span id="devNotes">Need an icon for the casino! Please submit one!</span>
 
-  <div id="gamesContainer"></div>
+  <div id="gamesContainer">
+    <span style="color: white;">My Games</span>
+    <div id="myGames"></div>
+    <span style="color: white;">Ported Games</span>
+    <div id="portedGames"></div>
+    <span style="color: white;">Tools</span>
+    <div id="tools"></div>
+  </div>
 
   <button id="bugReportButton">Send Feedback</button>
   <div id="bugReportFormContainer">
@@ -214,20 +224,30 @@
   </div>
 
   <script type="module">
-    import { animateText } from "./globalassets/textEffects.js";
+    import { animateText } from "./globalassets/js/textEffects.js";
 
     const games = [
-      { title: "Cube Game", version: "V0.0.0", description: "Destroy shapes. (ABANDONED FOR NOW)", img: "globalassets/gameIcons/cubegame.png", link: "globalassets/limbo.html" },
-      { title: "Stock Market", version: "V1.0.1-alpha", description: "Stonks.", img: "globalassets/gameIcons/stockMarket.png", link: "games/stockmarketgame/game.html" },
-      { title: "Casino", version: "V1.0.0-alpha", description: "Losing is only a mentality. Keep gambling.", img: "globalassets/gameIcons/casino.png", link: "games/casinogame/game.html" },
-      { title: "Placeholder", version: "V0.0.0", description: "This is an idea. Yet to be made.", img: "globalassets/gameIcons/placeholder.png", link: "globalassets/limbo.html" },
-      { title: "Severance Lumon Computer(?)", version: "V0.0.0", description: "This is an idea. Yet to be made.", img: "globalassets/gameIcons/placeholder.png", link: "globalassets/limbo.html" },
-      { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", img: "globalassets/gameIcons/wheel.png", link: "games/wheelgame/game.html" }
+      { title: "Cube Game", version: "V0.0.0", description: "Destroy shapes. (ABANDONED FOR NOW)", place: "myGames", img: "globalassets/gameIcons/cubegame.png", link: "globalassets/limbo.html" },
+      { title: "Stock Market", version: "V1.0.1-alpha", description: "Stonks.", place: "myGames", img: "globalassets/gameIcons/stockMarket.png", link: "games/stockmarketgame/game.html" },
+      { title: "Casino", version: "V1.0.0-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "globalassets/gameIcons/casino.png", link: "games/casinogame/game.html" },
+      
+      { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "globalassets/gameIcons/wheel.png", link: "games/wheelgame/game.html" },
+      { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "globalassets/gameIcons/placeholder.png", link: "games/chatgame/public/index.html"},
+
+      { title: "Bitlife", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "games/portedgames/bitlife-life-simulator/play.html"},
+      { title: "Chrome Dino", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/dino.png", link: "games/portedgames/chrome-dino"},
+      { title: "Cookie Clicker", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/cookieclicker.png", link: "games/portedgames/cookie-clicker"},
+      { title: "Drive Mad", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/drivemad.jpeg", link: "games/portedgames/drive-mad"},
+      { title: "Moto X3M", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto1.jpeg", link: "games/portedgames/Moto-X3M"},
+      { title: "Moto Pool", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto2.jpeg", link: "games/portedgames/motox3m-pool"},
+      { title: "Moto Spooky", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "games/portedgames/motox3m-spooky"},
+      { title: "Moto Winter", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "games/portedgames/motox3m-winter"},
+      { title: "Subway Surfers", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "games/portedgames/subwaysurfers-sf"},
     ];
 
-    const container = document.getElementById("gamesContainer");
-
     games.forEach(game => {
+      const container = document.getElementById(game.place);
+
       const gameDiv = document.createElement("div");
       gameDiv.className = "game";
 

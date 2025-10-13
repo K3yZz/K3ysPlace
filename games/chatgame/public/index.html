@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>WS Chat</title>
+<style>
+:root{--bg:#0f1724;--panel:#0b1220;--muted:#9aa7bd;--accent:#60a5fa;--msgBg:#0b1228;--own:#143d2a}
+:root.light{--bg:#f3f6fb;--panel:#ffffff;--muted:#556b83;--accent:#2563eb;--msgBg:#ffffff;--own:#e6f9ef}
+html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+body{background:var(--bg);color:var(--muted);display:flex;flex-direction:column}
+.header{display:flex;align-items:center;gap:12px;padding:12px;background:var(--panel);color:var(--muted)}
+.title{font-weight:700;color:var(--accent)}
+.controls{margin-left:auto;display:flex;gap:8px;align-items:center}
+.container{display:flex;gap:12px;padding:12px;flex:1;min-height:0}
+.left{flex:1;display:flex;flex-direction:column;min-width:0}
+.messages{flex:1;overflow:auto;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:10px}
+.compose{display:flex;gap:8px;margin-top:10px}
+input[type=text]{padding:10px;border-radius:8px;border:0;background:var(--msgBg);color:inherit;outline:0;flex:1}
+button{padding:10px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+.side{width:220px;display:flex;flex-direction:column;gap:8px}
+.box{background:var(--panel);padding:10px;border-radius:8px}
+.userlist{max-height:240px;overflow:auto}
+.msg{padding:8px;border-radius:8px;margin-bottom:8px;background:rgba(255,255,255,0.02)}
+.msg.own{background:var(--own);color:#e6fff1}
+.receipts{font-size:11px;color:var(--muted);margin-top:6px;display:flex;gap:8px;align-items:center}
+.small{font-size:12px;color:var(--muted)}
+.toggle{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px;border-radius:8px;color:var(--muted);cursor:pointer}
+.pm{font-size:12px;padding:6px;border-radius:6px;background:rgba(255,255,255,0.02);display:inline-block}
+.system{font-style:italic;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="title">WS Chat</div>
+  <div class="controls">
+    <input id="nameInput" type="text" placeholder="Your display name" style="width:180px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit"/>
+    <button id="setNameBtn" class="toggle">Set name</button>
+    <button id="themeBtn" class="toggle">Toggle theme</button>
+  </div>
+</div>
+<div class="container">
+  <div class="left">
+    <div id="messages" class="messages"></div>
+    <div class="compose">
+      <input id="input" type="text" placeholder="Set your name first…" disabled/>
+      <button id="send">Send</button>
+    </div>
+  </div>
+  <div class="side">
+    <div class="box">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong style="color:var(--accent); margin-bottom: 10px;">Users</strong>
+        <div class="small">Your id: <span id="myId">Loading...</span></div>
+      </div>
+      <div id="userList" class="userlist"></div>
+    </div>
+  </div>
+</div>
+<script>
+let ws, myId, hasName = false;
+const messagesEl = document.getElementById('messages');
+const myIdEl = document.getElementById('myId');
+const userListEl = document.getElementById('userList');
+const inputEl = document.getElementById('input');
+const nameInput = document.getElementById('nameInput');
+const setNameBtn = document.getElementById('setNameBtn');
+const themeBtn = document.getElementById('themeBtn');
+
+// Theme handling
+function setTheme(t){
+  if(t==='light'){ document.documentElement.classList.add('light'); localStorage.theme='light'; }
+  else{ document.documentElement.classList.remove('light'); localStorage.theme='dark'; }
+}
+setTheme(localStorage.theme||'dark');
+themeBtn.addEventListener('click', () => setTheme(document.documentElement.classList.contains('light')?'dark':'light'));
+
+// Utility functions
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+function appendNode(node){ messagesEl.appendChild(node); messagesEl.scrollTop = messagesEl.scrollHeight; }
+function mkEl(tag,cls,html){ const e=document.createElement(tag); if(cls)e.className=cls; if(html!==undefined)e.innerHTML=html; return e; }
+function renderUsers(list){
+  userListEl.innerHTML='';
+  list.forEach(u=>{
+    const div=mkEl('div','user');
+    div.innerHTML=`<div><strong style="color:var(--accent)">${escapeHtml(u.name||('User'+u.id))}</strong><div class="small">id ${escapeHtml(u.id)}</div></div>`;
+    userListEl.appendChild(div);
+  });
+}
+
+// Connect to WebSocket
+function connect(){
+  const loc = window.location;
+  const wsUrl = (loc.protocol==='https:'?'wss://':'ws://') + loc.host;
+  ws = new WebSocket(wsUrl);
+
+  ws.addEventListener('open',()=>{
+    const storedId = localStorage.getItem('myId');
+    if(storedId) ws.send(JSON.stringify({type:'resume', id: storedId}));
+  });
+
+  ws.addEventListener('message', ev=>{
+    const data = JSON.parse(ev.data);
+
+    if(data.type==='welcome'){
+      myId = data.id;
+      localStorage.setItem('myId', myId);
+      myIdEl.textContent = myId;
+      renderUsers(data.users);
+      inputEl.disabled = !hasName;
+    }
+    else if(data.type==='users'){
+      renderUsers(data.users);
+    }
+    else if(data.type==='message' || data.type==='private'){
+      const entry = data.entry;
+      const div = mkEl('div','msg'+(entry.from===myId?' own':''));
+      const time = new Date(entry.ts).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      let receiptText = '';
+      if(entry.from !== myId && entry.readers && entry.readers.has(myId)){
+        receiptText = 'Read';
+      } else if(entry.from === myId && entry.readers && entry.readers.size > 1){
+        receiptText = 'Read';
+      }
+      div.innerHTML = `<strong>${escapeHtml(entry.fromName)}</strong>: ${escapeHtml(entry.text)}
+                       <div class="small">${time}${receiptText ? ' · '+receiptText : ''}</div>`;
+      appendNode(div);
+    }
+    else if(data.type==='error'){
+      alert(data.message);
+    }
+  });
+}
+connect();
+
+// Set name
+setNameBtn.addEventListener('click', ()=>{
+  const nm = nameInput.value.trim();
+  if(!nm) return;
+  ws.send(JSON.stringify({type:'setName', name: nm}));
+  hasName = true;
+  inputEl.placeholder = 'Type message…';
+  inputEl.disabled = false;
+  inputEl.focus();
+});
+
+// Send message
+document.getElementById('send').addEventListener('click', ()=>{
+  if(!hasName){ alert('Please set a display name first!'); return; }
+  const v = inputEl.value.trim();
+  if(!v) return;
+  ws.send(JSON.stringify({type:'message', text: v}));
+  inputEl.value = '';
+});
+
+// Optional: send message on Enter key
+inputEl.addEventListener('keypress', e=>{
+  if(e.key==='Enter') document.getElementById('send').click();
+});
+</script>
+</body>
+</html>

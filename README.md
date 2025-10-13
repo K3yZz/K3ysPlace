@@ -10,6 +10,5 @@ todo cubegame:
 todo stockmarket:
 
 todo gambling:
-- make game
 
 todo wheelgame:

@@ -1,5 +1,5 @@
 //! ================== imports ==================
-import SimplexNoise from '/workspaces/K3ysPlace/globalassets/simplex-noise';
+import SimplexNoise from '/workspaces/K3ysPlace/globalassets/js/simplex-noise';
 
 //! ================== run things ==================
 
