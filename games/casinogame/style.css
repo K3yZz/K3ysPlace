@@ -1,0 +1,75 @@
+#topBarWrapper {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto 12px;
+    align-items: flex-end;
+    gap: 8px;
+}
+#chipsDisplay {
+    min-width: 150px;
+    height: 50px;
+    border-radius: 10px 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+#tabsContainer {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    height: 50px;
+    border-radius: 0 10px 0 0;
+}
+#tabsContainer button {
+    flex: 1;
+    margin: 0 4px 0 0;
+    padding: 8px;
+    font-weight: 600;
+    border-radius: 6px 6px 0 0;
+    background: #333;
+    color: #fff;
+}
+#tabsContainer button.active {
+    background: var(--color-bg);
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-bg);
+}
+#gameContainer {
+    max-width: 1000px;
+    margin: 6px auto 40px;
+    display: block;
+}
+canvas {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px;
+    display: block;
+}
+.controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.controls>* {
+    padding: 8px;
+}
+.controls input[type=number] {
+    width: 100px;
+    background: #1b1b1b;
+    padding: 6px;
+    border-radius: 6px;
+    color: #fff;
+}
+.controls button {
+    font-weight: 700;
+}
+.controls .spacer { flex: 1; }
+.message {
+    max-width: 1000px;
+    margin: 8px auto;
+}
+

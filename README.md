@@ -1,14 +1,17 @@
 # K3yz-Place
 
-
-todo cubegame:
-
-- redo icons for skills
-- balance things
-- fix game
-
 todo stockmarket:
+
+- move back button
 
 todo gambling:
 
+- rework design
+
 todo wheelgame:
+
+- rework design
+
+todo chat:
+
+- fix theme

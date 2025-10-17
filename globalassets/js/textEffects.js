@@ -1,55 +1,20 @@
-export function loadDramaticText(text) {
-    const dramaticText = document.createElement('div');
-    dramaticText.id = 'dramaticText';
-    dramaticText.style.position = 'absolute';
-    dramaticText.style.top = '25%';
-    dramaticText.style.left = '50%';
-    dramaticText.style.transform = 'translate(-50%, -50%)';
-    dramaticText.style.fontFamily = 'font, sans-serif';
-    dramaticText.style.fontSize = '48px';
-    dramaticText.style.color = 'rgba(255, 255, 255, 1)';
-    dramaticText.style.textShadow = '4px 4px 4px rgba(187, 181, 181, 0.7)';
-    dramaticText.style.fontWeight = 'bold';
-    dramaticText.style.textAlign = 'center';
-    dramaticText.style.zIndex = '20';
-    dramaticText.style.pointerEvents = 'none';
-    dramaticText.style.opacity = '0';
-
-    dramaticText.innerText = text;
-    
-    document.body.appendChild(dramaticText);
-
-    dramaticText.style.transition = 'opacity 1s ease-in-out';
-
-     requestAnimationFrame(() => {
-        dramaticText.style.opacity = '1';
-    });
-
-    setTimeout(() => {
-        dramaticText.style.opacity = '0';
-    }, 3000);
-    
-
-    return dramaticText;
-}
-
+// Helper function to split text content into spans
 function splitTextToSpans(el) {
   const text = el.textContent;
   el.textContent = "";
-  const spans = [];
-
-  for (let i = 0; i < text.length; i++) {
+  return Array.from(text).map((char) => {
     const span = document.createElement("span");
-    span.textContent = text[i] === " " ? "\u00A0" : text[i];
-    span.style.display = "inline-block";
-    span.style.position = "relative";
+    span.textContent = char === " " ? "\u00A0" : char;
+    Object.assign(span.style, {
+      display: "inline-block",
+      position: "relative",
+    });
     el.appendChild(span);
-    spans.push(span);
-  }
-
-  return spans;
+    return span;
+  });
 }
 
+// Function to animate text with various effects
 export function animateText(el, options = {}) {
   if (!el) return;
 
@@ -61,28 +26,28 @@ export function animateText(el, options = {}) {
     rainbowDuration = 2000,
     hoverExplode = false,
     explodeDistance = 50,
-    gravity = 0.5
+    gravity = 1000, // px/s²
   } = options;
 
   let spans = Array.from(el.children);
-  if (spans.length === 0) {
-    spans = splitTextToSpans(el);
-  }
+  if (spans.length === 0) spans = splitTextToSpans(el);
 
   let currentTransforms = spans.map(() => ({ x: 0, y: 0, rotate: 0 }));
   let velocities = spans.map(() => ({ x: 0, y: 0, rotate: 0 }));
   let exploding = false;
 
+  // Hover explode effect
   if (hoverExplode) {
     el.addEventListener("mouseenter", () => {
       exploding = true;
       velocities = spans.map(() => {
         const angle = Math.random() * 2 * Math.PI;
-        const speed = Math.random() * explodeDistance / 10;
-        const vx = Math.cos(angle) * speed;
-        const vy = Math.sin(angle) * speed;
-        const vRotate = Math.random() * 10 - 5;
-        return { x: vx, y: vy, rotate: vRotate };
+        const speed = Math.random() * explodeDistance * 8;
+        return {
+          x: Math.cos(angle) * speed,
+          y: Math.sin(angle) * speed,
+          rotate: Math.random() * 180 - 90,
+        };
       });
     });
 
@@ -91,37 +56,42 @@ export function animateText(el, options = {}) {
     });
   }
 
-  let startTime = null;
+  let lastTime = performance.now();
 
+  // Animation loop
   function animate(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const dt = 16 / 1000; // approximate frame delta in seconds
+    const dt = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
 
     spans.forEach((span, i) => {
       if (exploding) {
-        velocities[i].y += gravity * dt * 60; // apply gravity
-        currentTransforms[i].x += velocities[i].x;
-        currentTransforms[i].y += velocities[i].y;
-        currentTransforms[i].rotate += velocities[i].rotate;
+        // Apply gravity and update positions
+        velocities[i].y += gravity * dt;
+        currentTransforms[i].x += velocities[i].x * dt;
+        currentTransforms[i].y += velocities[i].y * dt;
+        currentTransforms[i].rotate += velocities[i].rotate * dt;
       } else {
-        // Smooth return to original
-        currentTransforms[i].x += (0 - currentTransforms[i].x) * 0.1;
-        currentTransforms[i].y += (0 - currentTransforms[i].y) * 0.1;
-        currentTransforms[i].rotate += (0 - currentTransforms[i].rotate) * 0.1;
+        // Smooth return to origin
+        currentTransforms[i].x += (0 - currentTransforms[i].x) * 8 * dt;
+        currentTransforms[i].y += (0 - currentTransforms[i].y) * 8 * dt;
+        currentTransforms[i].rotate +=
+          (0 - currentTransforms[i].rotate) * 8 * dt;
       }
 
+      // Wavy effect
       let topOffset = 0;
       if (wavy) {
-        const waveProgress = (timestamp - startTime) % waveDuration;
-        const waveAngle = (waveProgress / waveDuration) * 2 * Math.PI;
+        const waveAngle = (timestamp / waveDuration) * 2 * Math.PI;
         topOffset = Math.sin(waveAngle + i * 0.4) * -waveAmplitude;
       }
 
-      span.style.transform = `translate(${currentTransforms[i].x}px, ${currentTransforms[i].y + topOffset}px) rotate(${currentTransforms[i].rotate}deg)`;
+      // Apply transformations
+      span.style.transform = `translate(${currentTransforms[i].x}px, ${currentTransforms[i].y + topOffset
+        }px) rotate(${currentTransforms[i].rotate}deg)`;
 
+      // Rainbow effect
       if (rainbow) {
-        const rainbowProgress = (timestamp - startTime) % rainbowDuration;
-        const rainbowAngle = (rainbowProgress / rainbowDuration) * 2 * Math.PI;
+        const rainbowAngle = (timestamp / rainbowDuration) * 2 * Math.PI;
         const hue = ((rainbowAngle + i * 0.4) * (180 / Math.PI)) % 360;
         span.style.color = `hsl(${hue}, 100%, 50%)`;
       }
@@ -132,15 +102,3 @@ export function animateText(el, options = {}) {
 
   requestAnimationFrame(animate);
 }
-
-// Example usage:
-// Only wavy
-// animateText(document.getElementById("myText"), { wavy: true });
-
-// Only rainbow
-// animateText(document.getElementById("myText"), { rainbow: true });
-
-// Both wavy and rainbow
-// animateText(document.getElementById("myText"), { wavy: true, rainbow: true });
-
-//animateText(document.getElementById("myText"), { wavy: true, rainbow: true, hoverExplode: true });

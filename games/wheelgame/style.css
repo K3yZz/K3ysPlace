@@ -1,0 +1,76 @@
+
+body {
+    text-align: center;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 { color: var(--color-white); }
+#mainContainer {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+#wheelContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+#controlContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    width: 100%;
+    gap: 15px;
+    align-items: stretch;
+}
+canvas {
+    border-radius: 8px;
+    margin-top: 20px;
+    width: 500px;
+    height: 500px;
+}
+input, button, select {
+    margin: 5px 0;
+    font-size: 14px;
+    width: 100%;
+}
+button.secondary {
+    background: #666;
+    color: #fff;
+}
+#entriesList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-height: 400px;
+    overflow-y: auto;
+}
+#secretMenu {
+    display: none;
+    padding: 10px;
+    border: 1px dashed rgba(255,255,255,0.2);
+    border-radius: 6px;
+}
+.entry-buttons button {
+    margin-left: 5px;
+    padding: 2px 6px;
+}
+#messageBox {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+    color: var(--color-white);
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    display: none;
+    max-width: 600px;
+}

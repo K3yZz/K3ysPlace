@@ -1,411 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>K3yz Menu</title>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function () {
-      emailjs.init({ publicKey: "GahAe28-OZFZT7Z4F" });
-    })();
-  </script>
-
-  <style>
-    @font-face {
-      font-family: "font";
-      src: url("globalassets/font.ttf") format("truetype");
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "font", sans-serif;
-      background-color: #000;
-      overflow: hidden;
-    }
-
-    canvas {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-
-    #titleText {
-      font-size: clamp(24px, 5vw, 32px);
-      position: absolute;
-      top: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      color: white;
-    }
-
-    #versionText {
-      font-size: clamp(12px, 2.5vw, 16px);
-      position: absolute;
-      top: 12%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      color: white;
-    }
-
-    #devNotes {
-      font-size: clamp(12px, 2.5vw, 16px);
-      position: absolute;
-      top: 18%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      color: white;
-    }
-
-    #gamesContainer {
-      position: absolute;
-      top: 25%;
-      left: 2%;
-      right: 2%;
-      max-height: 70vh;
-      overflow-y: auto;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      padding-right: 10px;
-    }
-
-    #myGames,
-    #portedGames,
-    #tools {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-
-    .game {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 200px;
-    }
-
-    .game img {
-      width: 150px;
-      height: 150px;
-      cursor: pointer;
-      border: 2px solid white;
-      border-radius: 10px;
-    }
-
-    .gameCard {
-      border: 2px solid white;
-      border-radius: 10px;
-      padding: 15px;
-      background-color: rgba(21, 29, 58, 0.95);
-      color: white;
-      width: 100%;
-      /* fill the parent .game */
-      box-sizing: border-box;
-      /* include padding in width */
-      margin-top: 10px;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      pointer-events: none;
-    }
-
-    .gameCard.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .gameTitle {
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .gameVersion {
-      font-size: 10px;
-      margin-bottom: 5px;
-    }
-
-    .gameDescription {
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-
-    .startGameButton {
-      font-size: 16px;
-      font-family: 'font', sans-serif;
-      border: 2px solid white;
-      border-radius: 10px;
-      margin-top: 10px;
-      padding: 10px 16px;
-      background-color: transparent;
-      cursor: pointer;
-      color: white;
-    }
-
-    .startGameButton:hover {
-      background-color: rgba(154, 149, 149, 0.5);
-    }
-
-    /* Feedback button & form top-right */
-    #bugReportButton {
-      position: absolute;
-      top: 5%;
-      right: 5%;
-      z-index: 1000;
-    }
-
-    #bugReportFormContainer {
-      display: none;
-      position: absolute;
-      top: 10%;
-      right: 5%;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 15px;
-      border: 2px solid white;
-      border-radius: 10px;
-      width: 300px;
-      max-width: 90vw;
-    }
-
-    #bugDescription,
-    #bugEmail {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-
-    #submitBug,
-    #cancelBug {
-      width: 48%;
-    }
-
-    #bugFeedback {
-      display: block;
-      margin-top: 5px;
-    }
-  </style>
-</head>
-
-<body>
-  <canvas id="checkerboardBg"></canvas>
-  <span id="titleText">K3yz Place</span>
-  <span id="versionText">V1.1.0 - Alpha</span>
-  <span id="devNotes">Need an icon for the casino! Please submit one!</span>
-
-  <div id="gamesContainer">
-    <span style="color: white;">My Games</span>
-    <div id="myGames"></div>
-    <span style="color: white;">Ported Games</span>
-    <div id="portedGames"></div>
-    <span style="color: white;">Tools</span>
-    <div id="tools"></div>
-  </div>
-
-  <button id="bugReportButton">Send Feedback</button>
-  <div id="bugReportFormContainer">
-    <textarea id="bugDescription" placeholder="Describe the bug/Suggest an idea..."></textarea>
-    <input id="bugEmail" type="email" placeholder="Your email (optional)" />
-    <button id="submitBug">Submit</button>
-    <button id="cancelBug">Cancel</button>
-    <span id="bugFeedback"></span>
-  </div>
-
-  <script type="module">
-    import { animateText } from "./globalassets/js/textEffects.js";
-
-    const games = [
-      { title: "Cube Game", version: "V0.0.0", description: "Destroy shapes. (ABANDONED FOR NOW)", place: "myGames", img: "globalassets/gameIcons/cubegame.png", link: "globalassets/limbo.html" },
-      { title: "Stock Market", version: "V1.0.1-alpha", description: "Stonks.", place: "myGames", img: "globalassets/gameIcons/stockMarket.png", link: "games/stockmarketgame/game.html" },
-      { title: "Casino", version: "V1.0.0-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "globalassets/gameIcons/casino.png", link: "games/casinogame/game.html" },
-      
-      { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "globalassets/gameIcons/wheel.png", link: "games/wheelgame/game.html" },
-      { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "globalassets/gameIcons/placeholder.png", link: "games/chatgame/public/index.html"},
-
-      { title: "Bitlife", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "games/portedgames/bitlife-life-simulator/play.html"},
-      { title: "Chrome Dino", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/dino.png", link: "games/portedgames/chrome-dino"},
-      { title: "Cookie Clicker", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/cookieclicker.png", link: "games/portedgames/cookie-clicker"},
-      { title: "Drive Mad", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/drivemad.jpeg", link: "games/portedgames/drive-mad"},
-      { title: "Moto X3M", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto1.jpeg", link: "games/portedgames/Moto-X3M"},
-      { title: "Moto Pool", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto2.jpeg", link: "games/portedgames/motox3m-pool"},
-      { title: "Moto Spooky", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "games/portedgames/motox3m-spooky"},
-      { title: "Moto Winter", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "games/portedgames/motox3m-winter"},
-      { title: "Subway Surfers", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "games/portedgames/subwaysurfers-sf"},
-    ];
-
-    games.forEach(game => {
-      const container = document.getElementById(game.place);
-
-      const gameDiv = document.createElement("div");
-      gameDiv.className = "game";
-
-      const img = document.createElement("img");
-      img.src = game.img;
-      img.alt = game.title;
-
-      const card = document.createElement("div");
-      card.className = "gameCard";
-      card.innerHTML = `
-        <span class="gameTitle">${game.title}<br></span>
-        <span class="gameVersion">${game.version}<br></span>
-        <span class="gameDescription">${game.description}</span>
-        <button class="startGameButton" onclick="window.location.href='${game.link}'">Start Game</button>
-      `;
-
-      img.addEventListener("click", () => {
-        document.querySelectorAll(".gameCard").forEach(c => { if (c !== card) c.classList.remove("show"); });
-        card.classList.toggle("show");
-      });
-
-      gameDiv.appendChild(img);
-      gameDiv.appendChild(card);
-      container.appendChild(gameDiv);
-    });
-
-    Array.from(document.getElementsByClassName("startGameButton")).forEach(btn => {
-      animateText(btn, { wavy: true, hoverExplode: true });
-    });
-  </script>
-
-  <!-- Bug Report JS -->
-  <script>
-    const bugReportButton = document.getElementById("bugReportButton");
-    const bugReportFormContainer = document.getElementById("bugReportFormContainer");
-    const submitBug = document.getElementById("submitBug");
-    const cancelBug = document.getElementById("cancelBug");
-    const bugDescription = document.getElementById("bugDescription");
-    const bugEmail = document.getElementById("bugEmail");
-    const bugFeedback = document.getElementById("bugFeedback");
-
-    bugReportButton.addEventListener("click", () => {
-      bugReportFormContainer.style.display = "block";
-      bugReportButton.style.display = "none";
-    });
-
-    cancelBug.addEventListener("click", () => {
-      bugReportFormContainer.style.display = "none";
-      bugReportButton.style.display = "block";
-      bugDescription.value = "";
-      bugEmail.value = "";
-      bugFeedback.style.display = "none";
-    });
-
-    submitBug.addEventListener("click", async () => {
-      const description = bugDescription.value.trim();
-      const email = bugEmail.value.trim();
-
-      if (!description) {
-        bugFeedback.style.display = "block";
-        bugFeedback.style.color = "red";
-        bugFeedback.textContent = "Please describe the bug!";
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K3yz Menu</title>
+    <link rel="stylesheet" href="/mainpage/style.css" />
+    <link rel="stylesheet" href="/globalassets/css/theme.css" />
+    <script>
+      if (localStorage.getItem("suppressAlerts") === "true") {
         return;
       }
+      alert(
+        "Theme applies wrong on the Casino & Chat. For now I suggest using the blue or default themes for best viewing experience. On another note, chat is now working."
+      );
+      alert(
+        "Are you sure you read the previous alert? If so, click OK to dismiss this message."
+      );
+      alert("Are you sure though?");
+      alert("Are you sureeeeeee though?");
+      alert("Are you sure enough yet?");
+      alert("One more time for good measure?");
+      alert("Last time I swear.");
+      (function generateAndVerifyKey() {
+        const length = 8;
+        const chars =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        function genKey(len) {
+          const arr = new Uint8Array(len);
+          crypto.getRandomValues(arr);
+          let s = "";
+          for (let i = 0; i < len; i++) s += chars[arr[i] % chars.length];
+          return s;
+        }
 
-      try {
-        await emailjs.send("service_08aesw4", "template_1cis1r8", {
-          title: "Bug Report",
-          message: description,
-          email: email,
-          name: "bugReport",
-          time: Date.now()
-        });
+        // Disable copy/paste/selection/context menu and common keyboard shortcuts, return a restore fn
+        function disableCopyPaste() {
+          const handlers = [];
 
-        bugFeedback.style.display = "block";
-        bugFeedback.style.color = "lime";
-        bugFeedback.textContent = "Bug report sent! Thank you!";
-        setTimeout(() => {
-          bugReportFormContainer.style.display = "none";
-          bugReportButton.style.display = "block";
-          bugDescription.value = "";
-          bugEmail.value = "";
-          bugFeedback.style.display = "none";
-        }, 2000);
+          function add(type, handler, opts) {
+        document.addEventListener(type, handler, opts);
+        handlers.push({ type, handler, opts });
+          }
 
-      } catch (err) {
-        bugFeedback.style.display = "block";
-        bugFeedback.style.color = "red";
-        bugFeedback.textContent = "Failed to send bug report.";
-        console.error(err);
+          add("copy", (e) => e.preventDefault());
+          add("cut", (e) => e.preventDefault());
+          add("paste", (e) => e.preventDefault());
+          add("contextmenu", (e) => e.preventDefault());
+          add("selectstart", (e) => e.preventDefault());
+          add("keydown", (e) => {
+        const k = (e.key || "").toLowerCase();
+        // block Ctrl/Cmd + C/V/X/A and Shift+Insert
+        if ((e.ctrlKey || e.metaKey) && ["c", "v", "x", "a"].includes(k)) {
+          e.preventDefault();
+        }
+        if (e.shiftKey && k === "insert") e.preventDefault();
+          });
+
+          // also disable CSS selection
+          const prevUserSelect = document.documentElement.style.userSelect;
+          document.documentElement.style.userSelect = "none";
+          handlers.push({
+        restore: () => {
+          document.documentElement.style.userSelect = prevUserSelect;
+        },
+          });
+
+          return function restore() {
+        for (const h of handlers) {
+          if (h.restore) {
+            try {
+          h.restore();
+            } catch (e) {}
+          } else {
+            document.removeEventListener(h.type, h.handler, h.opts);
+          }
+        }
+          };
+        }
+
+        const restoreCopyPaste = disableCopyPaste();
+
+        const key = genKey(length);
+        let entry;
+        do {
+          entry = prompt(
+        "Please type the following 8-character key to continue:\n\n" + key,
+        ""
+          );
+          if (entry === null || entry.trim() === "") {
+        alert("A response is required to continue.");
+        entry = null; // force loop to continue
+        continue;
+          }
+          if (entry.trim() !== key) {
+        alert("Incorrect key. Please try again.");
+        entry = null;
+          }
+        } while (entry === null);
+
+        restoreCopyPaste();
+        alert("Access granted.");
+      })();
+      if (confirm("Would you like to disable these messages in the future?")) {
+        if (confirm("Are you absolutely sure?")) {
+        localStorage.setItem("suppressAlerts", "true");
       }
-    });
-  </script>
-
-  <!-- Secret Key -->
-  <script>
-    const secret = "idk";
-    let typed = "";
-    document.addEventListener("keydown", e => {
-      typed += e.key.toLowerCase();
-      if (typed.length > secret.length) typed = typed.slice(-secret.length);
-      if (typed === secret) { window.location.href = 'stockmarket.html'; typed = ""; }
-    });
-  </script>
-
-  <!-- Canvas Background -->
-  <script>
-    const canvas = document.getElementById("checkerboardBg");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const tileSize = 50;
-    const color1 = "#080A20";
-    const color2 = "#121832";
-
-    const patternCanvas = document.createElement('canvas');
-    patternCanvas.width = tileSize * 2;
-    patternCanvas.height = tileSize * 2;
-    const pCtx = patternCanvas.getContext('2d');
-
-    pCtx.fillStyle = color1;
-    pCtx.fillRect(0, 0, tileSize, tileSize);
-    pCtx.fillRect(tileSize, tileSize, tileSize, tileSize);
-    pCtx.fillStyle = color2;
-    pCtx.fillRect(tileSize, 0, tileSize, tileSize);
-    pCtx.fillRect(0, tileSize, tileSize, tileSize);
-
-    const pattern = ctx.createPattern(patternCanvas, 'repeat');
-
-    let offsetX = 0;
-    let offsetY = 0;
-    const speed = 0.3;
-
-    function drawCheckerboard() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.translate(offsetX, offsetY);
-      ctx.fillStyle = pattern;
-      ctx.fillRect(-offsetX, -offsetY, canvas.width, canvas.height);
-      ctx.restore();
-      offsetX += speed;
-      offsetY -= speed;
     }
+    </script>
+  </head>
 
-    function animate() {
-      drawCheckerboard();
-      requestAnimationFrame(animate);
-    }
+  <body>
+    <span id="titleText">K3yz Place</span>
+    <span id="versionText">V1.2.0 - Alpha</span>
+    <button id="settingsButton" aria-label="Open settings">
+      <!--change svg image-->
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        style="display: block"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="rgba(255,255,255,0.05)"
+        />
+        <path
+          d="M12 8v4l3 3"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+      </svg>
+    </button>
+    <div id="settingsPanel" hidden>
+      <h2>Settings</h2>
+      <select id="themeToggle">
+        <option>default</option>
+        <option>blue</option>
+        <option>red</option>
+      </select>
+      <button id="bugReportButton">Send Feedback</button>
+      <div id="bugReportFormContainer">
+        <textarea
+          id="bugDescription"
+          placeholder="Describe the bug/Suggest an idea..."
+        ></textarea>
+        <input id="bugEmail" type="email" placeholder="Your email (optional)" />
+        <button id="submitBug">Submit</button>
+        <button id="cancelBug">Cancel</button>
+        <span id="bugFeedback"></span>
+      </div>
+    </div>
 
-    animate();
+    <div class="tab-buttons" role="tablist" aria-label="Games sections">
+      <button
+        class="tab-btn active"
+        role="tab"
+        aria-selected="true"
+        data-tab="myGamesPanel"
+      >
+        My Games
+      </button>
+      <button
+        class="tab-btn"
+        role="tab"
+        aria-selected="false"
+        data-tab="portedGamesPanel"
+      >
+        Ported Games
+      </button>
+      <button
+        class="tab-btn"
+        role="tab"
+        aria-selected="false"
+        data-tab="toolsPanel"
+      >
+        Tools
+      </button>
+    </div>
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      drawCheckerboard();
-    });
-  </script>
-</body>
+    <div id="gamesContainer">
+      <!-- Tab buttons -->
 
+      <!-- Tab content panels -->
+      <div
+        id="myGamesPanel"
+        class="tab-content active"
+        role="tabpanel"
+        aria-hidden="false"
+      >
+        <div id="myGames"></div>
+      </div>
+
+      <div
+        id="portedGamesPanel"
+        class="tab-content"
+        role="tabpanel"
+        aria-hidden="true"
+      >
+        <div id="portedGames"></div>
+      </div>
+
+      <div
+        id="toolsPanel"
+        class="tab-content"
+        role="tabpanel"
+        aria-hidden="true"
+      >
+        <div id="tools"></div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="mainpage/main.js" type="module"></script>
+    <script src="globalassets/js/theme.js"></script>
+  </body>
 </html>

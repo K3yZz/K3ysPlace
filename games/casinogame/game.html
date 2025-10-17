@@ -5,127 +5,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NOT gambling</title>
-  <style>
-    :root {
-      --bg: #111;
-      --panel: #222;
-      --muted: #666;
-      --accent: #0b84ff;
-    }
-
-    body {
-      margin: 0;
-      padding: 12px;
-      background: var(--bg);
-      color: #fff;
-      font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial;
-    }
-
-    #topBarWrapper {
-      display: flex;
-      max-width: 1000px;
-      margin: 0 auto 12px;
-      align-items: flex-end;
-      gap: 8px;
-    }
-
-    #chipsDisplay {
-      min-width: 150px;
-      height: 50px;
-      background: var(--panel);
-      border-radius: 10px 0 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-    }
-
-    #tabsContainer {
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
-      height: 50px;
-      background: var(--panel);
-      border-radius: 0 10px 0 0;
-    }
-
-    #tabsContainer button {
-      flex: 1;
-      margin: 0 4px 0 0;
-      padding: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      border-radius: 6px 6px 0 0;
-      background: #333;
-      color: #fff;
-    }
-
-    #tabsContainer button.active {
-      background: var(--bg);
-      font-weight: 700;
-      border-bottom: 1px solid var(--bg);
-    }
-
-    #gameContainer {
-      max-width: 1000px;
-      margin: 6px auto 40px;
-      display: block;
-    }
-
-    canvas {
-      width: 100%;
-      height: 400px;
-      background: var(--panel);
-      border-radius: 10px;
-      display: block;
-    }
-
-    .controls {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .controls>* {
-      background: var(--panel);
-      border-radius: 8px;
-      padding: 8px;
-      color: #fff;
-      border: none;
-    }
-
-    .controls input[type=number] {
-      width: 100px;
-      background: #1b1b1b;
-      padding: 6px;
-      border-radius: 6px;
-      color: #fff;
-    }
-
-    .controls button {
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .controls .spacer {
-      flex: 1;
-    }
-
-    .message {
-      max-width: 1000px;
-      margin: 8px auto;
-      color: var(--muted);
-    }
-
-    .small {
-      font-size: 13px;
-      color: var(--muted);
-    }
-  </style>
+  <link rel="stylesheet" href="/globalassets/css/theme.css"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
@@ -137,7 +18,6 @@
       <button id="dayJobTab" onclick="clickTab('dayJob')">Day Job</button>
     </div>
   </div>
-
 
   <div id="gameContainer">
     <canvas id="blackjack"></canvas>
@@ -164,13 +44,13 @@
     <div id="dayJobControls" class="controls" style="display: none;">
       <div style="flex: 1; display: flex; align-items: center; gap: 8px;">
         <div style="flex: 1; background: #1b1b1b; border-radius: 8px; overflow: hidden; height: 20px;">
-          <div id="jobProgress" style="height: 100%; width: 0%; background: var(--accent); border-radius: 8px;"></div>
+          <div id="jobProgress" style="height: 100%; width: 0%; background: var(--color-accent); border-radius: 8px;"></div>
         </div>
       </div>
       <div class="small" id="jobStatus">Dish Washer.</div>
     </div>
   </div>
-
+  <script src="/globalassets/js/theme.js"></script>
   <script src="main.js"></script>
 </body>
 

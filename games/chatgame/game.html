@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WS Chat (P2P Friends)</title>
+  <link rel="stylesheet" href="/globalassets/css/theme.css"/>
+   <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+  <div class="header">
+    <div class="title">WS Chat</div>
+    <div class="controls">
+      <button id="openSettings" class="settingsBtn">⚙ Settings</button>
+      <input id="connectInput" class="connectInput" type="text" placeholder="Enter friend's ID" />
+      <button id="connectBtn" class="copyBtn">Add Friend</button>
+    </div>
+  </div>
+
+  <div class="modalBack" id="modalBack">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong id="settingsTitle" style="color:var(--accent)">Settings</strong>
+        <div style="display:flex;gap:8px">
+          <button id="closeSettings" class="copyBtn">Close</button>
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">Your Peer ID</div>
+        <div class="row">
+          <div id="fullIdDisplay" class="small" style="flex:1;word-break:break-all">...</div><button id="copyFull"
+            class="copyBtn">Copy</button>
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">Display name</div>
+        <div class="row"><input id="nameInput" type="text" placeholder="Your display name" style="flex:1" /><button
+            id="setNameBtn" class="copyBtn">Set</button></div>
+        <div class="row"><button id="clearNameBtn" class="copyBtn">Clear</button><button id="logoutBtn"
+            class="logoutBtn">Logout & reload</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="left">
+      <div id="messages" class="messages"></div>
+      <div class="compose">
+        <input id="input" type="text" placeholder="Set your name first…" disabled />
+        <button id="send">Send</button>
+        <div id="typingStatus" class="typing"></div>
+      </div>
+    </div>
+    <div class="side">
+      <div class="box">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong style="color:var(--accent)">Friends</strong>
+          <span id="onlineCount" class="small">0</span>
+        </div>
+        <div id="userList" class="userlist"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+  <script src="/globalassets/js/theme.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
