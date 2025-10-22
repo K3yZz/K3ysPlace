@@ -1,6 +1,106 @@
 import { animateText } from "/globalassets/js/textEffects.js";
 emailjs.init("GahAe28-OZFZT7Z4F");
 
+if (localStorage.getItem("suppressAlerts") === "true") {
+    return;
+}
+alert(
+    "Theme applies wrong on the Casino & Chat. For now I suggest using the blue or default themes for best viewing experience. On another note, chat is now working."
+);
+alert(
+    "Are you sure you read the previous alert? If so, click OK to dismiss this message."
+);
+alert("Are you sure though?");
+alert("Are you sureeeeeee though?");
+alert("Are you sure enough yet?");
+alert("One more time for good measure?");
+alert("Last time I swear.");
+(function generateAndVerifyKey() {
+    const length = 8;
+    const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    function genKey(len) {
+        const arr = new Uint8Array(len);
+        crypto.getRandomValues(arr);
+        let s = "";
+        for (let i = 0; i < len; i++) s += chars[arr[i] % chars.length];
+        return s;
+    }
+
+    // Disable copy/paste/selection/context menu and common keyboard shortcuts, return a restore fn
+    function disableCopyPaste() {
+        const handlers = [];
+
+        function add(type, handler, opts) {
+            document.addEventListener(type, handler, opts);
+            handlers.push({ type, handler, opts });
+        }
+
+        add("copy", (e) => e.preventDefault());
+        add("cut", (e) => e.preventDefault());
+        add("paste", (e) => e.preventDefault());
+        add("contextmenu", (e) => e.preventDefault());
+        add("selectstart", (e) => e.preventDefault());
+        add("keydown", (e) => {
+            const k = (e.key || "").toLowerCase();
+            // block Ctrl/Cmd + C/V/X/A and Shift+Insert
+            if ((e.ctrlKey || e.metaKey) && ["c", "v", "x", "a"].includes(k)) {
+                e.preventDefault();
+            }
+            if (e.shiftKey && k === "insert") e.preventDefault();
+        });
+
+        // also disable CSS selection
+        const prevUserSelect = document.documentElement.style.userSelect;
+        document.documentElement.style.userSelect = "none";
+        handlers.push({
+            restore: () => {
+                document.documentElement.style.userSelect = prevUserSelect;
+            },
+        });
+
+        return function restore() {
+            for (const h of handlers) {
+                if (h.restore) {
+                    try {
+                        h.restore();
+                    } catch (e) { }
+                } else {
+                    document.removeEventListener(h.type, h.handler, h.opts);
+                }
+            }
+        };
+    }
+
+    const restoreCopyPaste = disableCopyPaste();
+
+    const key = genKey(length);
+    let entry;
+    do {
+        entry = prompt(
+            "Please type the following 8-character key to continue:\n\n" + key,
+            ""
+        );
+        if (entry === null || entry.trim() === "") {
+            alert("A response is required to continue.");
+            entry = null; // force loop to continue
+            continue;
+        }
+        if (entry.trim() !== key) {
+            alert("Incorrect key. Please try again.");
+            entry = null;
+        }
+    } while (entry === null);
+
+    restoreCopyPaste();
+    alert("Access granted.");
+})();
+if (confirm("Would you like to disable these messages in the future?")) {
+    if (confirm("Are you absolutely sure?")) {
+        localStorage.setItem("suppressAlerts", "true");
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // --- DOM Elements ---
     const bugReportButton = document.getElementById("bugReportButton");
@@ -77,10 +177,10 @@ document.addEventListener("DOMContentLoaded", () => {
             animateText(btn, { hoverExplode: true });
         });
     }
-    
+
     function animateTitle() {
         const title = document.getElementById("titleText");
-        animateText(title, { wavy: true, rainbow: true});
+        animateText(title, { wavy: true, rainbow: true });
     }
 
     function setupTabs() {
@@ -111,14 +211,14 @@ document.addEventListener("DOMContentLoaded", () => {
         settingsButton.addEventListener("click", () => {
             const isOpen = settingsPanel.style.display === "block";
             if (isOpen) {
-            settingsPanel.style.display = "none";
-            settingsPanel.setAttribute("hidden", "");
-            settingsButton.setAttribute("aria-expanded", "false");
+                settingsPanel.style.display = "none";
+                settingsPanel.setAttribute("hidden", "");
+                settingsButton.setAttribute("aria-expanded", "false");
             } else {
-            settingsPanel.style.display = "block";
-            settingsPanel.removeAttribute("hidden");
-            settingsButton.setAttribute("aria-expanded", "true");
-            settingsPanel.focus();
+                settingsPanel.style.display = "block";
+                settingsPanel.removeAttribute("hidden");
+                settingsButton.setAttribute("aria-expanded", "true");
+                settingsPanel.focus();
             }
         });
 
