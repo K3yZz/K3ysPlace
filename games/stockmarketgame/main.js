@@ -163,19 +163,19 @@ function renderPause() {
   });
 
 
-document.getElementById('slowBtn').addEventListener('click', () => {
-  speedMultiplier = Math.max(0.1, speedMultiplier / 2); // halve speed
-  UPDATE_INTERVAL = baseInterval / speedMultiplier;
-  if (!paused) { stopTimer(); startTimer(); }
-  renderPause();
-});
+  document.getElementById('slowBtn').addEventListener('click', () => {
+    speedMultiplier = Math.max(0.1, speedMultiplier / 2); // halve speed
+    UPDATE_INTERVAL = baseInterval / speedMultiplier;
+    if (!paused) { stopTimer(); startTimer(); }
+    renderPause();
+  });
 
-document.getElementById('fastBtn').addEventListener('click', () => {
-  speedMultiplier = Math.min(16, speedMultiplier * 2); // double speed
-  UPDATE_INTERVAL = baseInterval / speedMultiplier;
-  if (!paused) { stopTimer(); startTimer(); }
-  renderPause();
-});
+  document.getElementById('fastBtn').addEventListener('click', () => {
+    speedMultiplier = Math.min(16, speedMultiplier * 2); // double speed
+    UPDATE_INTERVAL = baseInterval / speedMultiplier;
+    if (!paused) { stopTimer(); startTimer(); }
+    renderPause();
+  });
 }
 // ------------------- Portfolio -------------------
 function renderPortfolio() {
