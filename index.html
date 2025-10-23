@@ -10,24 +10,7 @@
 </head>
 
 <body>
-  <!-- Visible error overlay for debugging -->
-  <div id="errOverlay" style="position:fixed;inset:12px;z-index:99999;pointer-events:none">
-    <div id="errBox" style="display:none;pointer-events:auto;background:#2b0e0e;color:#fff;padding:14px;border-radius:8px;max-width:calc(100% - 48px);max-height:60vh;overflow:auto;font-family:system-ui,Segoe UI,Arial;font-size:13px"></div>
-  </div>
-  <script>
-    const errBox = document.getElementById('errBox');
-    function showErr(msg) {
-      errBox.style.display = 'block';
-      errBox.textContent = msg;
-    }
-    window.addEventListener('error', e => {
-      showErr('Error: ' + (e.message || e.error) + ' — ' + (e.filename || e.error?.stack || 'unknown'));
-    });
-    window.addEventListener('unhandledrejection', ev => {
-      showErr('Unhandled promise rejection: ' + (ev.reason?.message || JSON.stringify(ev.reason)));
-    });
-  </script>
-
+  <script src="globalassets/js/debug.js"></script>
   <span id="titleText">K3yz Place</span>
   <span id="versionText">V1.2.3 - Alpha</span>
   <button id="settingsButton" aria-label="Open settings">
