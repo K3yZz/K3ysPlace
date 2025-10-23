@@ -1,4 +1,4 @@
-import { animateText } from "K3yZz/K3ysPlace/globalassets/js/textEffects.js";
+import { animateText } from "../globalassets/js/textEffects.js";
 emailjs.init("GahAe28-OZFZT7Z4F");
 
 function annoyingDebug() {
