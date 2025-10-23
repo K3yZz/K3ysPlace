@@ -26,7 +26,7 @@ function addExplosionEffect(themeCheck) {
 
     // Create explosion image
     const explosion = document.createElement("img");
-    explosion.src = "/globalassets/css/explosion.gif";
+    explosion.src = "globalassets/css/explosion.gif";
     explosion.alt = "Explosion";
     explosion.style.position = "absolute";
     explosion.style.zIndex = "1000";
@@ -65,12 +65,12 @@ addExplosionEffect("theme1");
       return l;
     };
 
-    head.appendChild(createLink({ rel: 'apple-touch-icon', sizes: '180x180', href: '/globalassets/css/favicon/apple-touch-icon.png' }));
-    head.appendChild(createLink({ rel: 'icon', type: 'image/png', sizes: '32x32', href: '/globalassets/css/favicon/favicon-32x32.png' }));
-    head.appendChild(createLink({ rel: 'icon', type: 'image/png', sizes: '16x16', href: '/globalassets/css/favicon/favicon-16x16.png' }));
-    head.appendChild(createLink({ rel: 'manifest', href: '/globalassets/css/favicon/site.webmanifest' }));
-    head.appendChild(createLink({ rel: 'mask-icon', href: '/globalassets/css/favicon/safari-pinned-tab.svg' }));
-    head.appendChild(createLink({ rel: 'shortcut icon', href: '/globalassets/css/favicon/favicon.ico' }));
+    head.appendChild(createLink({ rel: 'apple-touch-icon', sizes: '180x180', href: 'globalassets/css/favicon/apple-touch-icon.png' }));
+    head.appendChild(createLink({ rel: 'icon', type: 'image/png', sizes: '32x32', href: 'globalassets/css/favicon/favicon-32x32.png' }));
+    head.appendChild(createLink({ rel: 'icon', type: 'image/png', sizes: '16x16', href: 'globalassets/css/favicon/favicon-16x16.png' }));
+    head.appendChild(createLink({ rel: 'manifest', href: 'globalassets/css/favicon/site.webmanifest' }));
+    head.appendChild(createLink({ rel: 'mask-icon', href: 'globalassets/css/favicon/safari-pinned-tab.svg' }));
+    head.appendChild(createLink({ rel: 'shortcut icon', href: 'globalassets/css/favicon/favicon.ico' }));
 
     // Meta tags
     const metaTheme = document.createElement('meta');

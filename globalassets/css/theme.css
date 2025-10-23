@@ -1,6 +1,6 @@
 @font-face {
   font-family: "CustomFont";
-  src: url('K3yZz/K3ysPlace/globalassets/css/font.ttf') format("truetype");
+  src: url('/globalassets/css/font.ttf') format("truetype");
   font-display: swap;
 }
 
@@ -32,7 +32,7 @@
   --color-msg-bg-red: #280b0b;
   --color-own-red: #3d1414;
 
-  --color-bg-img: url('K3yZz/K3ysPlace/globalassets/css/bg-main.jpeg');
+  --color-bg-img: url('bg-main.jpeg');
 }
 
 :root.blue {
