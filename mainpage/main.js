@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { title: "Casino", version: "V1.0.1-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "./globalassets/gameIcons/casino.png", link: "./games/casinogame/game.html" },
         { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "./globalassets/gameIcons/wheel.png", link: "./games/wheelgame/game.html" },
         { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "./globalassets/gameIcons/chat.png", link: "./games/chatgame/game.html" },
-        { title: "Stock Market Legacy", version: "V1.0.1-alpha", description: "Old Stock Market Game.", place: "legacyGames", img: "./globalassets/gameIcons/stockmarket.png", link: "./games/legacystockmarketgame/game.html" },
+        { title: "Stock Market Legacy", version: "V1.0.1-alpha", description: "Old Stock Market Game.", place: "legacyGames", img: "./globalassets/gameIcons/stockMarket.png", link: "./games/legacystockmarketgame/game.html" },
         { title: "Cube Game", version: "??", description: "Old orignal game.", place: "legacyGames", img: "./globalassets/gameIcons/placeholder.png", link: "./games/legacycubegame/game.html" },
 
         { title: "Undertale Yellow", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/undertaleyellow.png", link: "./portedgames/undertale-yellow/undertale_yellow.html" },

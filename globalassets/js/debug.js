@@ -29,7 +29,7 @@ createErrorOverlay();
 const errBox = document.getElementById('errBox');
 function showErr(msg) {
     errBox.style.display = 'block';
-    errBox.textContent += msg +  '\n';
+    errBox.textContent += msg + '\n';
 }
 
 // JS Errors
