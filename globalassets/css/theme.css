@@ -1,14 +1,14 @@
 @font-face {
-  font-family: "font";
-  src: url(/globalassets/css/font.ttf) format("truetype");
+  font-family: "CustomFont";
+  src: url('/globalassets/css/font.ttf') format("truetype");
+  font-display: swap;
 }
 
 :root {
   --font-main: system-ui, -apple-system, Arial, sans-serif;
-  --font-sub: "font", sans-serif;
+  --font-sub: "CustomFont", sans-serif;
+  --font-ohno: 'Comic Sans MS', 'Comic Sans', cursive;
 
-  --color-msg-bg: #0b1228;
-  --color-own: #143d2a;
   --color-white: #fff;
 
   --color-bg: #111;
@@ -16,18 +16,23 @@
   --color-muted: #888;
   --color-accent: #0b7;
   --color-msg-bg: #0b280f;
+  --color-own: #143d2a;
 
   --color-bg-blue: #0f1724;
   --color-panel-blue: #0b1220;
   --color-muted-blue: #9aa7bd;
   --color-accent-blue: #60a5fa;
-  --color-msg-bg-red: #0b1228;
+  --color-msg-bg-blue: #0b1228;
+  --color-own-blue: #14223d;
 
   --color-bg-red: #240f0f;
   --color-panel-red: #200b0b;
   --color-muted-red: #bd9a9a;
   --color-accent-red: #fa6060;
   --color-msg-bg-red: #280b0b;
+  --color-own-red: #3d1414;
+
+  --color-bg-img: url('/globalassets/css/bg-main.jpeg');
 }
 
 :root.blue {
@@ -36,6 +41,7 @@
   --color-muted: var(--color-muted-blue);
   --color-accent: var(--color-accent-blue);
   --color-msg-bg: var(--color-msg-bg-blue);
+  --color-own: var(--color-own-blue);
 }
 
 :root.red {
@@ -44,17 +50,30 @@
   --color-muted: var(--color-muted-red);
   --color-accent: var(--color-accent-red);
   --color-msg-bg: var(--color-msg-bg-red);
+  --color-own: var(--color-own-red);
+}
+
+:root.yeah {
+  --color-bg: var(--color-bg-img);
+  --color-accent: rgb(188, 207, 12);
+  --font-main: var(--font-ohno);
+}
+
+:root.theme1 {
+  --color-bg: var(--color-bg-blue);
+  --color-panel: var(--color-panel-blue);
+  --color-muted: var(--color-muted-blue);
+  --color-accent: var(--color-accent-blue);
+  --color-msg-bg: var(--color-msg-bg-blue);
+  --color-own: var(--color-own-blue);
 }
 
 html,
 body {
-  background: var(--color-bg);
+  background-color: var(--color-bg);
+  background-image: var(--color-bg);
   color: var(--color-white);
   font-family: var(--font-main);
-}
-
-h1 {
-  color: var(--color-accent);
 }
 
 button {
@@ -67,7 +86,6 @@ button {
   padding: 10px 18px;
   font-size: 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
-  transition: filter 0.2s, background 0.2s;
 }
 
 button.secondary {
@@ -81,9 +99,14 @@ button:hover {
   background: var(--color-accent);
 }
 
+button.active {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--color-white);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
 input,
-select,
-textarea {
+select {
   background: var(--color-panel);
   color: var(--color-white);
   border-radius: 8px;

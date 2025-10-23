@@ -6,7 +6,7 @@ function annoyingDebug() {
         return;
     }
     alert(
-        "Theme applies wrong on the Casino & Chat. For now I suggest using the blue or default themes for best viewing experience. On another note, chat is now working."
+        "Everything is fixed! That includes the chat. Stockmarket got a big update. Casino overhaul coming soon! Finally themes might look a bit weird they are a work in progress."
     );
     alert(
         "Are you sure you read the previous alert? If so, click OK to dismiss this message."
@@ -120,10 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Game Data ---
     const games = [
-        { title: "Stock Market", version: "V1.0.1-alpha", description: "Stonks.", place: "myGames", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
+        { title: "Stock Market", version: "V1.0.0", description: "Stonks.", place: "myGames", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
         { title: "Casino", version: "V1.0.1-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" },
         { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "/globalassets/gameIcons/wheel.png", link: "/games/wheelgame/game.html" },
         { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "/globalassets/gameIcons/chat.png", link: "/games/chatgame/game.html" },
+        { title: "Stock Market Legacy", version: "V1.0.1-alpha", description: "Old Stock Market Game.", place: "legacyGames", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/legacystockmarketgame/game.html" },
+        { title: "Cube Game", version: "??", description: "Old orignal game.", place: "legacyGames", img: "/globalassets/gameIcons/placeholder.png", link: "/games/legacycubegame/game.html" },
+
         { title: "Undertale Yellow", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "/globalassets/gameIcons/portedgameIcons/undertaleyellow.png", link: "/games/portedgames/undertale-yellow/undertale_yellow.html" },
         { title: "Bitlife", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "/globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "/portedgames/bitlife-life-simulator/play.html" },
         { title: "Chrome Dino", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "/globalassets/gameIcons/portedgameIcons/dino.png", link: "/portedgames/chrome-dino" },
@@ -302,11 +305,21 @@ document.addEventListener("DOMContentLoaded", () => {
     setupBugReport();
 
     // --- Optional: Secret Key Feature ---
-    // const secret = "idk";
-    // let typed = "";
-    // document.addEventListener("keydown", e => {
-    //     typed += e.key.toLowerCase();
-    //     if (typed.length > secret.length) typed = typed.slice(-secret.length);
-    //     if (typed === secret) { window.location.href = 'stockmarket.html'; typed = ""; }
-    // });
+    const secret = "theme1";
+    let typed = "";
+    document.addEventListener("keydown", e => {
+        typed += e.key.toLowerCase();
+        if (typed.length > secret.length) typed = typed.slice(-secret.length);
+        if (typed === secret) {
+            const themeToggle = document.getElementById("themeToggle");
+            const newTheme = document.createElement("option");
+            newTheme.value = "theme1";
+            newTheme.textContent = "Theme 1 (Secret)";
+            themeToggle.appendChild(newTheme);
+            themeToggle.value = "theme1";
+            themeToggle.dispatchEvent(new Event("change"));
+            alert("Secret theme unlocked!");
+            typed = "";
+        }
+    });
 });

@@ -7,16 +7,6 @@
   <title>K3yz Menu</title>
   <link rel="stylesheet" href="./mainpage/style.css" />
   <link rel="stylesheet" href="./globalassets/css/theme.css" />
-
-  <link rel="apple-touch-icon" sizes="180x180" href="globalassets/css/favicon/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="globalassets/css/favicon/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="globalassets/css/favicon/favicon-16x16.png" />
-  <link rel="manifest" href="globalassets/css/favicon/site.webmanifest" />
-  <link rel="mask-icon" href="globalassets/css/favicon/safari-pinned-tab.svg" color="#5bbad5" />
-  <link rel="shortcut icon" href="globalassets/css/favicon/favicon.ico" />
-  <meta name="theme-color" content="#ffffff" />
-  <meta name="msapplication-TileColor" content="#2d89ef" />
-  <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
 </head>
 
 <body>
@@ -41,10 +31,11 @@
       <option>default</option>
       <option>blue</option>
       <option>red</option>
+      <option>yeah</option>
     </select>
     <button id="bugReportButton">Send Feedback</button>
     <div id="bugReportFormContainer">
-      <textarea id="bugDescription" placeholder="Describe the bug/Suggest an idea..."></textarea>
+      <input id="bugDescription" placeholder="Describe the bug/Suggest an idea..."></input>
       <input id="bugEmail" type="email" placeholder="Your email (optional)" />
       <button id="submitBug">Submit</button>
       <button id="cancelBug">Cancel</button>
@@ -61,6 +52,9 @@
     </button>
     <button class="tab-btn" role="tab" aria-selected="false" data-tab="toolsPanel">
       Tools
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="legacyGamesPanel">
+      Legacy Games
     </button>
   </div>
 
@@ -79,6 +73,9 @@
     <div id="toolsPanel" class="tab-content" role="tabpanel" aria-hidden="true">
       <div id="tools"></div>
     </div>
+
+    <div id="legacyGamesPanel" class="tab-content" role="tabpanel" aria-hidden="true">
+      <div id="legacyGames"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>

@@ -40,13 +40,18 @@ class Stock {
 }
 
 let money = 10000;
-let baseInterval = 50;
-let UPDATE_INTERVAL = 50;
+// make the base speed slower: increase baseInterval (ms per tick)
+let baseInterval = 200;
+let UPDATE_INTERVAL = 200;
 let updateTimer = null;
 let lastUpdateTime = Date.now();
 let paused = false;
 let mouseX = null;
 let activeEventCount = 0;
+let gridVDiv = 12;
+let gridHDiv = 8;
+let selectedStockIndex = 0;
+let speedMultiplier = 1; // 1x by default
 
 const stocks = [
   new Stock('GOOG', 2800, 28, 'hsl(120,70%,50%)'), // ~1% per tick
@@ -121,14 +126,12 @@ function renderCash() {
 }
 
 function renderPause() {
-  let speedMultiplier = +(baseInterval / UPDATE_INTERVAL).toFixed(1); // numeric
-
+  // display current multiplier (derived from global speedMultiplier)
   pauseCard.innerHTML = `
-        <button id="BackBtn">Back</button>
         <button id="slowBtn">Slow</button>
         <button id="pauseBtn">${paused ? 'Play' : 'Pause'}</button>
         <button id="fastBtn">Fast</button>
-        <span id="speedDisplay">${speedMultiplier}x</span>
+    <span id="speedDisplay">${speedMultiplier.toFixed(1)}x</span>
     `;
 
   document.getElementById('pauseBtn').addEventListener('click', () => {
@@ -138,41 +141,16 @@ function renderPause() {
     renderPause();
   });
 
-  document.getElementById('BackBtn').addEventListener('click', async () => {
-    const urlsToTry = [
-      'K3yZz/K3ysPlace/docs/index.html',
-      '/docs/index.html',
-      '/index.html'
-    ];
-
-    for (const url of urlsToTry) {
-      try {
-        const response = await fetch(url, { method: 'HEAD' });
-
-        if (response.ok) {
-          console.log(`Successfully found URL: ${url}`);
-          stopTimer();
-          window.location.href = url;
-          return;
-        }
-      } catch (error) {
-        console.warn(`Attempt to reach ${url} failed due to a network error. Trying next URL...`, error);
-      }
-    }
-    console.error("All fallback URLs failed.");
-  });
-
-
   document.getElementById('slowBtn').addEventListener('click', () => {
-    speedMultiplier = Math.max(0.1, speedMultiplier / 2); // halve speed
-    UPDATE_INTERVAL = baseInterval / speedMultiplier;
+    speedMultiplier = Math.max(0.1, speedMultiplier / 2);
+    UPDATE_INTERVAL = Math.max(1, Math.round(baseInterval / speedMultiplier));
     if (!paused) { stopTimer(); startTimer(); }
     renderPause();
   });
 
   document.getElementById('fastBtn').addEventListener('click', () => {
-    speedMultiplier = Math.min(16, speedMultiplier * 2); // double speed
-    UPDATE_INTERVAL = baseInterval / speedMultiplier;
+    speedMultiplier = Math.min(16, speedMultiplier * 2);
+    UPDATE_INTERVAL = Math.max(1, Math.round(baseInterval / speedMultiplier));
     if (!paused) { stopTimer(); startTimer(); }
     renderPause();
   });
@@ -188,13 +166,12 @@ function renderPortfolio() {
     card.id = `stockCard${i}`;
     card.innerHTML = `
         <div class="name" style="color:${s.color}; display:flex; justify-content:space-between; align-items:center;">
-          <span>${s.name}</span>
-          <button id="toggle${i}" style="font-size:12px; padding:2px 6px;">${s.visible ? 'Hide' : 'Show'}</button>
-        </div>
+              <span>${s.name}</span>
+            </div>
         <div>Current: $<span class="currentPrice">${s.price.toFixed(3)}</span></div>
         <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s.avgPrice().toFixed(2)}</div>
         <div class="small profit" style="color:${s.profit() >= 0 ? '#0b7' : '#f55'}">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ''}</div>
-        <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
+          <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
           <div style="display:flex; align-items:center; gap:6px;">
             <select id="buyAmt${i}" class="dropdown"></select>
             <button onclick="buy(${i})" style="height: 28px; padding: 4px 8px;">Buy</button>
@@ -203,11 +180,15 @@ function renderPortfolio() {
             <select id="sellAmt${i}" class="dropdown"></select>
             <button onclick="sell(${i})" style="height: 28px; padding: 4px 8px;">Sell</button>
           </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button id="view${i}" style="height:28px; padding:4px 8px;">View</button>
+          </div>
         </div>`;
     portfolioDiv.appendChild(card);
-    document.getElementById(`toggle${i}`).addEventListener('click', () => {
-      s.visible = !s.visible;
-      renderPortfolio();
+    // removed hide/show toggle per request
+    document.getElementById(`view${i}`).addEventListener('click', () => {
+      selectedStockIndex = i;
+      renderPause();
     });
     const buySelect = document.getElementById(`buyAmt${i}`);
     const sellSelect = document.getElementById(`sellAmt${i}`);
@@ -405,15 +386,25 @@ function draw() {
   const rect = canvas.getBoundingClientRect();
   const W = Math.max(1, rect.width);
   const H = Math.max(1, rect.height);
-
   ctx.clearRect(0, 0, W, H);
 
-  const now = Date.now();
-  const t = Math.min(1, Math.max(0, (now - lastUpdateTime) / Math.max(1, UPDATE_INTERVAL)));
-  stocks.forEach((s, sIdx) => {
-    if (!s.visible) return;
-    const recent = s.history.slice(-POINTS_SHOWN);
-    if (!recent.length) return;
+  // Render only the selected stock (or fallback to first)
+  const idx = (selectedStockIndex >= 0 && selectedStockIndex < stocks.length) ? selectedStockIndex : 0;
+  const s = stocks[idx];
+  const panelLeft = 0;
+  const panelTop = 0;
+  const panelW = W;
+  const panelH = H;
+
+  // draw panel background (slightly darker)
+  ctx.fillStyle = 'rgba(255,255,255,0.02)';
+  ctx.fillRect(panelLeft, panelTop, panelW, panelH);
+
+  // draw grid lines inside panel
+  drawGrid(ctx, panelLeft, panelTop, panelW, panelH, gridVDiv, gridHDiv);
+
+  const recent = s.history.slice(-POINTS_SHOWN);
+  if (recent.length) {
     let maxP = Math.max(...recent), minP = Math.min(...recent);
     if (!isFinite(maxP)) maxP = s.price || 1;
     if (!isFinite(minP)) minP = 0;
@@ -425,27 +416,107 @@ function draw() {
     s.displayMax = lerp(s.displayMax, targetMax, SCALE_SMOOTH);
     if (s.displayMin < 0) s.displayMin = Math.max(0, s.displayMin);
     const L = recent.length;
-    const scaleX = W / Math.max(1, L - 1);
-    ctx.beginPath(); ctx.lineWidth = 2; ctx.strokeStyle = s.color; ctx.lineJoin = 'miter'; ctx.lineCap = 'butt';
+    const scaleX = panelW / Math.max(1, L - 1);
+
+    // build points for the line
+    const points = [];
     for (let i = 0; i < L; i++) {
       const price = recent[i];
       const normalized = (price - s.displayMin) / (s.displayMax - s.displayMin);
-      const y = H - normalized * H;
-      const x = i * scaleX;
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      const y = panelTop + (panelH - normalized * panelH);
+      const x = panelLeft + i * scaleX;
+      points.push({ x, y });
+    }
+
+    // fill area under line with a vertical gradient
+    if (points.length) {
+      ctx.save();
+      const grad = ctx.createLinearGradient(0, panelTop, 0, panelTop + panelH);
+      // try to create a translucent color from s.color; fallback to rgba
+      grad.addColorStop(0, `${s.color.replace('hsl', 'hsla').replace(')', ',0.45)')}`);
+      grad.addColorStop(1, 'rgba(0,0,0,0.02)');
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+      // close the path down to bottom-right and bottom-left
+      ctx.lineTo(panelLeft + panelW, panelTop + panelH);
+      ctx.lineTo(panelLeft, panelTop + panelH);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // draw stock line on top
+    ctx.save();
+    ctx.beginPath(); ctx.lineWidth = 2; ctx.strokeStyle = s.color; ctx.lineJoin = 'miter'; ctx.lineCap = 'butt';
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
     }
     ctx.stroke();
+
+    // avg price dashed line
     if (s.amountOwned) {
-      const avgY = H - ((s.avgPrice() - s.displayMin) / (s.displayMax - s.displayMin)) * H;
-      ctx.beginPath(); ctx.strokeStyle = s.color; ctx.setLineDash([4, 2]); ctx.moveTo(0, avgY); ctx.lineTo(W, avgY); ctx.stroke(); ctx.setLineDash([]);
+      const avgY = panelTop + (panelH - ((s.avgPrice() - s.displayMin) / (s.displayMax - s.displayMin)) * panelH);
+      ctx.beginPath(); ctx.strokeStyle = s.color; ctx.setLineDash([4, 2]); ctx.moveTo(panelLeft, avgY); ctx.lineTo(panelLeft + panelW, avgY); ctx.stroke(); ctx.setLineDash([]);
     }
-    ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2); ctx.stroke();
-  });
-  if (mouseX !== null) {
-    // mouseX is computed in CSS pixels from the mouse handler, so use it directly
-    ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, H); ctx.stroke();
+
+    // midline
+    ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.moveTo(panelLeft, panelTop + panelH / 2); ctx.lineTo(panelLeft + panelW, panelTop + panelH / 2); ctx.stroke();
+    
+    // draw y-axis ticks and labels
+    drawYAxisTicks(ctx, panelLeft, panelTop, panelW, panelH, s.displayMin, s.displayMax, 8);
+
+    // mouse vertical line clipped to panel if inside
+    if (mouseX !== null) {
+      if (mouseX >= panelLeft && mouseX <= panelLeft + panelW) {
+        ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.moveTo(mouseX, panelTop); ctx.lineTo(mouseX, panelTop + panelH); ctx.stroke();
+      }
+    }
+
+    ctx.restore();
   }
+
   requestAnimationFrame(draw);
+}
+
+function drawGrid(ctx, x, y, w, h, vDiv = 6, hDiv = 4) {
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= vDiv; i++) {
+    const px = x + (i / vDiv) * w;
+    ctx.beginPath(); ctx.moveTo(px, y); ctx.lineTo(px, y + h); ctx.stroke();
+  }
+  for (let j = 0; j <= hDiv; j++) {
+    const py = y + (j / hDiv) * h;
+    ctx.beginPath(); ctx.moveTo(x, py); ctx.lineTo(x + w, py); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawYAxisTicks(ctx, x, y, w, h, minVal, maxVal, steps = 4) {
+  ctx.save();
+  ctx.fillStyle = '#fff';
+  ctx.font = '10px sans-serif';
+  ctx.textBaseline = 'middle';
+  const padding = 6;
+  const labelX = x + padding;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const py = y + (1 - t) * h;
+    const val = lerp(minVal, maxVal, t);
+    const txt = `$${val.toFixed(2)}`;
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    const metrics = ctx.measureText(txt);
+    const wtxt = metrics.width + 6;
+    const htxt = 14;
+    ctx.fillRect(labelX - 3, py - htxt / 2, wtxt, htxt);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(txt, labelX, py);
+  }
+  ctx.restore();
 }
 
 // ------------------- Init -------------------
@@ -453,5 +524,7 @@ renderCash();
 renderPause();
 renderPortfolio();
 lastUpdateTime = Date.now();
+// ensure UPDATE_INTERVAL matches speedMultiplier
+UPDATE_INTERVAL = Math.max(1, Math.round(baseInterval / speedMultiplier));
 startTimer();
 draw();
