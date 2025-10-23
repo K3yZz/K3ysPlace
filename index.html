@@ -1,118 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>K3yz Menu</title>
-    <link rel="stylesheet" href="./mainpage/style.css" />
-    <link rel="stylesheet" href="./globalassets/css/theme.css" />
-  </head>
 
-  <body>
-    <span id="titleText">K3yz Place</span>
-    <span id="versionText">V1.2.1 - Alpha</span>
-    <button id="settingsButton" aria-label="Open settings">
-      <!--change svg image-->
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-        style="display: block"
-      >
-        <circle
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          stroke-width="2"
-          fill="rgba(255,255,255,0.05)"
-        />
-        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-      </svg>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K3yz Menu</title>
+  <link rel="stylesheet" href="./mainpage/style.css" />
+  <link rel="stylesheet" href="./globalassets/css/theme.css" />
+</head>
+
+<body>
+  <span id="titleText">K3yz Place</span>
+  <span id="versionText">V1.2.2 - Alpha</span>
+  <button id="settingsButton" aria-label="Open settings">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block">
+      <circle cx="4" cy="5" r="3" fill="#fff" />
+      <circle cx="4" cy="12" r="3" fill="#fff" />
+      <circle cx="4" cy="19" r="3" fill="#fff" />
+      <circle cx="12" cy="5" r="3" fill="#fff" />
+      <circle cx="12" cy="12" r="3" fill="#fff" />
+      <circle cx="12" cy="19" r="3" fill="#fff" />
+      <circle cx="20" cy="5" r="3" fill="#fff" />
+      <circle cx="20" cy="12" r="3" fill="#fff" />
+      <circle cx="20" cy="19" r="3" fill="#fff" />
+    </svg>
+  </button>
+  <div id="settingsPanel" hidden>
+    <h2>Settings</h2>
+    <select id="themeToggle">
+      <option>default</option>
+      <option>blue</option>
+      <option>red</option>
+      <option>yeah</option>
+    </select>
+    <button id="bugReportButton">Send Feedback</button>
+    <div id="bugReportFormContainer">
+      <input id="bugDescription" placeholder="Describe the bug/Suggest an idea..."></input>
+      <input id="bugEmail" type="email" placeholder="Your email (optional)" />
+      <button id="submitBug">Submit</button>
+      <button id="cancelBug">Cancel</button>
+      <span id="bugFeedback"></span>
+    </div>
+  </div>
+
+  <div class="tab-buttons" role="tablist" aria-label="Games sections">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="myGamesPanel">
+      My Games
     </button>
-    <div id="settingsPanel" hidden>
-      <h2>Settings</h2>
-      <select id="themeToggle">
-        <option>default</option>
-        <option>blue</option>
-        <option>red</option>
-      </select>
-      <button id="bugReportButton">Send Feedback</button>
-      <div id="bugReportFormContainer">
-        <textarea
-          id="bugDescription"
-          placeholder="Describe the bug/Suggest an idea..."
-        ></textarea>
-        <input id="bugEmail" type="email" placeholder="Your email (optional)" />
-        <button id="submitBug">Submit</button>
-        <button id="cancelBug">Cancel</button>
-        <span id="bugFeedback"></span>
-      </div>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="portedGamesPanel">
+      Ported Games
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="toolsPanel">
+      Tools
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="legacyGamesPanel">
+      Legacy Games
+    </button>
+  </div>
+
+  <div id="gamesContainer">
+    <!-- Tab buttons -->
+
+    <!-- Tab content panels -->
+    <div id="myGamesPanel" class="tab-content active" role="tabpanel" aria-hidden="false">
+      <div id="myGames"></div>
     </div>
 
-    <div class="tab-buttons" role="tablist" aria-label="Games sections">
-      <button
-        class="tab-btn active"
-        role="tab"
-        aria-selected="true"
-        data-tab="myGamesPanel"
-      >
-        My Games
-      </button>
-      <button
-        class="tab-btn"
-        role="tab"
-        aria-selected="false"
-        data-tab="portedGamesPanel"
-      >
-        Ported Games
-      </button>
-      <button
-        class="tab-btn"
-        role="tab"
-        aria-selected="false"
-        data-tab="toolsPanel"
-      >
-        Tools
-      </button>
+    <div id="portedGamesPanel" class="tab-content" role="tabpanel" aria-hidden="true">
+      <div id="portedGames"></div>
     </div>
 
-    <div id="gamesContainer">
-      <!-- Tab buttons -->
-
-      <!-- Tab content panels -->
-      <div
-        id="myGamesPanel"
-        class="tab-content active"
-        role="tabpanel"
-        aria-hidden="false"
-      >
-        <div id="myGames"></div>
-      </div>
-
-      <div
-        id="portedGamesPanel"
-        class="tab-content"
-        role="tabpanel"
-        aria-hidden="true"
-      >
-        <div id="portedGames"></div>
-      </div>
-
-      <div
-        id="toolsPanel"
-        class="tab-content"
-        role="tabpanel"
-        aria-hidden="true"
-      >
-        <div id="tools"></div>
-      </div>
+    <div id="toolsPanel" class="tab-content" role="tabpanel" aria-hidden="true">
+      <div id="tools"></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="./mainpage/main.js" type="module"></script>
-    <script src="./globalassets/js/theme.js"></script>
-  </body>
+    <div id="legacyGamesPanel" class="tab-content" role="tabpanel" aria-hidden="true">
+      <div id="legacyGames"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="./mainpage/main.js" type="module"></script>
+  <script src="./globalassets/js/theme.js"></script>
+</body>
+
 </html>

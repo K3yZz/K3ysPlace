@@ -27,11 +27,13 @@
      position: absolute;
      top: 5%;
      left: 5%;
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     padding: 4px;
+     width: 40px;
+     height: 40px;
      z-index: 1000;
-}
-
-#settingsButton:hover {
-     transform: translateY(-2px);
 }
 
 #settingsPanel {
@@ -41,7 +43,6 @@
      left: 5%;
      z-index: 1100;
      border: 2px solid var(--color-white);
-     font-family: 'font', sans-serif;
      font-size: 12px;
      border-radius: 12px;
      padding: 20px;
@@ -68,7 +69,7 @@
 }
 
 /* =======================
-    Theme Toggle
+    Toggles
 ========================== */
 #themeToggle {
      position: absolute;
@@ -81,6 +82,7 @@
 ========================== */
 #bugReportButton {
      position: absolute;
+     color: var(--color-white);
      top: 5%;
      right: 5%;
      z-index: 1000;
@@ -132,18 +134,13 @@
 
 .tab-btn {
      backdrop-filter: blur(4px);
+     color: var(--color-white);
      font-size: 14px;
      padding: 8px 14px;
 }
 
 .tab-btn:hover {
      transform: translateY(-2px);
-}
-
-.tab-btn.active {
-     background: rgba(255, 255, 255, 0.06);
-     border-color: var(--color-white);
-     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .tab-content {
@@ -171,13 +168,13 @@
      flex-direction: column;
      gap: 20px;
      padding-right: 10px;
-     font-family: 'font', sans-serif;
      color: var(--color-white);
 }
 
 #myGames,
 #portedGames,
-#tools {
+#tools,
+#legacyGames {
      display: flex;
      flex-wrap: wrap;
      justify-content: center;
@@ -205,7 +202,7 @@
 .gameCard {
      margin-top: 10px;
      padding: 10px;
-     background-color: var(--color-panel);
+     background: var(--color-panel);
      border: 2px solid var(--color-white);
      border-radius: 10px;
      opacity: 0;
@@ -238,16 +235,10 @@
 .startGameButton {
      font-size: 16px;
      font-weight: 1;
-     font-family: 'font', sans-serif;
      border: 2px solid var(--color-white);
      border-radius: 10px;
      margin-top: 10px;
      padding: 10px 16px;
-     background-color: transparent;
      cursor: pointer;
      color: var(--color-white);
-}
-
-.startGameButton:hover {
-     background-color: rgba(154, 149, 149, 0.5);
 }

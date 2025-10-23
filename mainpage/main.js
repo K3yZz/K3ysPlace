@@ -1,105 +1,109 @@
-import { animateText } from "./globalassets/js/textEffects.js";
+import { animateText } from "/globalassets/js/textEffects.js";
 emailjs.init("GahAe28-OZFZT7Z4F");
 
-if (localStorage.getItem("suppressAlerts") === "true") {
-    return;
-}
-alert(
-    "Theme applies wrong on the Casino & Chat. For now I suggest using the blue or default themes for best viewing experience. On another note, chat is now working."
-);
-alert(
-    "Are you sure you read the previous alert? If so, click OK to dismiss this message."
-);
-alert("Are you sure though?");
-alert("Are you sureeeeeee though?");
-alert("Are you sure enough yet?");
-alert("One more time for good measure?");
-alert("Last time I swear.");
-(function generateAndVerifyKey() {
-    const length = 8;
-    const chars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    function genKey(len) {
-        const arr = new Uint8Array(len);
-        crypto.getRandomValues(arr);
-        let s = "";
-        for (let i = 0; i < len; i++) s += chars[arr[i] % chars.length];
-        return s;
+function annoyingDebug() {
+    if (localStorage.getItem("suppressAlerts") === "true") {
+        return;
     }
-
-    // Disable copy/paste/selection/context menu and common keyboard shortcuts, return a restore fn
-    function disableCopyPaste() {
-        const handlers = [];
-
-        function add(type, handler, opts) {
-            document.addEventListener(type, handler, opts);
-            handlers.push({ type, handler, opts });
+    alert(
+        "Everything is fixed! That includes the chat. Stockmarket got a big update. Casino overhaul coming soon! Finally themes might look a bit weird they are a work in progress."
+    );
+    alert(
+        "Are you sure you read the previous alert? If so, click OK to dismiss this message."
+    );
+    alert("Are you sure though?");
+    alert("Are you sureeeeeee though?");
+    alert("Are you sure enough yet?");
+    alert("One more time for good measure?");
+    alert("Last time I swear.");
+    (function generateAndVerifyKey() {
+        const length = 8;
+        const chars =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        function genKey(len) {
+            const arr = new Uint8Array(len);
+            crypto.getRandomValues(arr);
+            let s = "";
+            for (let i = 0; i < len; i++) s += chars[arr[i] % chars.length];
+            return s;
         }
 
-        add("copy", (e) => e.preventDefault());
-        add("cut", (e) => e.preventDefault());
-        add("paste", (e) => e.preventDefault());
-        add("contextmenu", (e) => e.preventDefault());
-        add("selectstart", (e) => e.preventDefault());
-        add("keydown", (e) => {
-            const k = (e.key || "").toLowerCase();
-            // block Ctrl/Cmd + C/V/X/A and Shift+Insert
-            if ((e.ctrlKey || e.metaKey) && ["c", "v", "x", "a"].includes(k)) {
-                e.preventDefault();
+        // Disable copy/paste/selection/context menu and common keyboard shortcuts, return a restore fn
+        function disableCopyPaste() {
+            const handlers = [];
+
+            function add(type, handler, opts) {
+                document.addEventListener(type, handler, opts);
+                handlers.push({ type, handler, opts });
             }
-            if (e.shiftKey && k === "insert") e.preventDefault();
-        });
 
-        // also disable CSS selection
-        const prevUserSelect = document.documentElement.style.userSelect;
-        document.documentElement.style.userSelect = "none";
-        handlers.push({
-            restore: () => {
-                document.documentElement.style.userSelect = prevUserSelect;
-            },
-        });
-
-        return function restore() {
-            for (const h of handlers) {
-                if (h.restore) {
-                    try {
-                        h.restore();
-                    } catch (e) { }
-                } else {
-                    document.removeEventListener(h.type, h.handler, h.opts);
+            add("copy", (e) => e.preventDefault());
+            add("cut", (e) => e.preventDefault());
+            add("paste", (e) => e.preventDefault());
+            add("contextmenu", (e) => e.preventDefault());
+            add("selectstart", (e) => e.preventDefault());
+            add("keydown", (e) => {
+                const k = (e.key || "").toLowerCase();
+                // block Ctrl/Cmd + C/V/X/A and Shift+Insert
+                if ((e.ctrlKey || e.metaKey) && ["c", "v", "x", "a"].includes(k)) {
+                    e.preventDefault();
                 }
+                if (e.shiftKey && k === "insert") e.preventDefault();
+            });
+
+            // also disable CSS selection
+            const prevUserSelect = document.documentElement.style.userSelect;
+            document.documentElement.style.userSelect = "none";
+            handlers.push({
+                restore: () => {
+                    document.documentElement.style.userSelect = prevUserSelect;
+                },
+            });
+
+            return function restore() {
+                for (const h of handlers) {
+                    if (h.restore) {
+                        try {
+                            h.restore();
+                        } catch (e) { }
+                    } else {
+                        document.removeEventListener(h.type, h.handler, h.opts);
+                    }
+                }
+            };
+        }
+
+        const restoreCopyPaste = disableCopyPaste();
+
+        const key = genKey(length);
+        let entry;
+        do {
+            entry = prompt(
+                "Please type the following 8-character key to continue:\n\n" + key,
+                ""
+            );
+            if (entry === null || entry.trim() === "") {
+                alert("A response is required to continue.");
+                entry = null; // force loop to continue
+                continue;
             }
-        };
-    }
+            if (entry.trim() !== key) {
+                alert("Incorrect key. Please try again.");
+                entry = null;
+            }
+        } while (entry === null);
 
-    const restoreCopyPaste = disableCopyPaste();
-
-    const key = genKey(length);
-    let entry;
-    do {
-        entry = prompt(
-            "Please type the following 8-character key to continue:\n\n" + key,
-            ""
-        );
-        if (entry === null || entry.trim() === "") {
-            alert("A response is required to continue.");
-            entry = null; // force loop to continue
-            continue;
+        restoreCopyPaste();
+        alert("Access granted.");
+    })();
+    if (confirm("Would you like to disable these messages in the future?")) {
+        if (confirm("Are you absolutely sure?")) {
+            localStorage.setItem("suppressAlerts", "true");
         }
-        if (entry.trim() !== key) {
-            alert("Incorrect key. Please try again.");
-            entry = null;
-        }
-    } while (entry === null);
-
-    restoreCopyPaste();
-    alert("Access granted.");
-})();
-if (confirm("Would you like to disable these messages in the future?")) {
-    if (confirm("Are you absolutely sure?")) {
-        localStorage.setItem("suppressAlerts", "true");
     }
 }
+
+annoyingDebug();
 
 document.addEventListener("DOMContentLoaded", () => {
     // --- DOM Elements ---
@@ -116,10 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Game Data ---
     const games = [
-        { title: "Stock Market", version: "V1.0.1-alpha", description: "Stonks.", place: "myGames", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
+        { title: "Stock Market", version: "V1.0.0", description: "Stonks.", place: "myGames", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
         { title: "Casino", version: "V1.0.1-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" },
         { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "/globalassets/gameIcons/wheel.png", link: "/games/wheelgame/game.html" },
         { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "/globalassets/gameIcons/chat.png", link: "/games/chatgame/game.html" },
+        { title: "Stock Market Legacy", version: "V1.0.1-alpha", description: "Old Stock Market Game.", place: "legacyGames", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/legacystockmarketgame/game.html" },
+        { title: "Cube Game", version: "??", description: "Old orignal game.", place: "legacyGames", img: "/globalassets/gameIcons/placeholder.png", link: "/games/legacycubegame/game.html" },
+
         { title: "Undertale Yellow", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "/globalassets/gameIcons/portedgameIcons/undertaleyellow.png", link: "/games/portedgames/undertale-yellow/undertale_yellow.html" },
         { title: "Bitlife", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "/globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "/portedgames/bitlife-life-simulator/play.html" },
         { title: "Chrome Dino", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "/globalassets/gameIcons/portedgameIcons/dino.png", link: "/portedgames/chrome-dino" },
@@ -298,11 +305,21 @@ document.addEventListener("DOMContentLoaded", () => {
     setupBugReport();
 
     // --- Optional: Secret Key Feature ---
-    // const secret = "idk";
-    // let typed = "";
-    // document.addEventListener("keydown", e => {
-    //     typed += e.key.toLowerCase();
-    //     if (typed.length > secret.length) typed = typed.slice(-secret.length);
-    //     if (typed === secret) { window.location.href = 'stockmarket.html'; typed = ""; }
-    // });
+    const secret = "theme1";
+    let typed = "";
+    document.addEventListener("keydown", e => {
+        typed += e.key.toLowerCase();
+        if (typed.length > secret.length) typed = typed.slice(-secret.length);
+        if (typed === secret) {
+            const themeToggle = document.getElementById("themeToggle");
+            const newTheme = document.createElement("option");
+            newTheme.value = "theme1";
+            newTheme.textContent = "Theme 1 (Secret)";
+            themeToggle.appendChild(newTheme);
+            themeToggle.value = "theme1";
+            themeToggle.dispatchEvent(new Event("change"));
+            alert("Secret theme unlocked!");
+            typed = "";
+        }
+    });
 });
