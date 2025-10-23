@@ -120,23 +120,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Game Data ---
     const games = [
-        { title: "Stock Market", version: "V1.0.0", description: "Stonks.", place: "myGames", img: "./globalassets/gameIcons/stockMarket.png", link: "./games/stockmarketgame/game.html" },
-        { title: "Casino", version: "V1.0.1-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "./globalassets/gameIcons/casino.png", link: "./games/casinogame/game.html" },
-        { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "./globalassets/gameIcons/wheel.png", link: "./games/wheelgame/game.html" },
-        { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "./globalassets/gameIcons/chat.png", link: "./games/chatgame/game.html" },
-        { title: "Stock Market Legacy", version: "V1.0.1-alpha", description: "Old Stock Market Game.", place: "legacyGames", img: "./globalassets/gameIcons/stockMarket.png", link: "./games/legacystockmarketgame/game.html" },
-        { title: "Cube Game", version: "??", description: "Old orignal game.", place: "legacyGames", img: "./globalassets/gameIcons/placeholder.png", link: "./games/legacycubegame/game.html" },
+        { title: "Stock Market", version: "V1.0.0", description: "Stonks.", place: "myGames", img: "K3yZz/K3ysPlace/globalassets/gameIcons/stockMarket.png", link: "K3yZz/K3ysPlace/games/stockmarketgame/game.html" },
+        { title: "Casino", version: "V1.0.1-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "K3yZz/K3ysPlace/globalassets/gameIcons/casino.png", link: "K3yZz/K3ysPlace/games/casinogame/game.html" },
+        { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "K3yZz/K3ysPlace/globalassets/gameIcons/wheel.png", link: "K3yZz/K3ysPlace/games/wheelgame/game.html" },
+        { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "K3yZz/K3ysPlace/globalassets/gameIcons/chat.png", link: "K3yZz/K3ysPlace/games/chatgame/game.html" },
+        { title: "Stock Market Legacy", version: "V1.0.1-alpha", description: "Old Stock Market Game.", place: "legacyGames", img: "K3yZz/K3ysPlace/globalassets/gameIcons/stockmarket.png", link: "K3yZz/K3ysPlace/games/legacystockmarketgame/game.html" },
+        { title: "Cube Game", version: "??", description: "Old orignal game.", place: "legacyGames", img: "K3yZz/K3ysPlace/globalassets/gameIcons/placeholder.png", link: "K3yZz/K3ysPlace/games/legacycubegame/game.html" },
 
-        { title: "Undertale Yellow", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/undertaleyellow.png", link: "./portedgames/undertale-yellow/undertale_yellow.html" },
-        { title: "Bitlife", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "./portedgames/bitlife-life-simulator/play.html" },
-        { title: "Chrome Dino", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/dino.png", link: "./portedgames/chrome-dino" },
-        { title: "Cookie Clicker", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/cookieclicker.png", link: "./portedgames/cookie-clicker" },
-        { title: "Drive Mad", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/drivemad.jpeg", link: "./portedgames/drive-mad" },
-        { title: "Moto X3M", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto1.jpeg", link: "./portedgames/Moto-X3M" },
-        { title: "Moto Pool", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto2.jpeg", link: "./portedgames/motox3m-pool" },
-        { title: "Moto Spooky", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "./portedgames/motox3m-spooky" },
-        { title: "Moto Winter", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "./portedgames/motox3m-winter" },
-        { title: "Subway Surfers", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "./ported/games/subwaysurfers-sf" },
+        { title: "Undertale Yellow", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/undertaleyellow.png", link: "K3yZz/K3ysPlace/portedgames/undertale-yellow/undertale_yellow.html" },
+        { title: "Bitlife", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "K3yZz/K3ysPlace/portedgames/bitlife-life-simulator/play.html" },
+        { title: "Chrome Dino", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/dino.png", link: "K3yZz/K3ysPlace/portedgames/chrome-dino" },
+        { title: "Cookie Clicker", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/cookieclicker.png", link: "K3yZz/K3ysPlace/portedgames/cookie-clicker" },
+        { title: "Drive Mad", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/drivemad.jpeg", link: "K3yZz/K3ysPlace/portedgames/drive-mad" },
+        { title: "Moto X3M", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto1.jpeg", link: "K3yZz/K3ysPlace/portedgames/Moto-X3M" },
+        { title: "Moto Pool", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto2.jpeg", link: "K3yZz/K3ysPlace/portedgames/motox3m-pool" },
+        { title: "Moto Spooky", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "K3yZz/K3ysPlace/portedgames/motox3m-spooky" },
+        { title: "Moto Winter", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "K3yZz/K3ysPlace/portedgames/motox3m-winter" },
+        { title: "Subway Surfers", version: "V1.0.0", description: "Ported Game.", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "K3yZz/K3ysPlace/ported/games/subwaysurfers-sf" },
     ];
 
     // --- Functions ---
