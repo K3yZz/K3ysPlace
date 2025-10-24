@@ -1,26 +1,39 @@
-# K3yz-Place
+# 🌟 K3yz Place
 
-todo stockmarket:
+![GitHub last commit](https://img.shields.io/github/last-commit/K3yZz/K3ysPlace)
+![GitHub javascript](https://img.shields.io/github/issues/yourusername/your-repo-name)
 
-- move back button
+Game site.
 
-todo gambling:
+---
 
-- rework design
-
-todo wheelgame:
-
-- rework design
-
-todo chat:
-
-- fix theme
+## 🚀 Demo
 
 
-## Favicons
+👉 [Live Demo](https://k3yzz.github.io/K3ysPlace/)  
 
-This project injects the favicon and related meta/link tags at runtime from the shared script `globalassets/js/theme.js` so any page that includes that script will display the site icons without adding the tags to every HTML file.
+---
 
-Fallbacks / notes:
-- If a page doesn't load `theme.js`, add the standard favicon links to that page's `<head>` or place `favicon.ico` and other common icons at the site root (`/favicon.ico`, `/mstile-144x144.png`) so browsers and platforms can still find them.
-- The injected paths point to `/globalassets/css/favicon/...`. If you move the icon files, update the paths in `globalassets/js/theme.js`.
+## 📋 Table of Contents
+
+- [About](#-about)
+- [Installation](#-installation)
+
+---
+
+## 💡 About
+
+Explain the purpose of your project.
+
+---
+
+## 🛠️ Installation
+
+To run the project locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/your-repo-name.git
+
+# Navigate to the project folder
+cd your-repo-name
