@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings - K3yz Place</title>
+  <link rel="stylesheet" href="/globalassets/css/theme.css" />
+</head>
+<body>
+
+  <main id="settingsContainer">
+    <h1>Settings</h1>
+
+    <!-- Theme Selector -->
+    <section>
+      <label for="themeToggle">Choose Theme:</label>
+      <select id="themeToggle">
+        <option value="default">Default</option>
+        <option value="halloween">Halloween</option>
+        <option value="ocean">Ocean</option>
+        <option value="dexter">Dexter</option>
+        <option value="harry-styles">Harry Styles</option>
+        <option value="coffee">Coffee</option>
+      </select>
+    </section>
+
+    <!-- Bug Report Section -->
+    <section id="bugReportSection">
+      <h2>Send Feedback</h2>
+      <input id="bugDescription" placeholder="Describe the bug / Suggest an idea..." />
+      <input id="bugEmail" type="email" placeholder="Your email (optional)" />
+      <div>
+        <button id="submitBug">Submit</button>
+        <button id="cancelBug">Cancel</button>
+      </div>
+      <span id="bugFeedback"></span>
+    </section>
+  </main>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="module" src="/globalassets/js/theme.js"></script>
+<script src="/globalassets/js/debug.js"></script>
+</html>
