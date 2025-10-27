@@ -1,0 +1,103 @@
+function annoyingMessage() {
+    if (localStorage.getItem("suppressAlerts") === "true") {
+        return;
+    }
+    alert(
+        "Everything is fixed! That includes the chat. Stockmarket got a big update. Casino overhaul coming soon! Finally themes might look a bit weird they are a work in progress."
+    );
+    alert(
+        "Are you sure you read the previous alert? If so, click OK to dismiss this message."
+    );
+    alert("Are you sure though?");
+    alert("Are you sureeeeeee though?");
+    alert("Are you sure enough yet?");
+    alert("One more time for good measure?");
+    alert("Last time I swear.");
+    (function generateAndVerifyKey() {
+        const length = 8;
+        const chars =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        function genKey(len) {
+            const arr = new Uint8Array(len);
+            crypto.getRandomValues(arr);
+            let s = "";
+            for (let i = 0; i < len; i++) s += chars[arr[i] % chars.length];
+            return s;
+        }
+
+        // Disable copy/paste/selection/context menu and common keyboard shortcuts, return a restore fn
+        function disableCopyPaste() {
+            const handlers = [];
+
+            function add(type, handler, opts) {
+                document.addEventListener(type, handler, opts);
+                handlers.push({ type, handler, opts });
+            }
+
+            add("copy", (e) => e.preventDefault());
+            add("cut", (e) => e.preventDefault());
+            add("paste", (e) => e.preventDefault());
+            add("contextmenu", (e) => e.preventDefault());
+            add("selectstart", (e) => e.preventDefault());
+            add("keydown", (e) => {
+                const k = (e.key || "").toLowerCase();
+                // block Ctrl/Cmd + C/V/X/A and Shift+Insert
+                if ((e.ctrlKey || e.metaKey) && ["c", "v", "x", "a"].includes(k)) {
+                    e.preventDefault();
+                }
+                if (e.shiftKey && k === "insert") e.preventDefault();
+            });
+
+            // also disable CSS selection
+            const prevUserSelect = document.documentElement.style.userSelect;
+            document.documentElement.style.userSelect = "none";
+            handlers.push({
+                restore: () => {
+                    document.documentElement.style.userSelect = prevUserSelect;
+                },
+            });
+
+            return function restore() {
+                for (const h of handlers) {
+                    if (h.restore) {
+                        try {
+                            h.restore();
+                        } catch (e) { }
+                    } else {
+                        document.removeEventListener(h.type, h.handler, h.opts);
+                    }
+                }
+            };
+        }
+
+        const restoreCopyPaste = disableCopyPaste();
+
+        const key = genKey(length);
+        let entry;
+        do {
+            entry = prompt(
+                "Please type the following 8-character key to continue:\n\n" + key,
+                ""
+            );
+            if (entry === null || entry.trim() === "") {
+                alert("A response is required to continue.");
+                entry = null; // force loop to continue
+                continue;
+            }
+            if (entry.trim() !== key) {
+                alert("Incorrect key. Please try again.");
+                entry = null;
+            }
+        } while (entry === null);
+
+        restoreCopyPaste();
+        alert("Access granted.");
+    })();
+    if (confirm("Would you like to disable these messages in the future?")) {
+        if (confirm("Are you absolutely sure?")) {
+            localStorage.setItem("suppressAlerts", "true");
+        }
+    }
+}
+
+annoyingMessage();

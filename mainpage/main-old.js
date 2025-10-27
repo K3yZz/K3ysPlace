@@ -225,10 +225,6 @@ function annoyingMessage() {
     }
 }
 
-function backgroundParticleEffect() {
-    
-}
-
 function setupBugReport() {
     const bugReportButton = document.getElementById("bugReportButton");
     const bugReportFormContainer = document.getElementById("bugReportFormContainer");
