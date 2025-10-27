@@ -84,3 +84,48 @@ body {
     z-index: 0;
     pointer-events: none;
 }
+
+/* HTML TAGS */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--modern-font);
+}
+
+a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    margin: 10px;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 12px;
+    border: none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button.secondary {
+    
+}
+
+button:hover {
+    background-color: var(--color-hover);
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}

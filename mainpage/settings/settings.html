@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Settings - K3yz Place</title>
   <link rel="stylesheet" href="/globalassets/css/theme.css" />
 </head>
+
 <body>
 
   <main id="settingsContainer">
@@ -25,6 +27,14 @@
       </select>
     </section>
 
+    <!-- Account Details-->
+    <section>
+      <h2>Account Details</h2>
+      <button id="showStorageBtn">Show Local Storage</button>
+      <button id="clearStorageBtn">Clear all storage?</button>
+    </section>
+
+
     <!-- Bug Report Section -->
     <section id="bugReportSection">
       <h2>Send Feedback</h2>
@@ -41,5 +51,6 @@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="module" src="/globalassets/js/theme.js"></script>
+<script type="module" src="/globalassets/js/runner.js"></script>
+
 </html>

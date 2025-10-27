@@ -1,5 +1,6 @@
 emailjs.init("GahAe28-OZFZT7Z4F");
 
+// -------------------- Bug Report --------------------
 function setupBugReport() {
     const bugReportButton = document.getElementById("bugReportButton");
     const bugReportFormContainer = document.getElementById("bugReportFormContainer");
@@ -8,6 +9,7 @@ function setupBugReport() {
     const bugDescription = document.getElementById("bugDescription");
     const bugEmail = document.getElementById("bugEmail");
     const bugFeedback = document.getElementById("bugFeedback");
+
     bugReportButton.addEventListener("click", () => {
         bugReportFormContainer.style.display = "block";
         bugReportButton.style.display = "none";
@@ -61,4 +63,61 @@ function setupBugReport() {
     });
 }
 
+// -------------------- Local Storage --------------------
+const clearStorageBtn = document.getElementById('clearStorageBtn');
+const showStorageBtn = document.getElementById('showStorageBtn');
+const localStorageDisplay = document.getElementById('localStorageDisplay');
+
+function displayLocalStorage() {
+    localStorageDisplay.innerHTML = '';
+    const keys = Object.keys(localStorage);
+    if (keys.length === 0) {
+        localStorageDisplay.textContent = 'Local Storage is empty.';
+        return;
+    }
+
+    const table = document.createElement('table');
+    table.style.borderCollapse = 'collapse';
+    table.style.width = '100%';
+
+    const header = document.createElement('tr');
+    const thKey = document.createElement('th');
+    thKey.textContent = 'Key';
+    const thValue = document.createElement('th');
+    thValue.textContent = 'Value';
+    header.appendChild(thKey);
+    header.appendChild(thValue);
+    table.appendChild(header);
+
+    keys.forEach(key => {
+        const row = document.createElement('tr');
+        const tdKey = document.createElement('td');
+        tdKey.textContent = key;
+        const tdValue = document.createElement('td');
+        tdValue.textContent = localStorage.getItem(key);
+        row.appendChild(tdKey);
+        row.appendChild(tdValue);
+        table.appendChild(row);
+    });
+
+    localStorageDisplay.appendChild(table);
+}
+
+clearStorageBtn.addEventListener('click', () => {
+    const input = prompt('Type "delete" to confirm clearing all local storage. You will lose all progress and your peer ID will be reset:');
+    if (input && input.toLowerCase() === 'delete') {
+        localStorage.clear();
+        displayLocalStorage();
+        alert('Local Storage has been cleared.');
+    } else {
+        alert('Action canceled.');
+    }
+});
+
+showStorageBtn.addEventListener('click', () => {
+    displayLocalStorage();
+});
+
+// -------------------- Initialize --------------------
 setupBugReport();
+displayLocalStorage();
