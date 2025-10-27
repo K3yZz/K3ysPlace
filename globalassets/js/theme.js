@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
 
   // --------------------------
-  // 1. Apply saved theme on load
+  // Apply saved theme on load
   // --------------------------
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme) {
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --------------------------
-  // 2. Handle theme changes from select
+  // Handle theme changes from select
   // --------------------------
   if (themeToggle) {
     themeToggle.addEventListener("change", () => {
@@ -22,12 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --------------------------
-  // 3. Special effect for specific theme
+  // Special effect for specific theme
   // --------------------------
   function addExplosionEffect(themeCheck) {
     document.addEventListener("click", (event) => {
-      const currentTheme = document.documentElement.className;
-      if (currentTheme !== themeCheck) return;
+      if (document.documentElement.className !== themeCheck) return;
 
       const explosion = document.createElement("img");
       explosion.src = "globalassets/css/explosion.gif";
@@ -41,56 +40,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
       document.body.appendChild(explosion);
 
-      setTimeout(() => {
-        explosion.remove();
-      }, 1000); // gif duration
+      setTimeout(() => explosion.remove(), 1000);
     });
   }
 
   addExplosionEffect("dexter");
 
   // --------------------------
-  // 4. Optional: Favicon & meta injection
+  // Inject favicons, CSS, JS
   // --------------------------
-  (function injectFavicons() {
+  (function injectResources() {
     try {
       const head = document.head || document.getElementsByTagName("head")[0];
       if (!head) return;
-      if (document.querySelector('link[data-injected-favicon]')) return;
 
-      const createLink = (attrs) => {
-        const l = document.createElement("link");
-        Object.keys(attrs).forEach(k => l.setAttribute(k, attrs[k]));
-        l.setAttribute("data-injected-favicon", "true");
-        return l;
-      };
+      const alreadyInjected = (id) => document.querySelector(`[data-injected-resource="${id}"]`);
 
-      head.appendChild(createLink({ rel: "apple-touch-icon", sizes: "180x180", href: "/K3ysPlace/globalassets/css/favicon/apple-touch-icon.png" }));
-      head.appendChild(createLink({ rel: "icon", type: "image/png", sizes: "32x32", href: "/K3ysPlace/globalassets/css/favicon/favicon-32x32.png" }));
-      head.appendChild(createLink({ rel: "icon", type: "image/png", sizes: "16x16", href: "/K3ysPlace/globalassets/css/favicon/favicon-16x16.png" }));
-      head.appendChild(createLink({ rel: "manifest", href: "/K3ysPlace/globalassets/css/favicon/site.webmanifest" }));
-      head.appendChild(createLink({ rel: "mask-icon", href: "/K3ysPlace/globalassets/css/favicon/safari-pinned-tab.svg" }));
-      head.appendChild(createLink({ rel: "shortcut icon", href: "/K3ysPlace/globalassets/css/favicon/favicon.ico" }));
+      // ---- Favicons ----
+      if (!alreadyInjected("favicons")) {
+        const faviconData = [
+          { rel: "apple-touch-icon", sizes: "180x180", href: "/K3ysPlace/globalassets/css/favicon/apple-touch-icon.png" },
+          { rel: "icon", type: "image/png", sizes: "32x32", href: "/K3ysPlace/globalassets/css/favicon/favicon-32x32.png" },
+          { rel: "icon", type: "image/png", sizes: "16x16", href: "/K3ysPlace/globalassets/css/favicon/favicon-16x16.png" },
+          { rel: "manifest", href: "/K3ysPlace/globalassets/css/favicon/site.webmanifest" },
+          { rel: "mask-icon", href: "/K3ysPlace/globalassets/css/favicon/safari-pinned-tab.svg" },
+          { rel: "shortcut icon", href: "/K3ysPlace/globalassets/css/favicon/favicon.ico" },
+        ];
 
-      const metaTheme = document.createElement("meta");
-      metaTheme.name = "theme-color";
-      metaTheme.content = "#ffffff";
-      metaTheme.setAttribute("data-injected-favicon", "true");
-      head.appendChild(metaTheme);
+        faviconData.forEach(attrs => {
+          const link = document.createElement("link");
+          Object.keys(attrs).forEach(k => link.setAttribute(k, attrs[k]));
+          link.setAttribute("data-injected-resource", "favicons");
+          head.appendChild(link);
+        });
 
-      const metaMsTileColor = document.createElement("meta");
-      metaMsTileColor.name = "msapplication-TileColor";
-      metaMsTileColor.content = "#2d89ef";
-      metaMsTileColor.setAttribute("data-injected-favicon", "true");
-      head.appendChild(metaMsTileColor);
+        const metaData = [
+          { name: "theme-color", content: "#ffffff" },
+          { name: "msapplication-TileColor", content: "#2d89ef" },
+          { name: "msapplication-TileImage", content: "/mstile-144x144.png" },
+        ];
 
-      const metaMsTileImage = document.createElement("meta");
-      metaMsTileImage.name = "msapplication-TileImage";
-      metaMsTileImage.content = "/mstile-144x144.png";
-      metaMsTileImage.setAttribute("data-injected-favicon", "true");
-      head.appendChild(metaMsTileImage);
+        metaData.forEach(attrs => {
+          const meta = document.createElement("meta");
+          Object.keys(attrs).forEach(k => meta.setAttribute(k, attrs[k]));
+          meta.setAttribute("data-injected-resource", "favicons");
+          head.appendChild(meta);
+        });
+      }
+
+      // ---- CSS ----
+      if (!alreadyInjected("theme-css")) {
+        const themeLink = document.createElement("link");
+        themeLink.rel = "stylesheet";
+        themeLink.href = "/K3ysPlace/globalassets/css/theme.css";
+        themeLink.setAttribute("data-injected-resource", "theme-css");
+        head.appendChild(themeLink);
+      }
+
+      // ---- JS ----
+      const scripts = [
+        { id: "particles-js", src: "/K3ysPlace/globalassets/js/particles.js" },
+        { id: "debug-js", src: "/K3ysPlace/globalassets/js/debug.js" },
+      ];
+
+      scripts.forEach(({ id, src }) => {
+        if (!alreadyInjected(id)) {
+          const script = document.createElement("script");
+          script.src = src;
+          script.defer = true;
+          script.setAttribute("data-injected-resource", id);
+          head.appendChild(script);
+        }
+      });
+
     } catch (e) {
-      console.warn("Could not inject favicons:", e);
+      console.warn("Could not inject resources:", e);
     }
   })();
 });

@@ -3,7 +3,7 @@
 ========================== */
 @font-face {
     font-family: "pixelFont";
-    src: url('/globalassets/fonts/pixelFont.ttf') format("truetype");
+    src: url("/globalassets/fonts/pixelFont.ttf") format("truetype");
     font-display: swap;
 }
 
@@ -11,8 +11,8 @@
    THEME VARIABLES
 ========================== */
 :root {
-    --pixel-font: 'pixelFont', monospace;
-    --modern-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --pixel-font: "pixelFont", monospace;
+    --modern-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
     --color-text: #ffffff;
     --color-text-muted: #bbbbbb;
@@ -23,40 +23,41 @@
     --color-hover: rgba(255, 255, 255, 0.2);
     --color-glow: rgba(255, 140, 0, 0.2);
     --color-panel-hover: rgba(255, 140, 0, 0.4);
-    --color-panel: rgba(0,0,0,0.5);
+    --color-panel: rgba(0, 0, 0, 0.15);
     --color-white: #ffffff;
 
     /* Editable backgrounds */
-    --background-c1: rgba(255,140,0,0.4);
-    --background-c2: rgba(0,0,0,0.8); 
+    --background-c1: rgba(244, 118, 45, 0.9);
+    --background-c2: rgba(52, 7, 61, 0.9);
     --background-img: none;
 }
 
 /* THEME PRESETS */
 :root.halloween {
-    --background-c1: rgba(255,69,0,0.4);
-    --background-c2: rgba(0,0,0,0.9);    
+    --background-c1: rgba(244, 118, 45, 0.9);
+    --background-c2: rgba(52, 7, 61, 0.9);
 }
+
 :root.christmas {
-    --background-c1: rgba(0,100,0,0.4);
-    --background-c2: rgba(0,0,0,0.9);    
+    --background-c1: rgba(0, 100, 0, 0.4);
+    --background-c2: rgba(0, 0, 0, 0.9);
 }
+
 :root.ocean {
-    --background-c1: rgba(0,191,255,0.4);
-    --background-c2: rgba(0,0,50,0.8);
+    --background-c1: rgba(0, 191, 255, 0.4);
+    --background-c2: rgba(0, 0, 50, 0.8);
 }
+
 :root.coffee {
-    --background-c1: rgba(139,69,19,0.4);
-    --background-c2: rgba(50,25,0,0.8);
+    --background-c1: rgba(139, 69, 19, 0.4);
+    --background-c2: rgba(50, 25, 0, 0.8);
 }
+
 :root.dexter {
-    --background-c1: rgba(255,0,0,0.4);
-    --background-c2: rgba(0,0,0,0.9);
     --background-img: url("/globalassets/images/dexter-bg.jpg");
 }
+
 :root.harry-styles {
-    --background-c1: rgba(255,192,203,0.4);
-    --background-c2: rgba(75,0,130,0.8);
     --background-img: url("/globalassets/images/harrystyles-bg.jpg");
 }
 
@@ -66,27 +67,14 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* template style */
     font-family: var(--modern-font);
+    overflow: hidden;
     color: var(--color-text);
-    background: transparent; /* background layers handled via #backgroundGradient */
-}
-
-/* ==========================
-   BACKGROUND LAYERS
-========================== */
-#backgroundGradient {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background: linear-gradient(var(--background-c1), var(--background-c2)), var(--background-img);
+    background: linear-gradient(135deg, var(--background-c1), var(--background-c2)), var(--background-img);
     background-size: cover;
     background-attachment: fixed;
-    background-blend-mode: overlay;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #particles {
@@ -95,110 +83,4 @@ body {
     left: 0;
     z-index: 0;
     pointer-events: none;
-}
-
-/* ==========================
-   MENU CONTAINER
-========================== */
-#menuContainer {
-    margin: 10px auto 0 auto;
-    display: flex;
-    width: 60%;
-    background-color: var(--color-accent);
-    border-radius: 30px;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--color-border);
-    position: relative;
-    z-index: 1;
-}
-
-.menuButton {
-    flex-grow: 1;
-    margin: 10px;
-    text-align: center;
-    padding: 10px 0;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 15px;
-    border-radius: 12px;
-    border: none;
-    background: var(--color-panel);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    transition: background 0.3s, transform 0.2s;
-}
-
-.menuButton:hover {
-    background: var(--color-hover);
-    transform: scale(1.05);
-}
-
-.menuButton.active {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: var(--color-white);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
-}
-
-/* ==========================
-   TITLE & VERSION TEXT
-========================== */
-#titleContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    z-index: 1;
-}
-
-#titleText {
-    font-size: 3em;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    font-family: var(--pixel-font);
-}
-
-#versionText {
-    font-size: 1em;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-    font-family: var(--modern-font);
-}
-
-/* ==========================
-   FORM ELEMENTS
-========================== */
-input,
-select {
-    background: var(--color-panel);
-    color: var(--color-white);
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    padding: 10px;
-    font-size: 15px;
-    box-sizing: border-box;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-input:focus,
-select:focus {
-    border-color: var(--color-accent);
-}
-
-/* ==========================
-   CANVAS ELEMENTS
-========================== */
-canvas {
-    background: var(--color-panel);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-}
-
-/* ==========================
-   MUTED TEXT
-========================== */
-.small {
-    color: var(--color-text-muted);
-    font-size: 13px;
-    letter-spacing: 0.2px;
 }

@@ -1,33 +1,14 @@
-/*  */
-body {
-   margin: 0;
-  overflow: hidden;
-  font-family: sans-serif;
-  color: white;
-}
-
-#backgroundGradient, #particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0; 
-  pointer-events: none; 
-}
-#menuContainer, #titleText, #versionText {
-  position: relative;
-  z-index: 1; 
-}
-
 #menuContainer {
-  margin: 0 auto;
-  margin-top: 10px;
+  margin: 10px auto 0 auto;
   display: flex;
   width: 60%;
-  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 30px;
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(3px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
+  position: relative;
+  z-index: 1;
 }
 
 .menuButton {
@@ -35,12 +16,23 @@ body {
   margin: 10px;
   text-align: center;
   padding: 10px 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
   transition: background 0.3s, transform 0.2s;
 }
 
 .menuButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-hover);
   transform: scale(1.05);
+}
+
+.menuButton.active {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--color-white);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 #titleContainer {
@@ -48,6 +40,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 #titleText {
