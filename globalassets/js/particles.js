@@ -66,8 +66,3 @@ function animate() {
   requestAnimationFrame(animate);
 }
 animate();
-
-window.addEventListener('resize', () => {
-  particleCanvas.width = window.innerWidth;
-  particleCanvas.height = window.innerHeight;
-});

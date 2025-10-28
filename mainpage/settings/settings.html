@@ -5,12 +5,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Settings - K3yz Place</title>
-  <link rel="stylesheet" href="/globalassets/css/theme.css" />
+  <link rel="stylesheet" href="settings.css" />
 </head>
 
 <body>
 
   <main id="settingsContainer">
+    <div id="menuContainer">
+      <button class="menuButton" id="Home" onclick="window.location.href='/index.html'">Home</button>
+      <button class="menuButton" id="Games" onclick="window.location.href='/mainpage/games/games.html'">Games</button>
+      <button class="menuButton" id="Apps" onclick="window.location.href='/mainpage/apps/apps.html'">Apps</button>
+      <button class="menuButton" id="Settings"
+        onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
+    </div>
+
     <h1>Settings</h1>
 
     <!-- Theme Selector -->
@@ -24,27 +32,46 @@
         <option value="coffee">Coffee</option>
         <option value="dexter">Dexter</option>
         <option value="harry-styles">Harry Styles</option>
+        <option value="custom">Custom</option>
       </select>
     </section>
+    
+    <section id="customThemeSection" style="display:none; margin-top:10px;">
+      <h3>Custom Theme Settings</h3>
+      <label>Background Color 1: <input type="color" id="customBg1" value="#ffffff"></label><br>
+      <label>Background Color 2: <input type="color" id="customBg2" value="#000000"></label><br>
+      <label>Background Image URL: <input type="text" id="customBgImg"
+          placeholder="URL of background image"></label><br>
+      <button id="applyCustomTheme">Apply Custom Theme</button>
+    </section>
+
 
     <!-- Account Details-->
     <section>
       <h2>Account Details</h2>
-      <button id="showStorageBtn">Show Local Storage</button>
-      <button id="clearStorageBtn">Clear all storage?</button>
+      <button id="showStorageBtn" class="secondary">Show Local Storage</button>
+      <button id="clearStorageBtn" class="secondary">Clear all storage?</button>
+      <div id="localStorageDisplay"></div>
     </section>
 
 
     <!-- Bug Report Section -->
     <section id="bugReportSection">
       <h2>Send Feedback</h2>
-      <input id="bugDescription" placeholder="Describe the bug / Suggest an idea..." />
-      <input id="bugEmail" type="email" placeholder="Your email (optional)" />
-      <div>
-        <button id="submitBug">Submit</button>
-        <button id="cancelBug">Cancel</button>
+
+      <!-- Button to open the form -->
+      <button id="bugReportButton" class="secondary">Report a Bug / Suggestion</button>
+
+      <!-- Hidden form container -->
+      <div id="bugReportFormContainer" style="display:none;">
+        <input id="bugDescription" placeholder="Describe the bug / Suggest an idea..." />
+        <input id="bugEmail" type="email" placeholder="Your email (optional)" />
+        <div>
+          <button id="submitBug">Submit</button>
+          <button id="cancelBug">Cancel</button>
+        </div>
+        <span id="bugFeedback"></span>
       </div>
-      <span id="bugFeedback"></span>
     </section>
   </main>
 
@@ -52,5 +79,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module" src="/globalassets/js/runner.js"></script>
+<script type="module" src="settings.js"></script>
 
 </html>

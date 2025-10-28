@@ -5,4 +5,6 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/K3yZz/K3ysPlace)
 
 
-CURRENTLY CHANGING THEMES FOR BUTTONS IN THEME.CSS
+todo: 
+fix settings style
+everything else
