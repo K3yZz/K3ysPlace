@@ -1,113 +1,95 @@
 /* ==========================
-   CONTAINER STYLES
+   SETTINGS PAGE CONTAINER
 ========================== */
-main#settingsContainer {
-    max-width: 800px;
-    margin: auto;
+#settingsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* top-down layout */
+    align-items: center; /* center content by default */
     padding: 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 8px 32px var(--color-shadow);
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Center all children except the menu */
+#settingsContainer > :not(#menuContainer) {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* ==========================
+   MENU BUTTONS (ignore centering rules)
+========================== */
+#menuContainer {
+    margin: 10px auto 20px auto;
+    display: flex;
+    justify-content: space-around; /* spread buttons evenly */
+    gap: 10px;
+    padding: 0 10px;
+    width: 100%; /* full width at top */
+    max-width: 800px;
+    border-radius: 30px;
+    backdrop-filter: blur(3px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     border: 1px solid var(--color-border);
     background-color: var(--color-panel);
     position: relative;
     z-index: 1;
 }
 
-/* ==========================
-   HEADINGS
-========================== */
-h1, h2 {
+.menuButton {
+    flex: 1;
     text-align: center;
-    margin-bottom: 15px;
-    color: var(--color-text);
+    margin: 0 5px;
 }
 
 /* ==========================
-   BUTTONS
+   Inputs, selects, buttons, tables, bug report
 ========================== */
+section input,
+section select {
+    width: 80%;
+    margin: 5px 0;
+}
+
 button {
-    margin: 5px 5px 5px 0;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 12px;
-    background-color: transparent;
-    color: var(--color-text);
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+    width: 80%;
+    margin: 10px 0;
 }
 
-button:hover {
-    background-color: var(--color-hover);
-    transform: scale(1.05);
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-/* ==========================
-   INPUTS
-========================== */
-input {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
+button.secondary {
     background-color: var(--color-panel);
-    color: var(--color-text);
 }
 
-/* ==========================
-   LOCAL STORAGE TABLE
-========================== */
 table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin: 10px 0;
     border-radius: 12px;
     overflow: hidden;
+    text-align: center;
 }
 
-th, td {
+th,
+td {
     padding: 6px 12px;
     border: 1px solid var(--color-border);
     background-color: var(--color-panel);
     color: var(--color-text);
 }
 
-th {
-    font-weight: bold;
-    text-align: left;
-}
-
-/* ==========================
-   BUG REPORT
-========================== */
-#bugReportSection {
-    margin-top: 20px;
-}
-
 #bugFeedback {
-    display: block;
-    margin-top: 5px;
+    margin: 10px auto 0 auto;
     font-weight: bold;
+    text-align: center;
 }
 
-/* ==========================
-   LABELS & SELECTS
-========================== */
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-select {
-    padding: 6px;
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-panel);
-    color: var(--color-text);
+#bugReportFormContainer input {
+    width: 90%;
+    margin: 5px 0;
 }
