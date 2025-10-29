@@ -1,17 +1,7 @@
 /* ==========================
-   FONT DEFINITION
-========================== */
-@font-face {
-    font-family: "pixelFont";
-    src: url("/globalassets/fonts/pixelFont.ttf") format("truetype");
-    font-display: swap;
-}
-
-/* ==========================
    THEME VARIABLES
 ========================== */
 :root {
-    --pixel-font: "pixelFont", monospace;
     --modern-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
     --color-text: #ffffff;
@@ -74,13 +64,15 @@ body {
     font-family: var(--modern-font);
     overflow: hidden;
     color: var(--color-text);
-    background: linear-gradient(135deg, var(--background-c1), var(--background-c2)), var(--background-img);
+    background: linear-gradient(135deg,
+            var(--background-c1),
+            var(--background-c2)),
+        var(--background-img);
     background-size: cover, auto;
     background-attachment: fixed, fixed;
     background-position: center, center;
     background-repeat: no-repeat, repeat;
 }
-
 
 #particles {
     position: fixed;
@@ -97,7 +89,7 @@ body {
     width: 60%;
     border-radius: 30px;
     backdrop-filter: blur(3px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px var(--color-shadow);
     border: 1px solid var(--color-border);
     background-color: var(--color-panel);
     position: relative;
@@ -109,15 +101,6 @@ body {
 }
 
 /* HTML TAGS */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--modern-font);
-}
-
 a {
     color: var(--color-text);
     text-decoration: none;
@@ -128,9 +111,8 @@ a:hover {
 }
 
 button {
-    margin: 10px;
     text-align: center;
-    padding: 10px 0;
+    padding: 5px 5px;
     cursor: pointer;
     background-color: transparent;
     color: var(--color-text);
@@ -142,9 +124,8 @@ button {
 }
 
 button.secondary {
-    margin: 10px;
     text-align: center;
-    padding: 10px 10px;
+    padding: 5px 5px;
     cursor: pointer;
     background-color: var(--color-panel);
     color: var(--color-text);
@@ -164,8 +145,97 @@ button:active {
     transform: scale(0.95);
 }
 
+select {
+    background-color: var(--color-panel);
+    font-family: var(--modern-font);
+    color: white;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    appearance: base-select;
+}
+
+select:hover {
+    background-color: var(--color-hover);
+}
+
+select:focus {
+    outline: none;
+}
+
+::picker(select) {
+    appearance: base-select;
+    color: white;
+    border: none;
+    background-color: var(--color-panel);
+    width: 10px;
+}
+
+option::checkmark {
+    content: "✓";
+    margin-left: auto;
+    order: 1;
+}
+
+input[type="color"] {
+    appearance: none;
+    -moz-appearance: none;
+    background-color: var(--color-panel);
+    border: none;
+    border-radius: 12px;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border-radius: 12px;
+    border: 1px rgba(255, 255, 255, 0.5) solid;
+}
+
+input[type="text"],
+input[type="email"] {
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-panel);
+    color: var(--color-text);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th,
+td {
+    padding: 6px 12px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-panel);
+    color: var(--color-text);
+    vertical-align: middle;
+    word-break: break-word;
+}
+
+th {
+    height: 30px;
+    line-height: 1;
+    font-weight: bold;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-panel-highlight, var(--color-panel));
+}
+
+th button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    line-height: normal;
+}
+
 div.panel {
-     margin: 10px;
+    margin: 10px;
     text-align: center;
     padding: 10px 10px;
     background-color: var(--color-panel);
@@ -173,4 +243,14 @@ div.panel {
     border-radius: 12px;
     border: none;
     transition: background 0.3s, transform 0.2s;
+}
+
+/*utility*/
+
+.muted {
+    color: var(--color-text-muted);
+}
+
+.small {
+    font-size: 10px;
 }

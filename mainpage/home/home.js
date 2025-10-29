@@ -3,7 +3,7 @@ function annoyingMessage() {
         return;
     }
     alert(
-        "Everything is fixed! That includes the chat. Stockmarket got a big update. Casino overhaul coming soon! Finally themes might look a bit weird they are a work in progress."
+        "Huge Update! However 'Casino' update was delayed."
     );
     alert(
         "Are you sure you read the previous alert? If so, click OK to dismiss this message."
@@ -100,4 +100,59 @@ function annoyingMessage() {
     }
 }
 
-//annoyingMessage();
+function displayTime() {
+  const now = new Date();
+  const weekdays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ];
+  const weekday = weekdays[now.getDay()];
+  const day = String(now.getDate()).padStart(2, "0");
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const seconds = String(now.getSeconds()).padStart(2, "0");
+  const formattedTime = now.toLocaleTimeString();
+  const time = `${weekday} ${day}/${month}/${year} ${formattedTime}`;
+  document.getElementById("timeText").textContent = time;
+}
+
+function assignID() {
+    if (!localStorage.getItem("userID")) {
+        const userID = 'user-' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem("userID", userID);
+    }
+}
+
+//unused dev code
+// const secretCode = 'dev.get';
+// let inputBuffer = '';
+
+// window.addEventListener('keydown', e => {
+//     if (e.key.length === 1) inputBuffer += e.key;
+//     else return;
+
+//     if (inputBuffer.length > secretCode.length) {
+//         inputBuffer = inputBuffer.slice(-secretCode.length);
+//     }
+
+//     if (inputBuffer === secretCode) {
+//         let userID = localStorage.getItem("userID");
+//         if (!userID.endsWith('-dev')) {
+//             userID += '-niko-dev';
+//             localStorage.setItem("userID", userID);
+//             console.log('UserID updated:', userID);
+//         }
+//         inputBuffer = '';
+//     }
+// });
+
+assignID();
+annoyingMessage();
+setInterval(displayTime, 1000);
