@@ -6,5 +6,4 @@
 
 
 todo: 
-fix settings style
-everything else
+fix my games themes stuff

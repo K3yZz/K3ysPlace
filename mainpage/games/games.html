@@ -3,103 +3,22 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>My Games</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .game-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #fff;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      width: 150px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .game-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .game-button img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
-
-    .game-button .title {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .game-button .description {
-      font-size: 0.85em;
-      color: #666;
-    }
-  </style>
+  <title>Games - K3yz Place</title>
+  <link rel="stylesheet" href="games.css">
 </head>
 
 <body>
+  <div id="menuContainer">
+    <button class="menuButton" id="Home" onclick="window.location.href='/index.html'">Home</button>
+    <button class="menuButton" id="Games" onclick="window.location.href='/mainpage/games/games.html'">Games</button>
+    <button class="menuButton" id="Apps" onclick="window.location.href='/mainpage/apps/apps.html'">Apps</button>
+    <button class="menuButton" id="Settings"
+      onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
+  </div>
+  <div id="gameContainer"></div>
 
-  <script>
-    const myGames = [
-      { title: "Stock Market", version: "V1.0.0", description: "Stonks.", place: "myGames", img: "./globalassets/gameIcons/stockMarket.png", link: "./games/stockmarketgame/game.html" },
-      { title: "Casino", version: "V1.0.1-alpha", description: "Losing is only a mentality. Keep gambling.", place: "myGames", img: "./globalassets/gameIcons/casino.png", link: "./games/casinogame/game.html" }
-    ];
-
-    const tools = [
-      { title: "The wheel", version: "V1.0.1-alpha", description: "Tool for spins. (type 'rig' for rig menu)", place: "tools", img: "./globalassets/gameIcons/wheel.png", link: "./games/wheelgame/game.html" },
-      { title: "Chat", version: "V1.0.0-alpha", description: "Chat here!", place: "tools", img: "./globalassets/gameIcons/chat.png", link: "./games/chatgame/game.html" }
-    ];
-
-    const portedGames = [
-      { title: "Undertale Yellow", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/undertaleyellow.png", link: "/portedgames/undertale-yellow/undertale_yellow.html" },
-      { title: "Bitlife", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "/portedgames/bitlife-life-simulator/play.html" },
-      { title: "Chrome Dino", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/dino.png", link: "/portedgames/chrome-dino" },
-      { title: "Cookie Clicker", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/cookieclicker.png", link: "/portedgames/cookie-clicker" },
-      { title: "Drive Mad", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/drivemad.jpeg", link: "/portedgames/drive-mad" },
-      { title: "Moto X3M", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto1.jpeg", link: "/portedgames/Moto-X3M" },
-      { title: "Moto Pool", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto2.jpeg", link: "/portedgames/motox3m-pool" },
-      { title: "Moto Spooky", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "/portedgames/motox3m-spooky" },
-      { title: "Moto Winter", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "/portedgames/motox3m-winter" },
-      { title: "Subway Surfers", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "/ported/games/subwaysurfers-sf" },
-      { title: "Emulator", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/emulator.png", link: "/portedgames/emulator/IodineGBA-master" },
-      { title: "Monkey-Mart", place: "portedGames", img: "./globalassets/gameIcons/portedgameIcons/monkey-mart.png", link: "/portedgames/monkey-mart/game.html" }
-    ];
-
-
-    const allGames = [...myGames, ...tools, ...portedGames];
-
-    const container = document.body;
-
-    allGames.forEach(game => {
-      const btn = document.createElement('div');
-      btn.className = 'game-button';
-      btn.onclick = () => window.location.href = game.link;
-
-      btn.innerHTML = `
-            <img src="${game.img}" alt="${game.title}">
-            <div class="title">${game.title}</div>
-            <div class="description">${game.description || ''}</div>
-        `;
-
-      container.appendChild(btn);
-    });
-  </script>
-
+  <script src="games.js"></script>
+  <script src="/globalassets/js/runner.js"></script>
 </body>
 
 </html>

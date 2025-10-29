@@ -1,4 +1,3 @@
-// theme.js
 (function() {
   function initThemeScript() {
     console.log("Theme script initialized ✅");
@@ -23,7 +22,7 @@
     themeToggle.value = savedTheme;
 
     if (savedTheme === "custom") {
-      customSection.style.display = "block";
+      customSection.style.display = "flex";
       const savedCustom = JSON.parse(localStorage.getItem("customTheme") || "{}");
       if (savedCustom.bg1) document.documentElement.style.setProperty("--background-c1", savedCustom.bg1);
       if (savedCustom.bg2) document.documentElement.style.setProperty("--background-c2", savedCustom.bg2);
@@ -34,6 +33,10 @@
       customBgImg.value = savedCustom.bgImg || "";
     } else {
       customSection.style.display = "none";
+      // Ensure no leftover inline custom styles
+      document.documentElement.style.removeProperty("--background-c1");
+      document.documentElement.style.removeProperty("--background-c2");
+      document.documentElement.style.removeProperty("--background-img");
     }
 
     // --------------------------
@@ -44,13 +47,20 @@
       document.documentElement.className = selectedTheme;
 
       if (selectedTheme === "custom") {
-        customSection.style.display = "block";
+        customSection.style.display = "flex";
+
         const savedCustom = JSON.parse(localStorage.getItem("customTheme") || "{}");
         customBg1.value = savedCustom.bg1 || "#ffffff";
         customBg2.value = savedCustom.bg2 || "#000000";
         customBgImg.value = savedCustom.bgImg || "";
       } else {
         customSection.style.display = "none";
+
+        // Remove any custom inline CSS variables so default theme works
+        document.documentElement.style.removeProperty("--background-c1");
+        document.documentElement.style.removeProperty("--background-c2");
+        document.documentElement.style.removeProperty("--background-img");
+
         localStorage.setItem("theme", selectedTheme);
       }
     });
@@ -74,13 +84,13 @@
 
     applyCustomBtn.addEventListener("click", applyCustomTheme);
 
-    // Optional: live preview while typing
+    // Live preview as user types/chooses
     [customBg1, customBg2, customBgImg].forEach(input => {
       input.addEventListener("input", applyCustomTheme);
     });
 
     // --------------------------
-    // Special effect for specific themes
+    // Special effects for specific themes
     // --------------------------
     const specialThemes = ["dexter", "harry-styles"];
     document.addEventListener("click", (event) => {
@@ -103,7 +113,7 @@
     });
   }
 
-  // Ensure it runs even if DOMContentLoaded already fired
+  // Run script on DOM ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initThemeScript);
   } else {

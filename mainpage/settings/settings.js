@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
         const bugFeedback = document.getElementById("bugFeedback");
 
         bugReportButton.addEventListener("click", () => {
-            bugReportFormContainer.style.display = "block";
+            bugReportFormContainer.style.display = "flex";
             bugReportButton.style.display = "none";
         });
 
@@ -67,44 +67,97 @@ window.addEventListener("DOMContentLoaded", () => {
     const clearStorageBtn = document.getElementById('clearStorageBtn');
     const showStorageBtn = document.getElementById('showStorageBtn');
     const localStorageDisplay = document.getElementById('localStorageDisplay');
+    const body = document.body;
 
-    function displayLocalStorage() {
-        if (localStorageDisplay.innerHTML.trim() !== '') {
-            localStorageDisplay.innerHTML = '';
-            showStorageBtn.textContent = 'Show Local Storage';
+    // Generate the localStorage table
+    function generateTable() {
+        const keys = Object.keys(localStorage)
+            .filter(key => !key.startsWith('IodineGBA') && !key.startsWith('GA::'));
+
+        if (keys.length === 0) {
+            localStorageDisplay.innerHTML = '<div>Local Storage is empty (no visible keys).</div>';
             return;
         }
 
-        const keys = Object.keys(localStorage);
-        if (keys.length === 0) {
-            localStorageDisplay.textContent = 'Local Storage is empty.';
-            showStorageBtn.textContent = 'Hide Local Storage';
+        const table = document.createElement('table');
+
+        // Table header row
+        const header = document.createElement('tr');
+
+        // Key header
+        const thKey = document.createElement('th');
+        thKey.textContent = 'Key';
+
+        // Value header with refresh button
+        const thValue = document.createElement('th');
+        thValue.style.display = 'flex';
+        thValue.style.justifyContent = 'space-between';
+        thValue.style.alignItems = 'center';
+        thValue.textContent = 'Value';
+
+        const refreshBtn = document.createElement('button');
+        refreshBtn.id = 'refreshStorageBtn';
+        refreshBtn.title = 'Refresh';
+        refreshBtn.textContent = '⟳';
+        Object.assign(refreshBtn.style, {
+            padding: '2px 5px',
+            fontSize: '0.9em',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent',
+            lineHeight: 'normal'
+        });
+
+        thValue.appendChild(refreshBtn);
+        header.appendChild(thKey);
+        header.appendChild(thValue);
+        table.appendChild(header);
+
+        // Table body
+        keys.forEach(key => {
+            const row = document.createElement('tr');
+
+            const tdKey = document.createElement('td');
+            tdKey.textContent = key;
+            tdKey.style.overflowWrap = 'break-word';
+
+            const tdValue = document.createElement('td');
+            tdValue.textContent = localStorage.getItem(key);
+            tdValue.style.overflowWrap = 'break-word';
+
+            row.appendChild(tdKey);
+            row.appendChild(tdValue);
+            table.appendChild(row);
+        });
+
+        localStorageDisplay.innerHTML = '';
+        localStorageDisplay.appendChild(table);
+
+        // Refresh functionality
+        refreshBtn.addEventListener('click', generateTable);
+    }
+
+    // Toggle table visibility
+    function displayLocalStorage() {
+        const isVisible = localStorageDisplay.innerHTML.trim() !== '';
+        if (isVisible) {
+            localStorageDisplay.innerHTML = '';
+            showStorageBtn.textContent = 'Show Local Storage';
+            body.style.overflowY = 'hidden';
             return;
         }
 
         showStorageBtn.textContent = 'Hide Local Storage';
-        const table = document.createElement('table');
-        table.style.borderCollapse = 'collapse';
-        table.style.width = '100%';
-
-        const header = document.createElement('tr');
-        header.innerHTML = '<th>Key</th><th>Value</th>';
-        table.appendChild(header);
-
-        keys.forEach(key => {
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${key}</td><td>${localStorage.getItem(key)}</td>`;
-            table.appendChild(row);
-        });
-
-        localStorageDisplay.appendChild(table);
+        body.style.overflowY = 'auto';
+        generateTable();
     }
 
+    // Clear localStorage
     clearStorageBtn.addEventListener('click', () => {
         const input = prompt('Type "delete" to confirm clearing all local storage. You will lose all progress and your peer ID will be reset:');
-        if (input && input.toLowerCase() === 'delete') {
+        if (input?.toLowerCase() === 'delete') {
             localStorage.clear();
-            displayLocalStorage();
+            localStorageDisplay.innerHTML = '';
             alert('Local Storage has been cleared.');
         } else {
             alert('Action canceled.');
