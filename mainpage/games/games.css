@@ -1,0 +1,64 @@
+/* ===== Game Container ===== */
+    #gameContainer {
+      display: flex;
+      flex-wrap: wrap;
+      /* allow buttons to wrap */
+      justify-content: center;
+      /* center rows */
+      gap: 20px;
+      /* space between buttons */
+      padding: 20px;
+    }
+
+    /* ===== Game Buttons ===== */
+    .game-button {
+      width: 160px;
+      /* fixed width for desktop */
+      padding: 12px;
+      text-align: center;
+      border-radius: 12px;
+      background-color: var(--color-panel, #f0f0f0);
+      color: var(--color-text, #000);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .game-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .game-button img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .game-button .title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .game-button .description {
+      font-size: 0.85em;
+      color: #666;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .game-button {
+        width: 45%;
+        /* shrink on small screens */
+      }
+    }
+
+    @media (max-width: 400px) {
+      .game-button {
+        width: 100%;
+        /* full width on very small screens */
+      }
+    }

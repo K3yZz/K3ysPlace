@@ -9,21 +9,21 @@
 </head>
 
 <body>
+  <div id="menuContainer">
+    <button class="menuButton" id="Home" onclick="window.location.href='/index.html'">Home</button>
+    <button class="menuButton" id="Games" onclick="window.location.href='/mainpage/games/games.html'">Games</button>
+    <button class="menuButton" id="Apps" onclick="window.location.href='/mainpage/apps/apps.html'">Apps</button>
+    <button class="menuButton" id="Settings"
+      onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
+  </div>
 
   <main id="settingsContainer">
-    <div id="menuContainer">
-      <button class="menuButton" id="Home" onclick="window.location.href='/index.html'">Home</button>
-      <button class="menuButton" id="Games" onclick="window.location.href='/mainpage/games/games.html'">Games</button>
-      <button class="menuButton" id="Apps" onclick="window.location.href='/mainpage/apps/apps.html'">Apps</button>
-      <button class="menuButton" id="Settings"
-        onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
-    </div>
 
     <h1>Settings</h1>
 
     <!-- Theme Selector -->
     <section>
-      <label for="themeToggle">Choose Theme:</label>
+      <span>Choose Theme:</span>
       <select id="themeToggle">
         <option value="default">Default</option>
         <option value="halloween">Halloween</option>
@@ -35,25 +35,39 @@
         <option value="custom">Custom</option>
       </select>
     </section>
-    
-    <section id="customThemeSection" style="display:none; margin-top:10px;">
-      <h3>Custom Theme Settings</h3>
-      <label>Background Color 1: <input type="color" id="customBg1" value="#ffffff"></label><br>
-      <label>Background Color 2: <input type="color" id="customBg2" value="#000000"></label><br>
-      <label>Background Image URL: <input type="text" id="customBgImg"
-          placeholder="URL of background image"></label><br>
-      <button id="applyCustomTheme">Apply Custom Theme</button>
+
+    <section id="customThemeSection"
+      style="display: none; flex-direction: column; align-items: center; gap: 10px; text-align: center; margin-top: 20px;">
+
+      <h3 style="margin: 0;">Custom Theme Settings</h3>
+
+      <div class="customThemeControls" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+        <input type="color" id="customBg1" value="#ffffff" style="width: 100px;">
+        <input type="color" id="customBg2" value="#000000" style="width: 100px;">
+      </div>
+
+      <!-- Wrap input and button in a vertical container -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 100%;">
+        <input type="text" id="customBgImg" placeholder="URL of background image"
+          style="width: 200px; text-align: center;">
+
+        <span style="color: var(--color-text-muted); font-size: 10px;">Suggest more ways for customization!</span>
+
+        <button id="applyCustomTheme" class="secondary">Apply Custom Theme</button>
+      </div>
     </section>
 
-
+    
     <!-- Account Details-->
     <section>
       <h2>Account Details</h2>
-      <button id="showStorageBtn" class="secondary">Show Local Storage</button>
-      <button id="clearStorageBtn" class="secondary">Clear all storage?</button>
+      <div id="storageControls"
+        style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; width: 100%;">
+        <button id="showStorageBtn" class="secondary">Show Local Storage</button>
+        <button id="clearStorageBtn" class="secondary" style="color: red;">Clear All Storage?</button>
+      </div>
       <div id="localStorageDisplay"></div>
     </section>
-
 
     <!-- Bug Report Section -->
     <section id="bugReportSection">
@@ -63,12 +77,12 @@
       <button id="bugReportButton" class="secondary">Report a Bug / Suggestion</button>
 
       <!-- Hidden form container -->
-      <div id="bugReportFormContainer" style="display:none;">
-        <input id="bugDescription" placeholder="Describe the bug / Suggest an idea..." />
-        <input id="bugEmail" type="email" placeholder="Your email (optional)" />
+      <div id="bugReportFormContainer" style="display:none; align-items: center; flex-direction: column; gap: 10px;">
+        <input id="bugDescription" placeholder="Describe the bug / Suggest an idea..." style="width: 500px;" />
+        <input id="bugEmail" type="email" placeholder="Your email (optional)" style="width: 500px;" />
         <div>
-          <button id="submitBug">Submit</button>
-          <button id="cancelBug">Cancel</button>
+          <button id="submitBug" class="secondary">Submit</button>
+          <button id="cancelBug" class="secondary">Cancel</button>
         </div>
         <span id="bugFeedback"></span>
       </div>

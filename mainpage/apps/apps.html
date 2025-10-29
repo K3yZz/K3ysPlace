@@ -1,44 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Apps - K3yz Place</title>
+  <link rel="stylesheet" href="apps.css">
 </head>
+
 <body>
+  <div id="menuContainer">
+    <button class="menuButton" id="Home" onclick="window.location.href='/index.html'">Home</button>
+    <button class="menuButton" id="Games" onclick="window.location.href='/mainpage/games/games.html'">Games</button>
+    <button class="menuButton" id="Apps" onclick="window.location.href='/mainpage/apps/apps.html'">Apps</button>
+    <button class="menuButton" id="Settings"
+      onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
+  </div>
+  <div id="appContainer"></div>
 
-  <main id="settingsContainer">
-    <h1>Settings</h1>
-
-    <!-- Theme Selector -->
-    <section>
-      <label for="themeToggle">Choose Theme:</label>
-      <select id="themeToggle">
-        <option value="default">Default</option>
-        <option value="halloween">Halloween</option>
-        <option value="christmas">Christmas</option>
-        <option value="ocean">Ocean</option>
-        <option value="coffee">Coffee</option>
-        <option value="dexter">Dexter</option>
-        <option value="harry-styles">Harry Styles</option>
-      </select>
-    </section>
-
-    <!-- Bug Report Section -->
-    <section id="bugReportSection">
-      <h2>Send Feedback</h2>
-      <input id="bugDescription" placeholder="Describe the bug / Suggest an idea..." />
-      <input id="bugEmail" type="email" placeholder="Your email (optional)" />
-      <div>
-        <button id="submitBug">Submit</button>
-        <button id="cancelBug">Cancel</button>
-      </div>
-      <span id="bugFeedback"></span>
-    </section>
-  </main>
-
+  <script src="apps.js"></script>
+  <script src="/globalassets/js/runner.js"></script>
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="module" src="/globalassets/js/runner.js"></script>
 </html>
