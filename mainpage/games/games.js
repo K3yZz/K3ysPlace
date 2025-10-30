@@ -14,7 +14,7 @@
       { title: "Moto Spooky", img: "/globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "/portedgames/motox3m-spooky" },
       { title: "Moto Winter", img: "/globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "/portedgames/motox3m-winter" },
       { title: "Subway Surfers", img: "/globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "/ported/games/subwaysurfers-sf" },
-      // { title: "Emulator", img: "/globalassets/gameIcons/portedgameIcons/emulator.png", link: "/portedgames/emulator/IodineGBA-master" },
+      { title: "Emulator", img: "/globalassets/gameIcons/portedgameIcons/emulator.png", link: "/portedgames/emulator/index.html" },
       { title: "Monkey-Mart", img: "/globalassets/gameIcons/portedgameIcons/monkey-mart.jpeg", link: "/portedgames/monkey-mart/game.html" }
     ];
 

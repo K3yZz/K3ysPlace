@@ -1,28 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K3yz Place</title>
+    <link rel="stylesheet" href="./mainpage/home/home.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>K3yz Place</title>
-  <link rel="stylesheet" href="./mainpage/home/home.css" />
-</head>
+  <body>
+    <div id="menuContainer" class="blur">
+      <button
+        class="menuButton"
+        id="Home"
+        onclick="window.location.href='/index.html'"
+      >
+        Home
+      </button>
+      <button
+        class="menuButton"
+        id="Games"
+        onclick="window.location.href='/mainpage/games/games.html'"
+      >
+        Games
+      </button>
+      <button
+        class="menuButton"
+        id="Apps"
+        onclick="window.location.href='/mainpage/apps/apps.html'"
+      >
+        Apps
+      </button>
+      <button
+        class="menuButton"
+        id="Settings"
+        onclick="window.location.href='/mainpage/settings/settings.html'"
+      >
+        Settings
+      </button>
+    </div>
 
-<body>  
-  <div id="menuContainer">
-    <button class="menuButton" id="Home" onclick="window.location.href='/index.html'">Home</button>
-    <button class="menuButton" id="Games" onclick="window.location.href='/mainpage/games/games.html'">Games</button>
-    <button class="menuButton" id="Apps" onclick="window.location.href='/mainpage/apps/apps.html'">Apps</button>
-    <button class="menuButton" id="Settings" onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
-  </div>
+    <div id="titleContainer">
+      <h1 id="titleText">Happy Halloween!</h1>
+      <span id="updateLog">
+        <u>Update Log</u>
+        <div class="tooltip">
+          🎃 Version 1.3.0 — New design. Currently only Stock Market matches the
+          theme, others still look decent. Casino update delayed.
+        </div>
+      </span>
+      <h2 id="timeText"></h2>
+    </div>
+  </body>
 
-  <div id="titleContainer">
-    <h1 id="titleText">Happy Halloween!</h1>
-    <span id="versionText">V1.3.0</span>
-    <h2 id="timeText"></h2>
-  </div>
-</body>
-
-<script src="mainpage/home/home.js" type="module"></script>
-<script src="globalassets/js/runner.js" type="module"></script>
+  <script src="mainpage/home/home.js" type="module"></script>
+  <script src="globalassets/js/runner.js" type="module"></script>
 </html>

@@ -1,3 +1,6 @@
+// =======================
+// THEME SCRIPT
+// =======================
 (function() {
   function initThemeScript() {
     console.log("Theme script initialized ✅");
@@ -11,7 +14,6 @@
 
     if (!themeToggle) {
       console.warn("Theme toggle not found!");
-      return;
     }
 
     // --------------------------
@@ -26,14 +28,14 @@
       const savedCustom = JSON.parse(localStorage.getItem("customTheme") || "{}");
       if (savedCustom.bg1) document.documentElement.style.setProperty("--background-c1", savedCustom.bg1);
       if (savedCustom.bg2) document.documentElement.style.setProperty("--background-c2", savedCustom.bg2);
-      if (savedCustom.bgImg) document.documentElement.style.setProperty("--background-img", savedCustom.bgImg ? `url(${savedCustom.bgImg})` : "none");
+      if (savedCustom.bgImg)
+        document.documentElement.style.setProperty("--background-img", savedCustom.bgImg ? `url(${savedCustom.bgImg})` : "none");
 
       customBg1.value = savedCustom.bg1 || "#ffffff";
       customBg2.value = savedCustom.bg2 || "#000000";
       customBgImg.value = savedCustom.bgImg || "";
     } else {
       customSection.style.display = "none";
-      // Ensure no leftover inline custom styles
       document.documentElement.style.removeProperty("--background-c1");
       document.documentElement.style.removeProperty("--background-c2");
       document.documentElement.style.removeProperty("--background-img");
@@ -48,21 +50,20 @@
 
       if (selectedTheme === "custom") {
         customSection.style.display = "flex";
-
         const savedCustom = JSON.parse(localStorage.getItem("customTheme") || "{}");
         customBg1.value = savedCustom.bg1 || "#ffffff";
         customBg2.value = savedCustom.bg2 || "#000000";
         customBgImg.value = savedCustom.bgImg || "";
       } else {
         customSection.style.display = "none";
-
-        // Remove any custom inline CSS variables so default theme works
         document.documentElement.style.removeProperty("--background-c1");
         document.documentElement.style.removeProperty("--background-c2");
         document.documentElement.style.removeProperty("--background-img");
-
         localStorage.setItem("theme", selectedTheme);
       }
+
+      // 🔥 Restart particles when theme changes
+      if (typeof initParticles === "function") initParticles();
     });
 
     // --------------------------
@@ -80,6 +81,9 @@
       localStorage.setItem("theme", "custom");
       localStorage.setItem("customTheme", JSON.stringify({ bg1, bg2, bgImg }));
       console.log("Custom theme applied ✅");
+
+      // 🔥 Restart particles when custom theme updates
+      if (typeof initParticles === "function") initParticles();
     }
 
     applyCustomBtn.addEventListener("click", applyCustomTheme);
@@ -108,7 +112,6 @@
       explosion.style.transform = "translate(-50%, -50%)";
 
       document.body.appendChild(explosion);
-
       setTimeout(() => explosion.remove(), 1000);
     });
   }
