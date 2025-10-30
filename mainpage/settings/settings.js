@@ -66,7 +66,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // -------------------- Local Storage --------------------
 function generateTable() {
     const keys = Object.keys(localStorage)
-        .filter(key => !key.startsWith('IodineGBA') && !key.startsWith('GA::'));
+        .filter(key => !key.startsWith('IodineGBA') && !key.startsWith('GA::') && !key.startsWith('eruda'));
 
     if (keys.length === 0) {
         localStorageDisplay.innerHTML = '<div>Local Storage is empty (no visible keys).</div>';
@@ -153,6 +153,7 @@ function generateTable() {
     // Toggle table visibility
     function displayLocalStorage() {
         const isVisible = localStorageDisplay.innerHTML.trim() !== '';
+        const body = document.body;
         if (isVisible) {
             localStorageDisplay.innerHTML = '';
             showStorageBtn.textContent = 'Show Local Storage';

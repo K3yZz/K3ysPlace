@@ -154,5 +154,6 @@ function assignID() {
 // });
 
 assignID();
-annoyingMessage();
+//annoyingMessage();
+displayTime();
 setInterval(displayTime, 1000);

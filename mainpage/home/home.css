@@ -10,9 +10,17 @@
 #titleText {
   font-size: 3em;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 10px auto 0 auto;
 }
 
 #versionText {
   font-size: 1em;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+#timeText {
+  font-size: 1.2em;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  margin: 0;
 }

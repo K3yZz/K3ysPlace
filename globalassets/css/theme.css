@@ -111,8 +111,9 @@ a:hover {
 }
 
 button {
+    margin: 10px;
     text-align: center;
-    padding: 5px 5px;
+    padding: 10px 0;
     cursor: pointer;
     background-color: transparent;
     color: var(--color-text);
@@ -125,7 +126,7 @@ button {
 
 button.secondary {
     text-align: center;
-    padding: 5px 5px;
+    padding: 10px 10px;
     cursor: pointer;
     background-color: var(--color-panel);
     color: var(--color-text);
@@ -190,12 +191,15 @@ input[type="color"]::-webkit-color-swatch {
     border: 1px rgba(255, 255, 255, 0.5) solid;
 }
 
-input[type="text"],
-input[type="email"] {
+input {
     border-radius: 8px;
     border: 1px solid var(--color-border);
     background-color: var(--color-panel);
     color: var(--color-text);
+}
+
+input:focus {
+    outline: none;
 }
 
 table {
