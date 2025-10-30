@@ -104,6 +104,31 @@ function annoyingDebug() {
 }
 
 annoyingDebug();
+const countdownElement = document.getElementById("countdown");
+const targetTime = new Date(2025, 9, 31, 16, 0, 0);
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = targetTime - now;
+
+  if (diff <= 0) {
+    countdownElement.textContent = "It's 4:00 PM on October 31 2025!";
+    clearInterval(timer);
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  countdownElement.textContent = 
+    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+updateCountdown();
+const timer = setInterval(updateCountdown, 1000);
+
 
 document.addEventListener("DOMContentLoaded", () => {
     // --- DOM Elements ---
