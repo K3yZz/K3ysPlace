@@ -2,259 +2,266 @@
    THEME VARIABLES
 ========================== */
 :root {
-    --modern-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --modern-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
-    --color-text: #ffffff;
-    --color-text-muted: #bbbbbb;
+  --color-text: #ffffff;
+  --color-text-muted: #bbbbbb;
 
-    --color-accent: rgba(255, 255, 255, 0.1);
-    --color-border: rgba(255, 255, 255, 0.2);
-    --color-shadow: rgba(0, 0, 0, 0.2);
-    --color-hover: rgba(255, 255, 255, 0.2);
-    --color-glow: rgba(255, 140, 0, 0.2);
-    --color-panel-hover: rgba(255, 140, 0, 0.4);
-    --color-panel: rgba(0, 0, 0, 0.15);
-    --color-white: #ffffff;
+  --color-accent: rgba(255, 255, 255, 0.1);
+  --color-border: rgba(255, 255, 255, 0.2);
+  --color-shadow: rgba(0, 0, 0, 0.2);
+  --color-hover: rgba(255, 255, 255, 0.2);
+  --color-glow: rgba(255, 140, 0, 0.2);
+  --color-panel-hover: rgba(255, 140, 0, 0.4);
+  --color-panel: rgba(0, 0, 0, 0.15);
+  --color-white: #ffffff;
 
-    /* Editable backgrounds */
-    --background-c1: rgba(244, 118, 45, 0.9);
-    --background-c2: rgba(52, 7, 61, 0.9);
-    --background-img: none;
+  /* Editable backgrounds */
+  --background-c1: rgba(244, 118, 45, 0.9);
+  --background-c2: rgba(52, 7, 61, 0.9);
+  --background-img: none;
 }
 
 /* THEME PRESETS */
 :root.halloween {
-    --background-c1: rgba(244, 118, 45, 0.9);
-    --background-c2: rgba(52, 7, 61, 0.9);
+  --background-c1: rgba(244, 118, 45, 0.9);
+  --background-c2: rgba(52, 7, 61, 0.9);
 }
 
 :root.christmas {
-    --background-c1: rgba(0, 120, 0, 0.6);
-    --background-c2: rgba(30, 0, 0, 0.85);
+  --background-c1: rgba(0, 120, 0, 0.6);
+  --background-c2: rgba(30, 0, 0, 0.85);
 }
 
 :root.ocean {
-    --background-c1: rgba(0, 180, 255, 0.5);
-    --background-c2: rgba(0, 20, 70, 0.9);
+  --background-c1: rgba(0, 180, 255, 0.5);
+  --background-c2: rgba(0, 20, 70, 0.9);
 }
 
 :root.coffee {
-    --background-c1: rgba(160, 82, 45, 0.5);
-    --background-c2: rgba(40, 20, 10, 0.85);
+  --background-c1: rgba(160, 82, 45, 0.5);
+  --background-c2: rgba(40, 20, 10, 0.85);
 }
 
 :root.dexter {
-    --background-c1: rgba(0, 0, 0, 0.15);
-    --background-c2: transparent;
-    --background-img: url("/globalassets/images/dexter.jpeg");
+  --background-c1: rgba(0, 0, 0, 0.15);
+  --background-c2: transparent;
+  --background-img: url("/globalassets/images/dexter.jpeg");
 }
 
 :root.harry-styles {
-    --background-c1: rgba(0, 0, 0, 0.15);
-    --background-c2: transparent;
-    --background-img: url("/globalassets/images/harry-styles.jpeg");
+  --background-c1: rgba(0, 0, 0, 0.15);
+  --background-c2: transparent;
+  --background-img: url("/globalassets/images/harry-styles.jpeg");
 }
 
 /* ==========================
    GLOBAL STYLES
 ========================== */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: var(--modern-font);
-    overflow: hidden;
-    color: var(--color-text);
-    background: linear-gradient(135deg,
-            var(--background-c1),
-            var(--background-c2)),
-        var(--background-img);
-    background-size: cover, auto;
-    background-attachment: fixed, fixed;
-    background-position: center, center;
-    background-repeat: no-repeat, repeat;
+  margin: 0;
+  padding: 0;
+  font-family: var(--modern-font);
+  overflow: hidden;
+  color: var(--color-text);
+  background: linear-gradient(
+      135deg,
+      var(--background-c1),
+      var(--background-c2)
+    ),
+    var(--background-img);
+  background-size: cover, auto;
+  background-attachment: fixed, fixed;
+  background-position: center, center;
+  background-repeat: no-repeat, repeat;
 }
 
 #particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    pointer-events: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
 #menuContainer {
-    margin: 10px auto 0 auto;
-    display: flex;
-    padding: 0 10px;
-    width: 60%;
-    border-radius: 30px;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 8px 32px var(--color-shadow);
-    border: 1px solid var(--color-border);
-    background-color: var(--color-panel);
-    position: relative;
-    z-index: 1;
+  margin: 10px auto 0 auto;
+  display: flex;
+  padding: 0 10px;
+  width: 60%;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 .menuButton {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 /* HTML TAGS */
 a {
-    color: var(--color-text);
-    text-decoration: none;
+  color: var(--color-text);
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 button {
-    margin: 10px;
-    text-align: center;
-    padding: 10px 0;
-    cursor: pointer;
-    background-color: transparent;
-    color: var(--color-text);
-    font-weight: 600;
-    font-size: 15px;
-    border-radius: 12px;
-    border: none;
-    transition: background 0.3s, transform 0.2s;
+  margin: 10px;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
+  transition: background 0.3s, transform 0.2s;
 }
 
 button.secondary {
-    text-align: center;
-    padding: 10px 10px;
-    cursor: pointer;
-    background-color: var(--color-panel);
-    color: var(--color-text);
-    font-weight: 600;
-    font-size: 15px;
-    border-radius: 12px;
-    border: none;
-    transition: background 0.3s, transform 0.2s;
+  text-align: center;
+  padding: 10px 10px;
+  cursor: pointer;
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
+  transition: background 0.3s, transform 0.2s;
 }
 
 button:hover {
-    background-color: var(--color-hover);
-    transform: scale(1.05);
+  background-color: var(--color-hover);
+  transform: scale(1.05);
 }
 
 button:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
 
 select {
-    background-color: var(--color-panel);
-    font-family: var(--modern-font);
-    color: white;
-    border: none;
-    border-radius: 10px 10px 0 0;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    appearance: base-select;
+  background-color: var(--color-panel);
+  font-family: var(--modern-font);
+  color: white;
+  border: none;
+  border-radius: 10px 10px 0 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  appearance: base-select;
 }
 
 select:hover {
-    background-color: var(--color-hover);
+  background-color: var(--color-hover);
 }
 
 select:focus {
-    outline: none;
+  outline: none;
 }
 
 ::picker(select) {
-    appearance: base-select;
-    color: white;
-    border: none;
-    background-color: var(--color-panel);
-    width: 10px;
+  appearance: base-select;
+  color: white;
+  border: none;
+  background-color: var(--color-panel);
+  width: 10px;
 }
 
 option::checkmark {
-    content: "✓";
-    margin-left: auto;
-    order: 1;
+  content: "✓";
+  margin-left: auto;
+  order: 1;
 }
 
 input[type="color"] {
-    appearance: none;
-    -moz-appearance: none;
-    background-color: var(--color-panel);
-    border: none;
-    border-radius: 12px;
+  appearance: none;
+  -moz-appearance: none;
+  background-color: var(--color-panel);
+  border: none;
+  border-radius: 12px;
 }
 
 input[type="color"]::-webkit-color-swatch {
-    border-radius: 12px;
-    border: 1px rgba(255, 255, 255, 0.5) solid;
+  border-radius: 12px;
+  border: 1px rgba(255, 255, 255, 0.5) solid;
 }
 
 input {
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-panel);
-    color: var(--color-text);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
+  color: var(--color-text);
 }
 
 input:focus {
-    outline: none;
+  outline: none;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 th,
 td {
-    padding: 6px 12px;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-panel);
-    color: var(--color-text);
-    vertical-align: middle;
-    word-break: break-word;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  vertical-align: middle;
+  word-break: break-word;
 }
 
 th {
-    height: 30px;
-    line-height: 1;
-    font-weight: bold;
-    text-align: left;
-    position: sticky;
-    top: 0;
-    background-color: var(--color-panel-highlight, var(--color-panel));
+  height: 30px;
+  line-height: 1;
+  font-weight: bold;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  background-color: var(--color-panel-highlight, var(--color-panel));
 }
 
 th button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    line-height: normal;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  line-height: normal;
 }
 
 div.panel {
-    margin: 10px;
-    text-align: center;
-    padding: 10px 10px;
-    background-color: var(--color-panel);
-    color: var(--color-text);
-    border-radius: 12px;
-    border: none;
-    transition: background 0.3s, transform 0.2s;
+  margin: 10px;
+  text-align: center;
+  padding: 10px 10px;
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  border-radius: 12px;
+  border: none;
+  transition: background 0.3s, transform 0.2s;
 }
 
 /*utility*/
 
 .muted {
-    color: var(--color-text-muted);
+  color: var(--color-text-muted);
 }
 
 .small {
-    font-size: 10px;
+  font-size: 10px;
+}
+
+.blur {
+  backdrop-filter: blur(3px);
+  box-shadow: 0 8px 32px var(--color-shadow);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
 }

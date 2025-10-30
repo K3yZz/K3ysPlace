@@ -1,42 +1,44 @@
-const particleCanvas = document.getElementById('particles');
-const particleCtx = particleCanvas.getContext('2d');
-particleCanvas.width = window.innerWidth;
-particleCanvas.height = window.innerHeight;
-
-const particlesArray = [];
+// =======================
+// PARTICLES SCRIPT
+// =======================
+let particleCanvas, particleCtx, particlesArray = [];
 const numberOfParticles = 100;
+let animationFrameId;
 
+// --------------------------
+// Parse RGBA string to array
+// --------------------------
 function parseRGBA(rgba) {
   const m = rgba.match(/rgba?\((\d+),\s*(\d+),\s*(\d+),?\s*([\d.]*)?\)/);
   if (!m) return [255, 255, 255, 1];
   return [parseInt(m[1]), parseInt(m[2]), parseInt(m[3]), m[4] ? parseFloat(m[4]) : 1];
 }
 
-function getParticleColor() {
-  const style = getComputedStyle(document.documentElement);
-  const c1 = parseRGBA(style.getPropertyValue('--background-c1'));
-  const c2 = parseRGBA(style.getPropertyValue('--background-c2'));
-
-  const base = Math.random() < 0.5 ? c1 : c2;
-
-  const brighten = 40; // adjust for contrast
-  const r = Math.min(base[0] + brighten, 255);
-  const g = Math.min(base[1] + brighten, 255);
-  const b = Math.min(base[2] + brighten, 255);
-  const a = Math.random() * 0.4 + 0.3; // slightly stronger alpha
-
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
-}
-
+// --------------------------
+// Particle class
+// --------------------------
 class Particle {
-  constructor() {
+  constructor(bg1, bg2) {
     this.x = Math.random() * particleCanvas.width;
     this.y = Math.random() * particleCanvas.height;
     this.size = Math.random() * 3 + 1;
     this.speedX = (Math.random() - 0.5) * 0.3;
     this.speedY = (Math.random() - 0.5) * 0.3;
-    this.color = getParticleColor();
+
+    // Pick color from provided bg1/bg2
+    const c1 = parseRGBA(bg1);
+    const c2 = parseRGBA(bg2);
+    const base = Math.random() < 0.5 ? c1 : c2;
+
+    const brighten = 40;
+    const r = Math.min(base[0] + brighten, 255);
+    const g = Math.min(base[1] + brighten, 255);
+    const b = Math.min(base[2] + brighten, 255);
+    const a = Math.random() * 0.4 + 0.3;
+
+    this.color = `rgba(${r}, ${g}, ${b}, ${a})`;
   }
+
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
@@ -45,6 +47,7 @@ class Particle {
     if (this.y > particleCanvas.height) this.y = 0;
     if (this.y < 0) this.y = particleCanvas.height;
   }
+
   draw() {
     particleCtx.beginPath();
     particleCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -53,16 +56,57 @@ class Particle {
   }
 }
 
-for (let i = 0; i < numberOfParticles; i++) {
-  particlesArray.push(new Particle());
+// --------------------------
+// Initialize particles
+// --------------------------
+function initParticles() {
+  // Cancel previous animation if any
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+  particleCanvas = document.getElementById('particles');
+  if (!particleCanvas) return;
+
+  particleCtx = particleCanvas.getContext('2d');
+  particleCanvas.width = window.innerWidth;
+  particleCanvas.height = window.innerHeight;
+
+  // Get theme colors AFTER CSS variables are applied
+  const style = getComputedStyle(document.documentElement);
+  const bg1 = style.getPropertyValue('--background-c1') || '#1a1a1a';
+  const bg2 = style.getPropertyValue('--background-c2') || '#2a2a2a';
+
+  particlesArray = [];
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle(bg1, bg2));
+  }
+
+  animateParticles();
 }
 
-function animate() {
+// --------------------------
+// Animate particles
+// --------------------------
+function animateParticles() {
   particleCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
   particlesArray.forEach(p => {
     p.update();
     p.draw();
   });
-  requestAnimationFrame(animate);
+  animationFrameId = requestAnimationFrame(animateParticles);
 }
-animate();
+
+// --------------------------
+// Start particles on load
+// --------------------------
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initParticles);
+} else {
+  initParticles();
+}
+
+// --------------------------
+// Optional: Restart on window resize
+// --------------------------
+window.addEventListener('resize', () => {
+  initParticles();
+});

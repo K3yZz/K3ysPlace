@@ -1,9 +1,9 @@
-const canvas = document.getElementById('stockCanvas');
-const ctx = canvas.getContext('2d');
-const portfolioDiv = document.getElementById('portfolio');
-const cashCard = document.getElementById('cashCard');
-const pauseCard = document.getElementById('pauseCard');
-const eventContainer = document.getElementById('eventContainer');
+const canvas = document.getElementById("stockCanvas");
+const ctx = canvas.getContext("2d");
+const portfolioDiv = document.getElementById("portfolio");
+const cashCard = document.getElementById("cashCard");
+const pauseCard = document.getElementById("pauseCard");
+const eventContainer = document.getElementById("eventContainer");
 
 const POINTS_SHOWN = 200;
 const RANGE_PAD = 2.0;
@@ -54,11 +54,11 @@ let selectedStockIndex = 0;
 let speedMultiplier = 1; // 1x by default
 
 const stocks = [
-  new Stock('GOOG', 2800, 28, 'hsl(120,70%,50%)'), // ~1% per tick
-  new Stock('STEM', 1200, 12, 'hsl(300, 70%, 50%)'), // ~1% per tick
-  new Stock('AMZN', 700, 7, 'hsl(240,70%,50%)'),   // ~1% per tick
-  new Stock('AAPL', 150, 1.5, 'hsl(0,70%,50%)'),   // ~1% per tick
-  new Stock('GM', 0.05, 1, 'hsl(180, 70%, 50%)') // ~20% per tick, penny stock
+  new Stock("GOOG", 2800, 28, "hsl(120,70%,50%)"), // ~1% per tick
+  new Stock("STEM", 1200, 12, "hsl(300, 70%, 50%)"), // ~1% per tick
+  new Stock("AMZN", 700, 7, "hsl(240,70%,50%)"), // ~1% per tick
+  new Stock("AAPL", 150, 1.5, "hsl(0,70%,50%)"), // ~1% per tick
+  new Stock("GM", 0.05, 1, "hsl(180, 70%, 50%)"), // ~20% per tick, penny stock
 ];
 
 const stockEvents = [
@@ -88,8 +88,16 @@ const stockEvents = [
   { name: "Vehicle Recall", stock: "GM", impact: 0.7 },
   //events that modify multiple stocks V
   { name: "Global Panic", targets: "all", impact: 1.3 },
-  { name: "Tech Boom", targets: ["AAPL", "GOOG", "AMZN", "STEM"], impact: 1.12 },
-  { name: "Regulation Shock", targets: ["GOOG", "AAPL"], impacts: { GOOG: 0.92, AAPL: 0.95 } },
+  {
+    name: "Tech Boom",
+    targets: ["AAPL", "GOOG", "AMZN", "STEM"],
+    impact: 1.12,
+  },
+  {
+    name: "Regulation Shock",
+    targets: ["GOOG", "AAPL"],
+    impacts: { GOOG: 0.92, AAPL: 0.95 },
+  },
   { name: "Boycotting", targets: "all", impact: 0.7 },
 ];
 
@@ -97,7 +105,7 @@ const stockEvents = [
 function startTimer() {
   if (updateTimer) clearInterval(updateTimer);
   updateTimer = setInterval(() => {
-    stocks.forEach(s => s.step());
+    stocks.forEach((s) => s.step());
     lastUpdateTime = Date.now();
     updatePortfolioValues();
   }, UPDATE_INTERVAL);
@@ -111,89 +119,114 @@ function stopTimer() {
 }
 
 // ------------------- Mouse -------------------
-canvas.addEventListener('mousemove', e => {
+canvas.addEventListener("mousemove", (e) => {
   const rect = canvas.getBoundingClientRect();
   mouseX = e.clientX - rect.left;
 });
-canvas.addEventListener('mouseleave', () => mouseX = null);
+canvas.addEventListener("mouseleave", () => (mouseX = null));
 
 // ------------------- Utils -------------------
-function lerp(a, b, t) { return a + (b - a) * t; }
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
 
 // ------------------- Render Cash & Pause -------------------
 function renderCash() {
-  cashCard.innerHTML = `<div class="name">Cash</div><span class="name" style="font-weight: 1;">$${money.toLocaleString()}</span>`;
+  cashCard.innerHTML = `<div class="name">Cash</div><span class="name" style="font-weight: 1">$${money.toLocaleString()}</span>`;
 }
 
 function renderPause() {
   // display current multiplier (derived from global speedMultiplier)
   pauseCard.innerHTML = `
-        <button id="slowBtn">Slow</button>
-        <button id="pauseBtn">${paused ? 'Play' : 'Pause'}</button>
-        <button id="fastBtn">Fast</button>
+        <button id="slowBtn" class="secondary">Slow</button>
+        <button id="pauseBtn" class="secondary">${
+          paused ? "Play" : "Pause"
+        }</button>
+        <button id="fastBtn" class="secondary">Fast</button>
     <span id="speedDisplay">${speedMultiplier.toFixed(1)}x</span>
     `;
 
-  document.getElementById('pauseBtn').addEventListener('click', () => {
+  document.getElementById("pauseBtn").addEventListener("click", () => {
     paused = !paused;
     if (paused) stopTimer();
-    else { lastUpdateTime = Date.now(); startTimer(); }
+    else {
+      lastUpdateTime = Date.now();
+      startTimer();
+    }
     renderPause();
   });
 
-  document.getElementById('slowBtn').addEventListener('click', () => {
+  document.getElementById("slowBtn").addEventListener("click", () => {
     speedMultiplier = Math.max(0.1, speedMultiplier / 2);
     UPDATE_INTERVAL = Math.max(1, Math.round(baseInterval / speedMultiplier));
-    if (!paused) { stopTimer(); startTimer(); }
+    if (!paused) {
+      stopTimer();
+      startTimer();
+    }
     renderPause();
   });
 
-  document.getElementById('fastBtn').addEventListener('click', () => {
+  document.getElementById("fastBtn").addEventListener("click", () => {
     speedMultiplier = Math.min(16, speedMultiplier * 2);
     UPDATE_INTERVAL = Math.max(1, Math.round(baseInterval / speedMultiplier));
-    if (!paused) { stopTimer(); startTimer(); }
+    if (!paused) {
+      stopTimer();
+      startTimer();
+    }
     renderPause();
   });
 }
 // ------------------- Portfolio -------------------
 function renderPortfolio() {
-  portfolioDiv.innerHTML = '';
+  portfolioDiv.innerHTML = "";
   stocks.forEach((s, i) => {
-    if (s.lastBuy === undefined) s.lastBuy = '1';
-    if (s.lastSell === undefined) s.lastSell = '1';
-    const card = document.createElement('div');
-    card.className = 'card';
+    if (s.lastBuy === undefined) s.lastBuy = "1";
+    if (s.lastSell === undefined) s.lastSell = "1";
+    const card = document.createElement("div");
+    card.className = "card blur";
     card.id = `stockCard${i}`;
     card.innerHTML = `
-        <div class="name" style="color:${s.color}; display:flex; justify-content:space-between; align-items:center;">
+        <div class="name" style="color:${
+          s.color
+        }; display:flex; justify-content:space-between; align-items:center;">
               <span>${s.name}</span>
             </div>
-        <div>Current: $<span class="currentPrice">${s.price.toFixed(3)}</span></div>
-        <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s.avgPrice().toFixed(2)}</div>
-        <div class="small profit" style="color:${s.profit() >= 0 ? '#0b7' : '#f55'}">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ''}</div>
+        <div>Current: $<span class="currentPrice">${s.price.toFixed(
+          3
+        )}</span></div>
+        <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s
+      .avgPrice()
+      .toFixed(2)}</div>
+        <div class="small profit" style="color:${
+          s.profit() >= 0 ? "#0b7" : "#f55"
+        }">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ""}</div>
           <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
           <div style="display:flex; align-items:center; gap:6px;">
             <select id="buyAmt${i}" class="dropdown"></select>
-            <button onclick="buy(${i})" style="height: 28px; padding: 4px 8px;">Buy</button>
+            <button onclick="buy(${i})" style="height: 28px; padding: 4px 8px;" class="secondary">Buy</button>
           </div>
           <div style="display:flex; align-items:center; gap:6px;">
             <select id="sellAmt${i}" class="dropdown"></select>
-            <button onclick="sell(${i})" style="height: 28px; padding: 4px 8px;">Sell</button>
+            <button onclick="sell(${i})" style="height: 28px; padding: 4px 8px;" class="secondary">Sell</button>
           </div>
           <div style="display:flex; align-items:center; gap:6px;">
-            <button id="view${i}" style="height:28px; padding:4px 8px;">View</button>
+            <button id="view${i}" style="height:28px; padding:4px 8px;" class="secondary">View</button>
           </div>
         </div>`;
     portfolioDiv.appendChild(card);
     // removed hide/show toggle per request
-    document.getElementById(`view${i}`).addEventListener('click', () => {
+    document.getElementById(`view${i}`).addEventListener("click", () => {
       selectedStockIndex = i;
       renderPause();
     });
     const buySelect = document.getElementById(`buyAmt${i}`);
     const sellSelect = document.getElementById(`sellAmt${i}`);
-    buySelect.addEventListener('change', () => { s.lastBuy = buySelect.value; });
-    sellSelect.addEventListener('change', () => { s.lastSell = sellSelect.value; });
+    buySelect.addEventListener("change", () => {
+      s.lastBuy = buySelect.value;
+    });
+    sellSelect.addEventListener("change", () => {
+      s.lastSell = sellSelect.value;
+    });
     const maxBuy = Math.floor(money / s.price);
     const maxSell = s.amountOwned;
     populateSelectOptions(buySelect, maxBuy, s.lastBuy);
@@ -205,24 +238,30 @@ function renderPortfolio() {
 function populateSelectOptions(select, max, lastVal) {
   const fixed = [1, 5, 10];
   const opts = [];
-  fixed.forEach(v => { if (v <= max) opts.push(String(v)); });
-  if (max > 10) opts.push('Max');
-  if (opts.length === 0) opts.push('1');
+  fixed.forEach((v) => {
+    if (v <= max) opts.push(String(v));
+  });
+  if (max > 10) opts.push("Max");
+  if (opts.length === 0) opts.push("1");
 
   while (select.options.length) select.remove(0);
-  opts.forEach(o => select.add(new Option(o, o)));
+  opts.forEach((o) => select.add(new Option(o, o)));
 
   if (opts.includes(String(lastVal))) {
     select.value = String(lastVal);
   } else {
-    if (lastVal === 'Max' && opts.includes('Max')) {
-      select.value = 'Max';
+    if (lastVal === "Max" && opts.includes("Max")) {
+      select.value = "Max";
     } else {
-      const numericOpts = opts.filter(x => x !== 'Max').map(Number).sort((a, b) => a - b);
+      const numericOpts = opts
+        .filter((x) => x !== "Max")
+        .map(Number)
+        .sort((a, b) => a - b);
       const desired = parseInt(lastVal, 10);
       if (!isNaN(desired)) {
-        let pick = numericOpts.find(n => n >= desired);
-        if (!pick) pick = numericOpts[numericOpts.length - 1] || Number(opts[0]);
+        let pick = numericOpts.find((n) => n >= desired);
+        if (!pick)
+          pick = numericOpts[numericOpts.length - 1] || Number(opts[0]);
         select.value = String(pick);
       } else {
         select.value = opts[0];
@@ -239,20 +278,28 @@ function updatePortfolioValues() {
     const maxBuy = Math.floor(money / s.price);
     const maxSell = s.amountOwned;
 
-    card.querySelector('.currentPrice').textContent = s.price.toFixed(2);
-    card.querySelector('.owned').textContent = `Owned: ${s.amountOwned} | Avg: $${s.avgPrice().toFixed(2)}`;
+    card.querySelector(".currentPrice").textContent = s.price.toFixed(2);
+    card.querySelector(".owned").textContent = `Owned: ${
+      s.amountOwned
+    } | Avg: $${s.avgPrice().toFixed(2)}`;
 
-    const profitElem = card.querySelector('.profit');
+    const profitElem = card.querySelector(".profit");
     if (s.amountOwned > 0) {
       profitElem.textContent = `Profit: $${s.profit().toFixed(2)}`;
-      profitElem.style.color = s.profit() >= 0 ? '#0b7' : '#f55';
-    } else profitElem.textContent = '';
+      profitElem.style.color = s.profit() >= 0 ? "#0b7" : "#f55";
+    } else profitElem.textContent = "";
 
     const buySelect = document.getElementById(`buyAmt${i}`);
     const sellSelect = document.getElementById(`sellAmt${i}`);
 
-    if (buySelect) populateSelectOptions(buySelect, maxBuy, s.lastBuy || buySelect.value);
-    if (sellSelect) populateSelectOptions(sellSelect, maxSell, s.lastSell || sellSelect.value);
+    if (buySelect)
+      populateSelectOptions(buySelect, maxBuy, s.lastBuy || buySelect.value);
+    if (sellSelect)
+      populateSelectOptions(
+        sellSelect,
+        maxSell,
+        s.lastSell || sellSelect.value
+      );
   });
   renderCash();
 }
@@ -262,7 +309,8 @@ function buy(i) {
   const select = document.getElementById(`buyAmt${i}`);
   const val = select ? select.value : s.lastBuy;
   s.lastBuy = val;
-  let amount = val === 'Max' ? Math.floor(money / s.price) : parseInt(val, 10) || 1;
+  let amount =
+    val === "Max" ? Math.floor(money / s.price) : parseInt(val, 10) || 1;
   if (amount < 1) return;
   const maxBuy = Math.floor(money / s.price);
   if (amount > maxBuy) amount = maxBuy;
@@ -280,7 +328,7 @@ function sell(i) {
   const select = document.getElementById(`sellAmt${i}`);
   const val = select ? select.value : s.lastSell;
   s.lastSell = val;
-  let amount = val === 'Max' ? s.amountOwned : parseInt(val, 10) || 1;
+  let amount = val === "Max" ? s.amountOwned : parseInt(val, 10) || 1;
   if (amount < 1) return;
   if (amount > s.amountOwned) amount = s.amountOwned;
   if (s.amountOwned >= amount) {
@@ -303,12 +351,13 @@ function triggerRandomEvent() {
     targets = stocks.slice(); // all stocks
   } else if (Array.isArray(event.targets)) {
     targets = event.targets
-      .map(name => stocks.find(s => s.name === name))
+      .map((name) => stocks.find((s) => s.name === name))
       .filter(Boolean);
   } else if (typeof event.filter === "function") {
     targets = stocks.filter(event.filter);
-  } else if (event.stock) { // backward compatible single-stock
-    const s = stocks.find(x => x.name === event.stock);
+  } else if (event.stock) {
+    // backward compatible single-stock
+    const s = stocks.find((x) => x.name === event.stock);
     if (s) targets.push(s);
   } else {
     // if no explicit targets, fallback to a random single stock
@@ -319,12 +368,15 @@ function triggerRandomEvent() {
   if (targets.length === 0) return;
 
   // Apply impacts and create messages
-  targets.forEach(stock => {
+  targets.forEach((stock) => {
     // compute impact for this stock:
     let impact = 1;
     if (event.impacts && typeof event.impacts === "object") {
       // map lookup (if missing, fallback to event.impact or 1)
-      impact = (event.impacts[stock.name] != null) ? event.impacts[stock.name] : (event.impact || 1);
+      impact =
+        event.impacts[stock.name] != null
+          ? event.impacts[stock.name]
+          : event.impact || 1;
     } else if (typeof event.impact === "number") {
       impact = event.impact;
     } else {
@@ -333,30 +385,32 @@ function triggerRandomEvent() {
 
     // apply impact
     stock.price *= impact;
-    if (!isFinite(stock.price) || stock.price < 0) stock.price = Math.max(0, Math.abs(stock.price) || 0);
+    if (!isFinite(stock.price) || stock.price < 0)
+      stock.price = Math.max(0, Math.abs(stock.price) || 0);
     stock.history.push(stock.price);
 
     // update UI numbers
     updatePortfolioValues();
 
     // create per-stock event message (you can combine into one if desired)
-    const msg = document.createElement('div');
-    msg.className = 'eventMessage';
+    const msg = document.createElement("div");
+    msg.className = "eventMessage";
     const pct = ((impact - 1) * 100).toFixed(0);
-    msg.textContent = `${event.name}: ${stock.name} ${impact > 1 ? '↑' : (impact < 1 ? '↓' : '→')}${pct}%`;
+    msg.textContent = `${event.name}: ${stock.name} ${
+      impact > 1 ? "↑" : impact < 1 ? "↓" : "→"
+    }${pct}%`;
     msg.style.background = stock.color;
-    msg.style.color = '#000';
+    msg.style.color = "#000";
     eventContainer.appendChild(msg);
     activeEventCount++;
 
     // animate & remove
     requestAnimationFrame(() => {
-      msg.style.opacity = '1';
-      msg.style.transform = 'translateY(0)';
-
+      msg.style.opacity = "1";
+      msg.style.transform = "translateY(0)";
     });
     setTimeout(() => {
-      msg.style.top = '-40px';
+      msg.style.top = "-40px";
       msg.style.opacity = 0;
       setTimeout(() => {
         eventContainer.removeChild(msg);
@@ -366,7 +420,9 @@ function triggerRandomEvent() {
   });
 }
 
-setInterval(() => { if (Math.random() < 0.2 && !paused) triggerRandomEvent(); }, 3500);
+setInterval(() => {
+  if (Math.random() < 0.2 && !paused) triggerRandomEvent();
+}, 3500);
 // ------------------- Draw -------------------
 function resizeCanvas() {
   const rect = canvas.getBoundingClientRect();
@@ -379,7 +435,7 @@ function resizeCanvas() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
 function draw() {
@@ -389,7 +445,10 @@ function draw() {
   ctx.clearRect(0, 0, W, H);
 
   // Render only the selected stock (or fallback to first)
-  const idx = (selectedStockIndex >= 0 && selectedStockIndex < stocks.length) ? selectedStockIndex : 0;
+  const idx =
+    selectedStockIndex >= 0 && selectedStockIndex < stocks.length
+      ? selectedStockIndex
+      : 0;
   const s = stocks[idx];
   const panelLeft = 0;
   const panelTop = 0;
@@ -397,7 +456,7 @@ function draw() {
   const panelH = H;
 
   // draw panel background (slightly darker)
-  ctx.fillStyle = 'rgba(255,255,255,0.02)';
+  ctx.fillStyle = "rgba(255,255,255,0.02)";
   ctx.fillRect(panelLeft, panelTop, panelW, panelH);
 
   // draw grid lines inside panel
@@ -405,10 +464,12 @@ function draw() {
 
   const recent = s.history.slice(-POINTS_SHOWN);
   if (recent.length) {
-    let maxP = Math.max(...recent), minP = Math.min(...recent);
+    let maxP = Math.max(...recent),
+      minP = Math.min(...recent);
     if (!isFinite(maxP)) maxP = s.price || 1;
     if (!isFinite(minP)) minP = 0;
-    let range = maxP - minP; if (range <= 0) range = Math.max(1, Math.abs(maxP) * 0.02);
+    let range = maxP - minP;
+    if (range <= 0) range = Math.max(1, Math.abs(maxP) * 0.02);
     const mid = (maxP + minP) / 2;
     const targetMax = mid + (range * RANGE_PAD) / 2;
     const targetMin = mid - (range * RANGE_PAD) / 2;
@@ -433,11 +494,15 @@ function draw() {
       ctx.save();
       const grad = ctx.createLinearGradient(0, panelTop, 0, panelTop + panelH);
       // try to create a translucent color from s.color; fallback to rgba
-      grad.addColorStop(0, `${s.color.replace('hsl', 'hsla').replace(')', ',0.45)')}`);
-      grad.addColorStop(1, 'rgba(0,0,0,0.02)');
+      grad.addColorStop(
+        0,
+        `${s.color.replace("hsl", "hsla").replace(")", ",0.45)")}`
+      );
+      grad.addColorStop(1, "rgba(0,0,0,0.02)");
       ctx.beginPath();
       ctx.moveTo(points[0].x, points[0].y);
-      for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+      for (let i = 1; i < points.length; i++)
+        ctx.lineTo(points[i].x, points[i].y);
       // close the path down to bottom-right and bottom-left
       ctx.lineTo(panelLeft + panelW, panelTop + panelH);
       ctx.lineTo(panelLeft, panelTop + panelH);
@@ -449,29 +514,61 @@ function draw() {
 
     // draw stock line on top
     ctx.save();
-    ctx.beginPath(); ctx.lineWidth = 2; ctx.strokeStyle = s.color; ctx.lineJoin = 'miter'; ctx.lineCap = 'butt';
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = s.color;
+    ctx.lineJoin = "miter";
+    ctx.lineCap = "butt";
     for (let i = 0; i < points.length; i++) {
       const p = points[i];
-      if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
     }
     ctx.stroke();
 
     // avg price dashed line
     if (s.amountOwned) {
-      const avgY = panelTop + (panelH - ((s.avgPrice() - s.displayMin) / (s.displayMax - s.displayMin)) * panelH);
-      ctx.beginPath(); ctx.strokeStyle = s.color; ctx.setLineDash([4, 2]); ctx.moveTo(panelLeft, avgY); ctx.lineTo(panelLeft + panelW, avgY); ctx.stroke(); ctx.setLineDash([]);
+      const avgY =
+        panelTop +
+        (panelH -
+          ((s.avgPrice() - s.displayMin) / (s.displayMax - s.displayMin)) *
+            panelH);
+      ctx.beginPath();
+      ctx.strokeStyle = s.color;
+      ctx.setLineDash([4, 2]);
+      ctx.moveTo(panelLeft, avgY);
+      ctx.lineTo(panelLeft + panelW, avgY);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
 
     // midline
-    ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.moveTo(panelLeft, panelTop + panelH / 2); ctx.lineTo(panelLeft + panelW, panelTop + panelH / 2); ctx.stroke();
-    
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(255,255,255,0.06)";
+    ctx.moveTo(panelLeft, panelTop + panelH / 2);
+    ctx.lineTo(panelLeft + panelW, panelTop + panelH / 2);
+    ctx.stroke();
+
     // draw y-axis ticks and labels
-    drawYAxisTicks(ctx, panelLeft, panelTop, panelW, panelH, s.displayMin, s.displayMax, 8);
+    drawYAxisTicks(
+      ctx,
+      panelLeft,
+      panelTop,
+      panelW,
+      panelH,
+      s.displayMin,
+      s.displayMax,
+      8
+    );
 
     // mouse vertical line clipped to panel if inside
     if (mouseX !== null) {
       if (mouseX >= panelLeft && mouseX <= panelLeft + panelW) {
-        ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.moveTo(mouseX, panelTop); ctx.lineTo(mouseX, panelTop + panelH); ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(255,255,255,0.12)";
+        ctx.moveTo(mouseX, panelTop);
+        ctx.lineTo(mouseX, panelTop + panelH);
+        ctx.stroke();
       }
     }
 
@@ -483,24 +580,30 @@ function draw() {
 
 function drawGrid(ctx, x, y, w, h, vDiv = 6, hDiv = 4) {
   ctx.save();
-  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.strokeStyle = "rgba(255,255,255,0.03)";
   ctx.lineWidth = 1;
   for (let i = 0; i <= vDiv; i++) {
     const px = x + (i / vDiv) * w;
-    ctx.beginPath(); ctx.moveTo(px, y); ctx.lineTo(px, y + h); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(px, y);
+    ctx.lineTo(px, y + h);
+    ctx.stroke();
   }
   for (let j = 0; j <= hDiv; j++) {
     const py = y + (j / hDiv) * h;
-    ctx.beginPath(); ctx.moveTo(x, py); ctx.lineTo(x + w, py); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, py);
+    ctx.lineTo(x + w, py);
+    ctx.stroke();
   }
   ctx.restore();
 }
 
 function drawYAxisTicks(ctx, x, y, w, h, minVal, maxVal, steps = 4) {
   ctx.save();
-  ctx.fillStyle = '#fff';
-  ctx.font = '10px sans-serif';
-  ctx.textBaseline = 'middle';
+  ctx.fillStyle = "#fff";
+  ctx.font = "10px sans-serif";
+  ctx.textBaseline = "middle";
   const padding = 6;
   const labelX = x + padding;
   for (let i = 0; i <= steps; i++) {
@@ -508,12 +611,12 @@ function drawYAxisTicks(ctx, x, y, w, h, minVal, maxVal, steps = 4) {
     const py = y + (1 - t) * h;
     const val = lerp(minVal, maxVal, t);
     const txt = `$${val.toFixed(2)}`;
-    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.fillStyle = "rgba(0,0,0,0.35)";
     const metrics = ctx.measureText(txt);
     const wtxt = metrics.width + 6;
     const htxt = 14;
     ctx.fillRect(labelX - 3, py - htxt / 2, wtxt, htxt);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = "#fff";
     ctx.fillText(txt, labelX, py);
   }
   ctx.restore();
