@@ -1,4 +1,6 @@
 // apps.js
+import { getFirstAvailable } from '../../loader.js';
+
 const tools = [
   { title: "The wheel", version: "V1.0.1-alpha", img: "/globalassets/gameIcons/wheel.png", link: "/games/wheelgame/game.html" },
   { title: "Chat", version: "V1.0.0-alpha", img: "/globalassets/gameIcons/chat.png", link: "/games/chatgame/game.html" },

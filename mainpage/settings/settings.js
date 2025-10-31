@@ -170,7 +170,7 @@ function generateTable() {
     clearStorageBtn.addEventListener('click', () => {
         const input = prompt('Type "delete" to confirm clearing all local storage. You will lose all progress and only your userID (Not your peerID) will stay:');
         if (input?.toLowerCase() === 'delete') {
-            userID = localStorage.getItem("userID");
+            const userID = localStorage.getItem("userID");
             localStorage.clear();
             localStorage.setItem("userID", userID);
 

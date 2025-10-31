@@ -1,4 +1,6 @@
 // games.js
+import { getFirstAvailable } from '../../loader.js';
+
 const myGames = [
   { title: "Stock Market", version: "V1.0.0", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
   { title: "Casino", version: "V1.0.1-alpha", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" }
