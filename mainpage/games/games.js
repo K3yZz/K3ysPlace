@@ -63,9 +63,5 @@ async function initializeGameButtons() {
   });
 }
 
-// Ensure DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeGameButtons);
-} else {
-  initializeGameButtons();
-}
+
+initializeGameButtons();

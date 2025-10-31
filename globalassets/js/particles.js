@@ -1,8 +1,4 @@
-// =======================
-// PARTICLES SCRIPT
-// =======================
 let particleCanvas, particleCtx, particlesArray = [];
-const numberOfParticles = 100;
 let animationFrameId;
 
 // --------------------------
@@ -24,6 +20,23 @@ class Particle {
     this.size = Math.random() * 3 + 1;
     this.speedX = (Math.random() - 0.5) * 0.3;
     this.speedY = (Math.random() - 0.5) * 0.3;
+    this.useBg1 = Math.random() < 0.5; // choose background 1 or 2
+    this.alpha = Math.random() * 0.4 + 0.3;
+    this.updateColor(); // initial color
+  }
+
+  updateColor() {
+    const style = getComputedStyle(document.documentElement);
+    const bg1 = style.getPropertyValue('--background-c1') || '#1a1a1a';
+    const bg2 = style.getPropertyValue('--background-c2') || '#2a2a2a';
+    const c = parseRGBA(this.useBg1 ? bg1 : bg2);
+
+    const brighten = 40;
+    const r = Math.min(c[0] + brighten, 255);
+    const g = Math.min(c[1] + brighten, 255);
+    const b = Math.min(c[2] + brighten, 255);
+
+    this.color = `rgba(${r}, ${g}, ${b}, ${this.alpha})`;
   }
 
   update() {
@@ -36,21 +49,9 @@ class Particle {
   }
 
   draw() {
-    const style = getComputedStyle(document.documentElement);
-    const bg1 = style.getPropertyValue('--background-c1') || '#1a1a1a';
-    const bg2 = style.getPropertyValue('--background-c2') || '#2a2a2a';
-    const c1 = parseRGBA(bg1);
-    const c2 = parseRGBA(bg2);
-    const base = Math.random() < 0.5 ? c1 : c2;
-    const brighten = 40;
-    const r = Math.min(base[0] + brighten, 255);
-    const g = Math.min(base[1] + brighten, 255);
-    const b = Math.min(base[2] + brighten, 255);
-    const a = Math.random() * 0.4 + 0.3;
-
     particleCtx.beginPath();
     particleCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    particleCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+    particleCtx.fillStyle = this.color;
     particleCtx.fill();
   }
 }
@@ -59,26 +60,23 @@ class Particle {
 // Initialize particles
 // --------------------------
 function initParticles() {
-  // Cancel previous animation if any
-  if (animationFrameId) cancelAnimationFrame(animationFrameId);
-
-  particleCanvas = document.getElementById('particles');
+  if (!particleCanvas) particleCanvas = document.getElementById('particles');
   if (!particleCanvas) return;
 
   particleCtx = particleCanvas.getContext('2d');
   particleCanvas.width = window.innerWidth;
   particleCanvas.height = window.innerHeight;
 
-  // Get theme colors AFTER CSS variables are applied
-  const style = getComputedStyle(document.documentElement);
-  const bg1 = style.getPropertyValue('--background-c1') || '#1a1a1a';
-  const bg2 = style.getPropertyValue('--background-c2') || '#2a2a2a';
-
-  particlesArray = [];
-  for (let i = 0; i < numberOfParticles; i++) {
-    particlesArray.push(new Particle(bg1, bg2));
+  if (!particlesArray.length) {
+    const numberOfParticles = Math.floor((window.innerWidth * window.innerHeight) / 10000);
+    for (let i = 0; i < numberOfParticles; i++) {
+      particlesArray.push(new Particle());
+    }
+  } else {
+    particlesArray.forEach(p => p.updateColor());
   }
 
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
   animateParticles();
 }
 
@@ -104,8 +102,14 @@ if (document.readyState === "loading") {
 }
 
 // --------------------------
-// Optional: Restart on window resize
+// Handle window resize
 // --------------------------
+let resizeTimeout;
 window.addEventListener('resize', () => {
-  initParticles();
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    particleCanvas.width = window.innerWidth;
+    particleCanvas.height = window.innerHeight;
+    particlesArray.forEach(p => p.updateColor());
+  }, 200);
 });

@@ -48,9 +48,5 @@ async function initializeAppButtons() {
   });
 }
 
-// Ensure DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeAppButtons);
-} else {
   initializeAppButtons();
-}
+
