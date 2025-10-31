@@ -16,7 +16,11 @@
       onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
   </div>
   <div id="appContainer"></div>
+  <script type="module">
+    import { initialize } from './loader.js';
 
+    initialize(); // automatically handles scripts, CSS, menu buttons, and links
+  </script>
   <script src="apps.js"></script>
   <script src="/globalassets/js/runner.js"></script>
 </body>

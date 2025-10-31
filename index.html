@@ -13,7 +13,8 @@
     <button class="menuButton" id="Home" onclick="window.location.href='/index.html'">Home</button>
     <button class="menuButton" id="Games" onclick="window.location.href='/mainpage/games/games.html'">Games</button>
     <button class="menuButton" id="Apps" onclick="window.location.href='/mainpage/apps/apps.html'">Apps</button>
-    <button class="menuButton" id="Settings" onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
+    <button class="menuButton" id="Settings"
+      onclick="window.location.href='/mainpage/settings/settings.html'">Settings</button>
   </div>
 
   <div id="titleContainer">
@@ -31,6 +32,11 @@
     <h2 id="timeText"></h2>
   </div>
 </body>
+<script type="module">
+  import { initialize } from './loader.js';
+
+  initialize(); // automatically handles scripts, CSS, menu buttons, and links
+</script>
 
 <script src="mainpage/home/home.js" type="module"></script>
 <script src="globalassets/js/runner.js" type="module"></script>

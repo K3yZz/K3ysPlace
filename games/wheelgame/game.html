@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>The Wheel</title>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -45,8 +45,14 @@
             -->
         </div>
     </div>
+    <script type="module">
+        import { initialize } from './loader.js';
+
+        initialize(); // automatically handles scripts, CSS, menu buttons, and links
+    </script>
+
     <script src="main.js"></script>
-  <script type="module" src="../../globalassets/js/runner.js"></script>
+    <script type="module" src="../../globalassets/js/runner.js"></script>
 </body>
 
 </html>

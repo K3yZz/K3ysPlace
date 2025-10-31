@@ -57,7 +57,7 @@
       </div>
     </section>
 
-    
+
     <!-- Account Details-->
     <section>
       <h2>Account Details</h2>
@@ -90,7 +90,11 @@
   </main>
 
 </body>
+<script type="module">
+  import { initialize } from './loader.js';
 
+  initialize(); // automatically handles scripts, CSS, menu buttons, and links
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module" src="/globalassets/js/runner.js"></script>
 <script type="module" src="settings.js"></script>

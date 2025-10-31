@@ -25,10 +25,10 @@
 
     <div id="blackjackControls" class="controls">
       <input id="bjBet" type="number" min="1" value="100" />
-      <button id="dealBtn"  class="secondary" onclick="bjDeal()">Deal</button>
-      <button id="hitBtn"  class="secondary" onclick="bjHit()" disabled>Hit</button>
-      <button id="splitBtn"  class="secondary" onclick="bjSplit()" disabled>Split</button>
-      <button id="standBtn"  class="secondary" onclick="bjStand()" disabled>Stand</button>
+      <button id="dealBtn" class="secondary" onclick="bjDeal()">Deal</button>
+      <button id="hitBtn" class="secondary" onclick="bjHit()" disabled>Hit</button>
+      <button id="splitBtn" class="secondary" onclick="bjSplit()" disabled>Split</button>
+      <button id="standBtn" class="secondary" onclick="bjStand()" disabled>Stand</button>
       <div class="spacer"></div>
       <div class="small" id="bjStatus">Place bet and press Deal.</div>
     </div>
@@ -50,6 +50,11 @@
       <div class="small" id="jobStatus">Dish Washer.</div>
     </div>
   </div>
+  <script type="module">
+    import { initialize } from './loader.js';
+
+    initialize(); // automatically handles scripts, CSS, menu buttons, and links
+  </script>
   <script src="main.js"></script>
   <script type="module" src="../../globalassets/js/runner.js"></script>
 </body>

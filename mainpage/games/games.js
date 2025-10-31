@@ -1,3 +1,6 @@
+// games.js
+import { getFirstAvailable } from './loader.js';
+
 const myGames = [
   { title: "Stock Market", version: "V1.0.0", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
   { title: "Casino", version: "V1.0.1-alpha", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" }
@@ -21,14 +24,23 @@ const portedGames = [
 const allGames = [...myGames, ...portedGames];
 const container = document.getElementById('gameContainer');
 
-allGames.forEach(game => {
+allGames.forEach(async game => {
   const btn = document.createElement('div');
-      btn.classList.add('game-button', 'panel'); // fixed class assignment
-  btn.onclick = () => window.location.href = game.link;
+  btn.classList.add('game-button', 'panel');
 
-  btn.innerHTML = `
-        <img src="${game.img}" alt="${game.title}">
-        <div class="title">${game.title}</div>`;
+  const img = document.createElement('img');
+  img.alt = game.title;
+  const imgUrl = await getFirstAvailable(game.img);
+  img.src = imgUrl || game.img;
+  btn.appendChild(img);
+
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'title';
+  titleDiv.textContent = game.title;
+  btn.appendChild(titleDiv);
+
+  const linkUrl = await getFirstAvailable(game.link);
+  btn.onclick = () => window.location.href = linkUrl || game.link;
 
   container.appendChild(btn);
-    });
+});
