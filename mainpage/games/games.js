@@ -1,6 +1,4 @@
 // games.js
-import { getFirstAvailable } from '/loader.js';
-
 const myGames = [
   { title: "Stock Market", version: "V1.0.0", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
   { title: "Casino", version: "V1.0.1-alpha", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" }
@@ -24,23 +22,31 @@ const portedGames = [
 const allGames = [...myGames, ...portedGames];
 const container = document.getElementById('gameContainer');
 
-allGames.forEach(async game => {
-  const btn = document.createElement('div');
-  btn.classList.add('game-button', 'panel');
+(async () => {
+  for (const game of allGames) {
+    const btn = document.createElement('div');
+    btn.classList.add('game-button', 'panel');
 
-  const img = document.createElement('img');
-  img.alt = game.title;
-  const imgUrl = await getFirstAvailable(game.img);
-  img.src = imgUrl || game.img;
-  btn.appendChild(img);
+    // Prepend BASE_PATH to absolute URLs
+    const imgPath = game.img.startsWith('/') ? BASE_PATH + game.img.slice(1) : game.img;
+    const linkPath = game.link.startsWith('/') ? BASE_PATH + game.link.slice(1) : game.link;
 
-  const titleDiv = document.createElement('div');
-  titleDiv.className = 'title';
-  titleDiv.textContent = game.title;
-  btn.appendChild(titleDiv);
+    const img = document.createElement('img');
+    img.alt = game.title;
 
-  const linkUrl = await getFirstAvailable(game.link);
-  btn.onclick = () => window.location.href = linkUrl || game.link;
+    // Await getFirstAvailable properly
+    const imgUrl = typeof getFirstAvailable === "function" ? await getFirstAvailable(imgPath) : imgPath;
+    img.src = imgUrl || imgPath;
+    btn.appendChild(img);
 
-  container.appendChild(btn);
-});
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'title';
+    titleDiv.textContent = game.title;
+    btn.appendChild(titleDiv);
+
+    const linkUrl = typeof getFirstAvailable === "function" ? await getFirstAvailable(linkPath) : linkPath;
+    btn.onclick = () => window.location.href = linkUrl || linkPath;
+
+    container.appendChild(btn);
+  }
+})();

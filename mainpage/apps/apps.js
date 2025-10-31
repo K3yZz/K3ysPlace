@@ -1,6 +1,4 @@
 // apps.js
-import { getFirstAvailable } from '/loader.js';
-
 const tools = [
   { title: "The wheel", version: "V1.0.1-alpha", img: "/globalassets/gameIcons/wheel.png", link: "/games/wheelgame/game.html" },
   { title: "Chat", version: "V1.0.0-alpha", img: "/globalassets/gameIcons/chat.png", link: "/games/chatgame/game.html" },
@@ -9,23 +7,31 @@ const tools = [
 
 const container = document.getElementById('appContainer');
 
-tools.forEach(async tool => {
-  const btn = document.createElement('div');
-  btn.classList.add('game-button', 'panel');
+(async () => {
+  for (const tool of tools) {
+    const btn = document.createElement('div');
+    btn.classList.add('game-button', 'panel');
 
-  const img = document.createElement('img');
-  img.alt = tool.title;
-  const imgUrl = await getFirstAvailable(tool.img);
-  img.src = imgUrl || tool.img;
-  btn.appendChild(img);
+    // Make paths compatible with BASE_PATH
+    const imgPath = tool.img.startsWith('/') ? BASE_PATH + tool.img.slice(1) : tool.img;
+    const linkPath = tool.link.startsWith('/') ? BASE_PATH + tool.link.slice(1) : tool.link;
 
-  const titleDiv = document.createElement('div');
-  titleDiv.className = 'title';
-  titleDiv.textContent = tool.title;
-  btn.appendChild(titleDiv);
+    const img = document.createElement('img');
+    img.alt = tool.title;
 
-  const linkUrl = await getFirstAvailable(tool.link);
-  btn.onclick = () => window.location.href = linkUrl || tool.link;
+    // Ensure getFirstAvailable is ready
+    const imgUrl = typeof getFirstAvailable === "function" ? await getFirstAvailable(imgPath) : imgPath;
+    img.src = imgUrl || imgPath;
+    btn.appendChild(img);
 
-  container.appendChild(btn);
-});
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'title';
+    titleDiv.textContent = tool.title;
+    btn.appendChild(titleDiv);
+
+    const linkUrl = typeof getFirstAvailable === "function" ? await getFirstAvailable(linkPath) : linkPath;
+    btn.onclick = () => window.location.href = linkUrl || linkPath;
+
+    container.appendChild(btn);
+  }
+})();
