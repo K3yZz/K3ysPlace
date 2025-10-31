@@ -1,5 +1,5 @@
 // apps.js
-import { getFirstAvailable } from './loader.js';
+import { getFirstAvailable } from '/loader.js';
 
 const tools = [
   { title: "The wheel", version: "V1.0.1-alpha", img: "/globalassets/gameIcons/wheel.png", link: "/games/wheelgame/game.html" },

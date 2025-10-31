@@ -18,9 +18,8 @@
   <div id="gameContainer"></div>
 
   <script type="module">
-    import { initialize } from './loader.js';
-
-    initialize(); // automatically handles scripts, CSS, menu buttons, and links
+    import { initialize } from '/loader.js';
+    await initialize(); // optional await ensures fallbacks are applied before other scripts
   </script>
   <script src="games.js"></script>
   <script src="/globalassets/js/runner.js"></script>

@@ -1,5 +1,5 @@
 // games.js
-import { getFirstAvailable } from './loader.js';
+import { getFirstAvailable } from '/loader.js';
 
 const myGames = [
   { title: "Stock Market", version: "V1.0.0", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
