@@ -122,6 +122,7 @@ async function tryLoadScript(old) {
       if (old.integrity) s.integrity = old.integrity;
       for (const k of Object.keys(old.dataset)) s.dataset[k] = old.dataset[k];
       s.src = url;
+      s.onerror = () => console.error('[tryLoadScript] failed to load script:', url);
       old.parentNode.insertBefore(s, old);
       old.parentNode.removeChild(old);
       console.log(`[tryLoadScript] Loaded script ${url}`);
@@ -143,6 +144,7 @@ async function tryLoadLink(old) {
       l.rel = 'stylesheet';
       l.href = url;
       if (old.crossOrigin) l.crossOrigin = old.crossOrigin;
+      l.onerror = () => console.error('[tryLoadLink] failed to load stylesheet:', url);
       old.parentNode.insertBefore(l, old);
       old.parentNode.removeChild(old);
       return;
@@ -199,7 +201,7 @@ function attachFallbacksToLinks() {
 
 async function injectRunnerResources() {
   console.log('[injectRunnerResources] injecting runner resources...');
-  const allowedPages = ['/index.html', '/apps.html', '/games.html', '/settings.html'];
+  const allowedPages = ['/index.html', '/', '/K3ysPlace/', '/apps.html', '/games.html', '/settings.html'];
   const pathname = window.location.pathname;
 
   if (!allowedPages.includes(pathname)) {
@@ -209,19 +211,22 @@ async function injectRunnerResources() {
 
   const head = document.head || document.getElementsByTagName("head")[0];
   const body = document.body || document.getElementsByTagName("body")[0];
-  if (!head || !body) return;
+  if (!head || !body) {
+    console.warn('[injectRunnerResources] head or body not ready yet.');
+    return;
+  }
 
   const alreadyInjected = (id) => document.querySelector(`[data-injected-resource="${id}"]`);
 
   if (!alreadyInjected("favicons")) {
     console.log('[injectRunnerResources] injecting favicons...');
     const faviconData = [
-      { rel: "apple-touch-icon", sizes: "180x180", href: "/globalassets/favicon/apple-touch-icon.png" },
-      { rel: "icon", type: "image/png", sizes: "32x32", href: "/globalassets/favicon/favicon-32x32.png" },
-      { rel: "icon", type: "image/png", sizes: "16x16", href: "/globalassets/favicon/favicon-16x16.png" },
-      { rel: "manifest", href: "/globalassets/favicon/site.webmanifest" },
-      { rel: "mask-icon", href: "/globalassets/favicon/safari-pinned-tab.svg" },
-      { rel: "shortcut icon", href: "/globalassets/favicon/favicon.ico" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: BASE_PATH + "globalassets/favicon/apple-touch-icon.png" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: BASE_PATH + "globalassets/favicon/favicon-32x32.png" },
+      { rel: "icon", type: "image/png", sizes: "16x16", href: BASE_PATH + "globalassets/favicon/favicon-16x16.png" },
+      { rel: "manifest", href: BASE_PATH + "globalassets/favicon/site.webmanifest" },
+      { rel: "mask-icon", href: BASE_PATH + "globalassets/favicon/safari-pinned-tab.svg" },
+      { rel: "shortcut icon", href: BASE_PATH + "globalassets/favicon/favicon.ico" },
     ];
     faviconData.forEach(attrs => {
       const link = document.createElement("link");
@@ -230,10 +235,11 @@ async function injectRunnerResources() {
       head.appendChild(link);
       console.log('[injectRunnerResources] added favicon link:', attrs.href);
     });
+
     const metaData = [
       { name: "theme-color", content: "#ffffff" },
       { name: "msapplication-TileColor", content: "#2d89ef" },
-      { name: "msapplication-TileImage", content: "/mstile-144x144.png" },
+      { name: "msapplication-TileImage", content: BASE_PATH + "mstile-144x144.png" },
     ];
     metaData.forEach(attrs => {
       const meta = document.createElement("meta");
@@ -247,16 +253,17 @@ async function injectRunnerResources() {
   if (!alreadyInjected("theme-css")) {
     const themeLink = document.createElement("link");
     themeLink.rel = "stylesheet";
-    themeLink.href = "/globalassets/css/theme.css";
+    themeLink.href = BASE_PATH + "globalassets/css/theme.css";
     themeLink.setAttribute("data-injected-resource", "theme-css");
+    themeLink.onerror = () => console.error('[injectRunnerResources] failed to load theme CSS:', themeLink.href);
     head.appendChild(themeLink);
     console.log('[injectRunnerResources] injected theme CSS');
   }
 
   const scripts = [
-    { id: "particles-js", src: "/globalassets/js/particles.js" },
-    { id: "debug-js", src: "/globalassets/js/debug.js" },
-    { id: "theme-js", src: "/globalassets/js/theme.js" },
+    { id: "particles-js", src: BASE_PATH + "globalassets/js/particles.js" },
+    { id: "debug-js", src: BASE_PATH + "globalassets/js/debug.js" },
+    { id: "theme-js", src: BASE_PATH + "globalassets/js/theme.js" },
   ];
 
   scripts.forEach(({ id, src }) => {
@@ -265,6 +272,7 @@ async function injectRunnerResources() {
       script.src = src;
       script.defer = true;
       script.setAttribute("data-injected-resource", id);
+      script.onerror = () => console.error('[injectRunnerResources] failed to load script:', src);
       body.appendChild(script);
       console.log(`[injectRunnerResources] injected script: ${src}`);
     }
@@ -286,29 +294,22 @@ async function initialize() {
   fallbackBases = buildFallbackBases();
   console.log('[initialize] fallbackBases:', fallbackBases);
 
-  await injectRunnerResources();
-
-  const scripts = Array.from(document.querySelectorAll('script[src]'));
-  const links = Array.from(document.querySelectorAll('link[rel="stylesheet"][href]'));
-
-  console.log('[initialize] processing links...');
-  for (const link of links) await tryLoadLink(link);
-
-  console.log('[initialize] processing scripts...');
-  for (const script of scripts) await tryLoadScript(script);
-
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('[initialize] DOMContentLoaded fired');
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('[initialize] DOMContentLoaded event fired');
+      await injectRunnerResources();
       attachFallbacksToMenu();
       attachFallbacksToLinks();
+      console.log('[initialize] initialization after DOM ready complete');
     });
   } else {
+    await injectRunnerResources();
     attachFallbacksToMenu();
     attachFallbacksToLinks();
+    console.log('[initialize] initialization immediate complete');
   }
 
-  console.log('[initialize] loader + runner initialization complete.');
+  console.log('[initialize] loader + runner initialization setup done.');
 }
 
 await initialize();
