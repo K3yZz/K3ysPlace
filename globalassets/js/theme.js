@@ -102,7 +102,7 @@
       if (!specialThemes.includes(currentTheme)) return;
 
       const explosion = document.createElement("img");
-      explosion.src = "/globalassets/images/explosion.gif";
+      explosion.src = "../images/explosion.gif";
       explosion.alt = "Explosion";
       explosion.style.position = "absolute";
       explosion.style.zIndex = "1000";

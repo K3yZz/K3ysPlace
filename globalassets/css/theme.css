@@ -46,13 +46,13 @@
 :root.dexter {
   --background-c1: rgba(0, 0, 0, 0.15);
   --background-c2: transparent;
-  --background-img: url("/globalassets/images/dexter.jpeg");
+  --background-img: url("../images/dexter.jpeg");
 }
 
 :root.harry-styles {
   --background-c1: rgba(0, 0, 0, 0.15);
   --background-c2: transparent;
-  --background-img: url("/globalassets/images/harry-styles.jpeg");
+  --background-img: url("../images/harry-styles.jpeg");
 }
 
 /* ==========================
