@@ -1,4 +1,3 @@
-// games.js
 import { getFirstAvailable } from '../../loader.js';
 
 const myGames = [
@@ -22,23 +21,33 @@ const portedGames = [
 ];
 
 const allGames = [...myGames, ...portedGames];
+const BASE_PATH = '/K3ysPlace/';
 const container = document.getElementById('gameContainer');
 
-(async () => {
-  for (const game of allGames) {
+function resolvePath(path) {
+  return path.startsWith('/') ? BASE_PATH + path.slice(1) : path;
+}
+
+async function initializeGameButtons() {
+  if (!container) {
+    console.error('[games.js] gameContainer not found!');
+    return;
+  }
+
+  // Compute image and link URLs in parallel
+  const imgPromises = allGames.map(game => getFirstAvailable ? getFirstAvailable(resolvePath(game.img)) : resolvePath(game.img));
+  const linkPromises = allGames.map(game => getFirstAvailable ? getFirstAvailable(resolvePath(game.link)) : resolvePath(game.link));
+
+  const imgUrls = await Promise.all(imgPromises);
+  const linkUrls = await Promise.all(linkPromises);
+
+  allGames.forEach((game, i) => {
     const btn = document.createElement('div');
     btn.classList.add('game-button', 'panel');
 
-    // Prepend BASE_PATH to absolute URLs
-    const imgPath = game.img.startsWith('/') ? BASE_PATH + game.img.slice(1) : game.img;
-    const linkPath = game.link.startsWith('/') ? BASE_PATH + game.link.slice(1) : game.link;
-
     const img = document.createElement('img');
     img.alt = game.title;
-
-    // Await getFirstAvailable properly
-    const imgUrl = typeof getFirstAvailable === "function" ? await getFirstAvailable(imgPath) : imgPath;
-    img.src = imgUrl || imgPath;
+    img.src = imgUrls[i] || resolvePath(game.img); // fallback
     btn.appendChild(img);
 
     const titleDiv = document.createElement('div');
@@ -46,9 +55,17 @@ const container = document.getElementById('gameContainer');
     titleDiv.textContent = game.title;
     btn.appendChild(titleDiv);
 
-    const linkUrl = typeof getFirstAvailable === "function" ? await getFirstAvailable(linkPath) : linkPath;
-    btn.onclick = () => window.location.href = linkUrl || linkPath;
+    const linkUrl = linkUrls[i] || resolvePath(game.link);
+    btn.onclick = () => window.location.href = linkUrl;
 
     container.appendChild(btn);
-  }
-})();
+    console.log('[games.js] Added button:', game.title, 'img:', img.src, 'link:', linkUrl);
+  });
+}
+
+// Ensure DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeGameButtons);
+} else {
+  initializeGameButtons();
+}
