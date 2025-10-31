@@ -1,6 +1,13 @@
 // loader.js
+
+// --- CONFIG ---
+// GitHub Pages repository folder (adjust if needed)
+const BASE_PATH = '/K3ysPlace/';
+
+// --- Resource cache ---
 const resourceCache = new Map();
 
+// --- Path utilities ---
 function normalizePath(p) {
   if (!p) return p;
   if (/^https?:\/\//i.test(p) || /^\/\//.test(p)) return p;
@@ -20,6 +27,7 @@ function getFilename(p) {
   return p.split(/[\/\\]/).pop();
 }
 
+// --- Check if resource exists ---
 async function resourceExists(url) {
   if (resourceCache.has(url)) return resourceCache.get(url);
   try {
@@ -33,7 +41,7 @@ async function resourceExists(url) {
   }
 }
 
-// Build fallback base directories from existing scripts and CSS
+// --- Build fallback directories ---
 function buildFallbackBases() {
   const scripts = Array.from(document.querySelectorAll('script[src]')).map(s => s.getAttribute('src'));
   const links = Array.from(document.querySelectorAll('link[rel="stylesheet"][href]')).map(l => l.getAttribute('href'));
@@ -52,7 +60,7 @@ function buildFallbackBases() {
 
 let fallbackBases = [];
 
-// Enhanced fallback candidates with relative paths
+// --- Generate fallback candidates with relative paths ---
 function makeCandidates(orig) {
   const normalized = normalizePath(orig);
   const filename = getFilename(orig);
@@ -71,10 +79,10 @@ function makeCandidates(orig) {
   }
 
   list.push('/' + filename); // root fallback
-  return Array.from(new Set(list)); // remove duplicates
+  return Array.from(new Set(list));
 }
 
-// Returns the first URL that exists
+// --- Get first available URL ---
 async function getFirstAvailable(orig) {
   const candidates = makeCandidates(orig);
   for (const url of candidates) {
@@ -83,7 +91,7 @@ async function getFirstAvailable(orig) {
   return null;
 }
 
-// Load script with fallback
+// --- Load script with fallback ---
 async function tryLoadScript(old) {
   const orig = old.getAttribute('src');
   const candidates = makeCandidates(orig);
@@ -106,7 +114,7 @@ async function tryLoadScript(old) {
   console.warn('All fallbacks failed for script:', orig);
 }
 
-// Load CSS with fallback
+// --- Load CSS with fallback ---
 async function tryLoadLink(old) {
   const orig = old.getAttribute('href');
   const candidates = makeCandidates(orig);
@@ -124,13 +132,18 @@ async function tryLoadLink(old) {
   console.warn('All fallbacks failed for stylesheet:', orig);
 }
 
-// Extract href from inline onclick
+// --- Extract href from inline onclick ---
 function extractHrefFromOnclick(onclick) {
-  const m = /window\.location\.href\s*=\s*['"]([^'"]+)['"]/i.exec(onclick || '');
-  return m ? m[1] : null;
+  if (!onclick) return null;
+  const m = /window\.location\.href\s*=\s*['"]([^'"]+)['"]/i.exec(onclick);
+  if (!m) return null;
+  let href = m[1];
+  // Prepend base path for GitHub Pages if it starts with '/'
+  if (href.startsWith('/')) href = BASE_PATH + href.slice(1);
+  return href;
 }
 
-// Fallbacks for menu buttons
+// --- Fallbacks for menu buttons ---
 function attachFallbacksToMenu() {
   const buttons = Array.from(document.querySelectorAll('.menuButton[onclick]'));
   for (const btn of buttons) {
@@ -146,12 +159,13 @@ function attachFallbacksToMenu() {
   }
 }
 
-// Fallbacks for <a> links
+// --- Fallbacks for <a> links ---
 function attachFallbacksToLinks() {
   const links = Array.from(document.querySelectorAll('a[href]'));
   for (const a of links) {
-    const href = a.getAttribute('href');
+    let href = a.getAttribute('href');
     if (!href || href.startsWith('#') || href.startsWith('mailto:')) continue;
+    if (href.startsWith('/')) href = BASE_PATH + href.slice(1);
     a.addEventListener('click', async e => {
       e.preventDefault();
       const linkUrl = await getFirstAvailable(href);
@@ -160,7 +174,7 @@ function attachFallbacksToLinks() {
   }
 }
 
-// --- Initialization function for HTML ---
+// --- Initialization ---
 async function initialize() {
   fallbackBases = buildFallbackBases();
 
@@ -181,5 +195,5 @@ async function initialize() {
   }
 }
 
-// Export for ES module usage
+// --- Exports ---
 export { initialize, getFirstAvailable, makeCandidates, resourceExists };

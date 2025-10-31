@@ -45,12 +45,12 @@
             -->
         </div>
     </div>
-    <script type="module">
-        import { initialize } from '/loader.js';
-        await initialize(); // optional await ensures fallbacks are applied before other scripts
-    </script>
     <script src="main.js"></script>
     <script type="module" src="../../globalassets/js/runner.js"></script>
+    <script type="module">
+        import { initialize } from '/loader.js';
+        await initialize();
+    </script>
 </body>
 
 </html>

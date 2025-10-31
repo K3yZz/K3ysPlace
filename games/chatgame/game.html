@@ -70,6 +70,10 @@
   <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
   <script src="main.js"></script>
   <script type="module" src="../../globalassets/js/runner.js"></script>
+  <script type="module">
+    import { initialize } from '/loader.js';
+    await initialize();
+  </script>
 </body>
 
 </html>
