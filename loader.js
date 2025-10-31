@@ -201,18 +201,6 @@ function attachFallbacksToLinks() {
 
 async function injectRunnerResources() {
   console.log('[injectRunnerResources] injecting runner resources...');
-  const allowedPages = [
-    '/index.html', '/',
-    '/K3ysPlace/', '/K3ysPlace/index.html',
-    '/apps.html', '/games.html', '/settings.html'
-  ];
-  const pathname = window.location.pathname;
-  console.log('[injectRunnerResources] current pathname:', pathname);
-
-  if (!allowedPages.includes(pathname)) {
-    console.log(`[injectRunnerResources] skipping injection for ${pathname}`);
-    return;
-  }
 
   const head = document.head || document.getElementsByTagName("head")[0];
   const body = document.body || document.getElementsByTagName("body")[0];
@@ -223,6 +211,7 @@ async function injectRunnerResources() {
 
   const alreadyInjected = (id) => document.querySelector(`[data-injected-resource="${id}"]`);
 
+  // Favicons and meta tags
   if (!alreadyInjected("favicons")) {
     console.log('[injectRunnerResources] injecting favicons...');
     const faviconData = [
@@ -255,6 +244,7 @@ async function injectRunnerResources() {
     });
   }
 
+  // Theme CSS
   if (!alreadyInjected("theme-css")) {
     const themeLink = document.createElement("link");
     themeLink.rel = "stylesheet";
@@ -265,6 +255,7 @@ async function injectRunnerResources() {
     console.log('[injectRunnerResources] injected theme CSS');
   }
 
+  // Scripts
   const scripts = [
     { id: "particles-js", src: BASE_PATH + "globalassets/js/particles.js" },
     { id: "debug-js", src: BASE_PATH + "globalassets/js/debug.js" },
@@ -283,6 +274,7 @@ async function injectRunnerResources() {
     }
   });
 
+  // Particles canvas
   if (!alreadyInjected("particles-canvas")) {
     const canvas = document.createElement("canvas");
     canvas.id = "particles";
@@ -291,7 +283,7 @@ async function injectRunnerResources() {
     console.log('[injectRunnerResources] injected particles canvas');
   }
 
-  console.log(`[injectRunnerResources] injection complete for ${pathname}`);
+  console.log('[injectRunnerResources] injection complete.');
 }
 
 async function initialize() {
