@@ -201,8 +201,13 @@ function attachFallbacksToLinks() {
 
 async function injectRunnerResources() {
   console.log('[injectRunnerResources] injecting runner resources...');
-  const allowedPages = ['/index.html', '/', '/K3ysPlace/', '/apps.html', '/games.html', '/settings.html'];
+  const allowedPages = [
+    '/index.html', '/',
+    '/K3ysPlace/', '/K3ysPlace/index.html',
+    '/apps.html', '/games.html', '/settings.html'
+  ];
   const pathname = window.location.pathname;
+  console.log('[injectRunnerResources] current pathname:', pathname);
 
   if (!allowedPages.includes(pathname)) {
     console.log(`[injectRunnerResources] skipping injection for ${pathname}`);
