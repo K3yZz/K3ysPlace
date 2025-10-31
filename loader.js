@@ -196,4 +196,6 @@ async function initialize() {
   console.log('[initialize] loader.js initialization complete.');
 }
 
-export { initialize, getFirstAvailable, makeCandidates, resourceExists };
+await initialize();
+
+export {getFirstAvailable, makeCandidates, resourceExists };
