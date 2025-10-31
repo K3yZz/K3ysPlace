@@ -105,7 +105,7 @@ function annoyingDebug() {
 
 annoyingDebug();
 const countdownElement = document.getElementById("countdown");
-const targetTime = new Date(2025, 10, 1, 12, 0, 0);
+const targetTime = new Date(2025, 10, 3, 12, 0, 0);
 
 function updateCountdown() {
   const now = new Date();
