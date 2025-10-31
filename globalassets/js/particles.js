@@ -18,25 +18,12 @@ function parseRGBA(rgba) {
 // Particle class
 // --------------------------
 class Particle {
-  constructor(bg1, bg2) {
+  constructor() {
     this.x = Math.random() * particleCanvas.width;
     this.y = Math.random() * particleCanvas.height;
     this.size = Math.random() * 3 + 1;
     this.speedX = (Math.random() - 0.5) * 0.3;
     this.speedY = (Math.random() - 0.5) * 0.3;
-
-    // Pick color from provided bg1/bg2
-    const c1 = parseRGBA(bg1);
-    const c2 = parseRGBA(bg2);
-    const base = Math.random() < 0.5 ? c1 : c2;
-
-    const brighten = 40;
-    const r = Math.min(base[0] + brighten, 255);
-    const g = Math.min(base[1] + brighten, 255);
-    const b = Math.min(base[2] + brighten, 255);
-    const a = Math.random() * 0.4 + 0.3;
-
-    this.color = `rgba(${r}, ${g}, ${b}, ${a})`;
   }
 
   update() {
@@ -49,9 +36,21 @@ class Particle {
   }
 
   draw() {
+    const style = getComputedStyle(document.documentElement);
+    const bg1 = style.getPropertyValue('--background-c1') || '#1a1a1a';
+    const bg2 = style.getPropertyValue('--background-c2') || '#2a2a2a';
+    const c1 = parseRGBA(bg1);
+    const c2 = parseRGBA(bg2);
+    const base = Math.random() < 0.5 ? c1 : c2;
+    const brighten = 40;
+    const r = Math.min(base[0] + brighten, 255);
+    const g = Math.min(base[1] + brighten, 255);
+    const b = Math.min(base[2] + brighten, 255);
+    const a = Math.random() * 0.4 + 0.3;
+
     particleCtx.beginPath();
     particleCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    particleCtx.fillStyle = this.color;
+    particleCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
     particleCtx.fill();
   }
 }

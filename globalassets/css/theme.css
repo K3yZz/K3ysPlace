@@ -152,6 +152,7 @@ select {
   color: white;
   border: none;
   min-width: 100px;
+  overflow: hidden;
   border-radius: 10px 10px 0 0;
   transition: transform 0.2s ease, background-color 0.2s ease;
   appearance: base-select;
