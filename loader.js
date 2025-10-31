@@ -2,40 +2,54 @@ const BASE_PATH = '/K3ysPlace/';
 const resourceCache = new Map();
 
 function normalizePath(p) {
+  console.log('[normalizePath] input:', p);
   if (!p) return p;
   if (/^https?:\/\//i.test(p) || /^\/\//.test(p)) return p;
-  return p.replace(/^\.\//, '').replace(/^\/+/, '');
+  const normalized = p.replace(/^\.\//, '').replace(/^\/+/, '');
+  console.log('[normalizePath] normalized:', normalized);
+  return normalized;
 }
 
 function getDir(p) {
+  console.log('[getDir] input:', p);
   if (!p) return '';
   const n = normalizePath(p);
   const parts = n.split('/');
   parts.pop();
-  return parts.length ? parts.join('/') + '/' : '';
+  const dir = parts.length ? parts.join('/') + '/' : '';
+  console.log('[getDir] result:', dir);
+  return dir;
 }
 
 function getFilename(p) {
+  console.log('[getFilename] input:', p);
   if (!p) return '';
-  return p.split(/[\/\\]/).pop();
+  const filename = p.split(/[\/\\]/).pop();
+  console.log('[getFilename] result:', filename);
+  return filename;
 }
 
 async function resourceExists(url) {
-  if (resourceCache.has(url)) return resourceCache.get(url);
+  console.log('[resourceExists] checking url:', url);
+  if (resourceCache.has(url)) {
+    console.log('[resourceExists] cache hit:', resourceCache.get(url));
+    return resourceCache.get(url);
+  }
   try {
     const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
     const ok = res.ok || (await fetch(url, { method: 'GET', cache: 'no-store' })).ok;
     resourceCache.set(url, ok);
     console.log(`[resourceExists] ${url}: ${ok ? 'found' : 'missing'}`);
     return ok;
-  } catch {
+  } catch (err) {
+    console.warn(`[resourceExists] ${url}: fetch failed`, err);
     resourceCache.set(url, false);
-    console.warn(`[resourceExists] ${url}: failed to fetch`);
     return false;
   }
 }
 
 function buildFallbackBases() {
+  console.log('[buildFallbackBases] building fallback bases...');
   const scripts = Array.from(document.querySelectorAll('script[src]')).map(s => s.getAttribute('src'));
   const links = Array.from(document.querySelectorAll('link[rel="stylesheet"][href]')).map(l => l.getAttribute('href'));
   const all = scripts.concat(links).map(normalizePath).filter(Boolean);
@@ -55,6 +69,7 @@ function buildFallbackBases() {
 let fallbackBases = [];
 
 function makeCandidates(orig) {
+  console.log('[makeCandidates] generating candidates for:', orig);
   const normalized = normalizePath(orig);
   const filename = getFilename(orig);
   const list = [];
@@ -72,15 +87,17 @@ function makeCandidates(orig) {
   }
 
   list.push('/' + filename);
-  console.log('[makeCandidates] candidates for', orig, ':', list);
+  console.log('[makeCandidates] candidates:', list);
   return Array.from(new Set(list));
 }
 
 async function getFirstAvailable(orig) {
+  console.log('[getFirstAvailable] finding first available for:', orig);
   const candidates = makeCandidates(orig);
   for (const url of candidates) {
+    console.log('[getFirstAvailable] checking candidate:', url);
     if (await resourceExists(url)) {
-      console.log(`[getFirstAvailable] using ${url} for ${orig}`);
+      console.log(`[getFirstAvailable] selected ${url} for ${orig}`);
       return url;
     }
   }
@@ -89,10 +106,13 @@ async function getFirstAvailable(orig) {
 }
 
 async function tryLoadScript(old) {
+  console.log('[tryLoadScript] processing script:', old.src);
   const orig = old.getAttribute('src');
   const candidates = makeCandidates(orig);
   for (const url of candidates) {
+    console.log('[tryLoadScript] trying candidate:', url);
     if (await resourceExists(url)) {
+      console.log('[tryLoadScript] loading script from:', url);
       const s = document.createElement('script');
       if (old.type) s.type = old.type;
       if (old.hasAttribute('async')) s.async = true;
@@ -112,17 +132,19 @@ async function tryLoadScript(old) {
 }
 
 async function tryLoadLink(old) {
+  console.log('[tryLoadLink] processing link:', old.href);
   const orig = old.getAttribute('href');
   const candidates = makeCandidates(orig);
   for (const url of candidates) {
+    console.log('[tryLoadLink] trying candidate:', url);
     if (await resourceExists(url)) {
+      console.log('[tryLoadLink] loading stylesheet from:', url);
       const l = document.createElement('link');
       l.rel = 'stylesheet';
       l.href = url;
       if (old.crossOrigin) l.crossOrigin = old.crossOrigin;
       old.parentNode.insertBefore(l, old);
       old.parentNode.removeChild(old);
-      console.log(`[tryLoadLink] Loaded stylesheet ${url}`);
       return;
     }
   }
@@ -130,6 +152,7 @@ async function tryLoadLink(old) {
 }
 
 function extractHrefFromOnclick(onclick) {
+  console.log('[extractHrefFromOnclick] onclick content:', onclick);
   if (!onclick) return null;
   const m = /window\.location\.href\s*=\s*['"]([^'"]+)['"]/i.exec(onclick);
   if (!m) return null;
@@ -141,7 +164,7 @@ function extractHrefFromOnclick(onclick) {
 
 function attachFallbacksToMenu() {
   const buttons = Array.from(document.querySelectorAll('.menuButton[onclick]'));
-  console.log('[attachFallbacksToMenu] found buttons:', buttons.map(b => b.id));
+  console.log('[attachFallbacksToMenu] buttons found:', buttons.map(b => b.id));
   for (const btn of buttons) {
     const onclick = btn.getAttribute('onclick');
     const origHref = extractHrefFromOnclick(onclick);
@@ -149,8 +172,9 @@ function attachFallbacksToMenu() {
     btn.removeAttribute('onclick');
     btn.addEventListener('click', async e => {
       e.preventDefault();
-      console.log(`[MenuButton] clicking ${btn.id} -> ${origHref}`);
+      console.log(`[MenuButton] clicked ${btn.id}, original href: ${origHref}`);
       const linkUrl = await getFirstAvailable(origHref);
+      console.log(`[MenuButton] navigating to: ${linkUrl || origHref}`);
       window.location.href = linkUrl || origHref;
     });
   }
@@ -158,27 +182,28 @@ function attachFallbacksToMenu() {
 
 function attachFallbacksToLinks() {
   const links = Array.from(document.querySelectorAll('a[href]'));
-  console.log('[attachFallbacksToLinks] found links:', links.map(l => l.href));
+  console.log('[attachFallbacksToLinks] links found:', links.map(l => l.href));
   for (const a of links) {
     let href = a.getAttribute('href');
     if (!href || href.startsWith('#') || href.startsWith('mailto:')) continue;
     if (href.startsWith('/')) href = BASE_PATH + href.slice(1);
     a.addEventListener('click', async e => {
       e.preventDefault();
-      console.log(`[Link] clicking <a> href=${href}`);
+      console.log(`[Link] clicked <a> href=${href}`);
       const linkUrl = await getFirstAvailable(href);
+      console.log(`[Link] navigating to: ${linkUrl || href}`);
       window.location.href = linkUrl || href;
     });
   }
 }
 
 async function injectRunnerResources() {
+  console.log('[injectRunnerResources] injecting runner resources...');
   const allowedPages = ['/index.html', '/apps.html', '/games.html', '/settings.html'];
   const pathname = window.location.pathname;
 
-  // Only run injections on allowed pages
   if (!allowedPages.includes(pathname)) {
-    console.log(`[injectRunnerResources] Skipping injections for ${pathname}`);
+    console.log(`[injectRunnerResources] skipping injection for ${pathname}`);
     return;
   }
 
@@ -189,6 +214,7 @@ async function injectRunnerResources() {
   const alreadyInjected = (id) => document.querySelector(`[data-injected-resource="${id}"]`);
 
   if (!alreadyInjected("favicons")) {
+    console.log('[injectRunnerResources] injecting favicons...');
     const faviconData = [
       { rel: "apple-touch-icon", sizes: "180x180", href: "/globalassets/favicon/apple-touch-icon.png" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/globalassets/favicon/favicon-32x32.png" },
@@ -202,6 +228,7 @@ async function injectRunnerResources() {
       Object.keys(attrs).forEach(k => link.setAttribute(k, attrs[k]));
       link.setAttribute("data-injected-resource", "favicons");
       head.appendChild(link);
+      console.log('[injectRunnerResources] added favicon link:', attrs.href);
     });
     const metaData = [
       { name: "theme-color", content: "#ffffff" },
@@ -213,6 +240,7 @@ async function injectRunnerResources() {
       Object.keys(attrs).forEach(k => meta.setAttribute(k, attrs[k]));
       meta.setAttribute("data-injected-resource", "favicons");
       head.appendChild(meta);
+      console.log('[injectRunnerResources] added meta tag:', attrs.name || attrs.rel);
     });
   }
 
@@ -222,6 +250,7 @@ async function injectRunnerResources() {
     themeLink.href = "/globalassets/css/theme.css";
     themeLink.setAttribute("data-injected-resource", "theme-css");
     head.appendChild(themeLink);
+    console.log('[injectRunnerResources] injected theme CSS');
   }
 
   const scripts = [
@@ -237,6 +266,7 @@ async function injectRunnerResources() {
       script.defer = true;
       script.setAttribute("data-injected-resource", id);
       body.appendChild(script);
+      console.log(`[injectRunnerResources] injected script: ${src}`);
     }
   });
 
@@ -245,25 +275,31 @@ async function injectRunnerResources() {
     canvas.id = "particles";
     canvas.setAttribute("data-injected-resource", "particles-canvas");
     body.insertBefore(canvas, body.firstChild);
+    console.log('[injectRunnerResources] injected particles canvas');
   }
 
-  console.log(`[injectRunnerResources] Resources injected for ${pathname}`);
+  console.log(`[injectRunnerResources] injection complete for ${pathname}`);
 }
 
 async function initialize() {
   console.log('[initialize] starting loader + runner initialization...');
   fallbackBases = buildFallbackBases();
+  console.log('[initialize] fallbackBases:', fallbackBases);
 
   await injectRunnerResources();
 
   const scripts = Array.from(document.querySelectorAll('script[src]'));
   const links = Array.from(document.querySelectorAll('link[rel="stylesheet"][href]'));
 
+  console.log('[initialize] processing links...');
   for (const link of links) await tryLoadLink(link);
+
+  console.log('[initialize] processing scripts...');
   for (const script of scripts) await tryLoadScript(script);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
+      console.log('[initialize] DOMContentLoaded fired');
       attachFallbacksToMenu();
       attachFallbacksToLinks();
     });
