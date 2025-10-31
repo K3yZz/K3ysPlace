@@ -43,3 +43,28 @@
 #updateLog:hover .tooltip {
   display: block;
 }
+
+#todoLog {
+  position: relative;
+  cursor: pointer;
+}
+
+#todoLog .tooltip {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: 14px;
+  margin-top: 6px;
+  z-index: 10;
+}
+
+#todoLog:hover .tooltip {
+  display: block;
+}
