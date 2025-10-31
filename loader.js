@@ -1,13 +1,8 @@
-// loader.js
+// loader.js with debug logs
 
-// --- CONFIG ---
-// GitHub Pages repository folder (adjust if needed)
 const BASE_PATH = '/K3ysPlace/';
-
-// --- Resource cache ---
 const resourceCache = new Map();
 
-// --- Path utilities ---
 function normalizePath(p) {
   if (!p) return p;
   if (/^https?:\/\//i.test(p) || /^\/\//.test(p)) return p;
@@ -27,21 +22,21 @@ function getFilename(p) {
   return p.split(/[\/\\]/).pop();
 }
 
-// --- Check if resource exists ---
 async function resourceExists(url) {
   if (resourceCache.has(url)) return resourceCache.get(url);
   try {
     const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
     const ok = res.ok || (await fetch(url, { method: 'GET', cache: 'no-store' })).ok;
     resourceCache.set(url, ok);
+    console.log(`[resourceExists] ${url}: ${ok ? 'found' : 'missing'}`);
     return ok;
   } catch {
     resourceCache.set(url, false);
+    console.warn(`[resourceExists] ${url}: failed to fetch`);
     return false;
   }
 }
 
-// --- Build fallback directories ---
 function buildFallbackBases() {
   const scripts = Array.from(document.querySelectorAll('script[src]')).map(s => s.getAttribute('src'));
   const links = Array.from(document.querySelectorAll('link[rel="stylesheet"][href]')).map(l => l.getAttribute('href'));
@@ -55,43 +50,46 @@ function buildFallbackBases() {
     bases.push(window.location.origin + '/' + d);
   }
   bases.push('/');
+  console.log('[buildFallbackBases] fallback bases:', bases);
   return Array.from(new Set(bases));
 }
 
 let fallbackBases = [];
 
-// --- Generate fallback candidates with relative paths ---
 function makeCandidates(orig) {
   const normalized = normalizePath(orig);
   const filename = getFilename(orig);
   const list = [];
 
-  if (orig) list.push(orig); // original
+  if (orig) list.push(orig);
 
   if (normalized && filename) {
     for (const b of fallbackBases) {
       const base = b.endsWith('/') ? b : b + '/';
-      list.push(base + filename);            // base + filename
-      list.push('./' + base + filename);     // current directory
-      list.push('../' + base + filename);    // one level up
-      list.push('../../' + base + filename); // two levels up
+      list.push(base + filename);
+      list.push('./' + base + filename);
+      list.push('../' + base + filename);
+      list.push('../../' + base + filename);
     }
   }
 
-  list.push('/' + filename); // root fallback
+  list.push('/' + filename);
+  console.log('[makeCandidates] candidates for', orig, ':', list);
   return Array.from(new Set(list));
 }
 
-// --- Get first available URL ---
 async function getFirstAvailable(orig) {
   const candidates = makeCandidates(orig);
   for (const url of candidates) {
-    if (await resourceExists(url)) return url;
+    if (await resourceExists(url)) {
+      console.log(`[getFirstAvailable] using ${url} for ${orig}`);
+      return url;
+    }
   }
+  console.warn(`[getFirstAvailable] all fallbacks failed for ${orig}`);
   return null;
 }
 
-// --- Load script with fallback ---
 async function tryLoadScript(old) {
   const orig = old.getAttribute('src');
   const candidates = makeCandidates(orig);
@@ -101,20 +99,20 @@ async function tryLoadScript(old) {
       if (old.type) s.type = old.type;
       if (old.hasAttribute('async')) s.async = true;
       if (old.hasAttribute('defer')) s.defer = true;
-      if (old.getAttribute('nomodule') !== null) s.noModule = true;
+      if (old.hasAttribute('nomodule') !== null) s.noModule = true;
       if (old.crossOrigin) s.crossOrigin = old.crossOrigin;
       if (old.integrity) s.integrity = old.integrity;
       for (const k of Object.keys(old.dataset)) s.dataset[k] = old.dataset[k];
       s.src = url;
       old.parentNode.insertBefore(s, old);
       old.parentNode.removeChild(old);
+      console.log(`[tryLoadScript] Loaded script ${url}`);
       return;
     }
   }
-  console.warn('All fallbacks failed for script:', orig);
+  console.warn('[tryLoadScript] All fallbacks failed for script:', orig);
 }
 
-// --- Load CSS with fallback ---
 async function tryLoadLink(old) {
   const orig = old.getAttribute('href');
   const candidates = makeCandidates(orig);
@@ -126,26 +124,26 @@ async function tryLoadLink(old) {
       if (old.crossOrigin) l.crossOrigin = old.crossOrigin;
       old.parentNode.insertBefore(l, old);
       old.parentNode.removeChild(old);
+      console.log(`[tryLoadLink] Loaded stylesheet ${url}`);
       return;
     }
   }
-  console.warn('All fallbacks failed for stylesheet:', orig);
+  console.warn('[tryLoadLink] All fallbacks failed for stylesheet:', orig);
 }
 
-// --- Extract href from inline onclick ---
 function extractHrefFromOnclick(onclick) {
   if (!onclick) return null;
   const m = /window\.location\.href\s*=\s*['"]([^'"]+)['"]/i.exec(onclick);
   if (!m) return null;
   let href = m[1];
-  // Prepend base path for GitHub Pages if it starts with '/'
   if (href.startsWith('/')) href = BASE_PATH + href.slice(1);
+  console.log('[extractHrefFromOnclick] extracted href:', href);
   return href;
 }
 
-// --- Fallbacks for menu buttons ---
 function attachFallbacksToMenu() {
   const buttons = Array.from(document.querySelectorAll('.menuButton[onclick]'));
+  console.log('[attachFallbacksToMenu] found buttons:', buttons.map(b => b.id));
   for (const btn of buttons) {
     const onclick = btn.getAttribute('onclick');
     const origHref = extractHrefFromOnclick(onclick);
@@ -153,29 +151,31 @@ function attachFallbacksToMenu() {
     btn.removeAttribute('onclick');
     btn.addEventListener('click', async e => {
       e.preventDefault();
+      console.log(`[MenuButton] clicking ${btn.id} -> ${origHref}`);
       const linkUrl = await getFirstAvailable(origHref);
       window.location.href = linkUrl || origHref;
     });
   }
 }
 
-// --- Fallbacks for <a> links ---
 function attachFallbacksToLinks() {
   const links = Array.from(document.querySelectorAll('a[href]'));
+  console.log('[attachFallbacksToLinks] found links:', links.map(l => l.href));
   for (const a of links) {
     let href = a.getAttribute('href');
     if (!href || href.startsWith('#') || href.startsWith('mailto:')) continue;
     if (href.startsWith('/')) href = BASE_PATH + href.slice(1);
     a.addEventListener('click', async e => {
       e.preventDefault();
+      console.log(`[Link] clicking <a> href=${href}`);
       const linkUrl = await getFirstAvailable(href);
       window.location.href = linkUrl || href;
     });
   }
 }
 
-// --- Initialization ---
 async function initialize() {
+  console.log('[initialize] starting loader.js initialization...');
   fallbackBases = buildFallbackBases();
 
   const scripts = Array.from(document.querySelectorAll('script[src]'));
@@ -193,7 +193,7 @@ async function initialize() {
     attachFallbacksToMenu();
     attachFallbacksToLinks();
   }
+  console.log('[initialize] loader.js initialization complete.');
 }
 
-// --- Exports ---
 export { initialize, getFirstAvailable, makeCandidates, resourceExists };
