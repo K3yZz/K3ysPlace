@@ -9,12 +9,12 @@
     // ---- Favicons ----
     if (!alreadyInjected("favicons")) {
       const faviconData = [
-        { rel: "apple-touch-icon", sizes: "180x180", href: "/globalassets/favicon/apple-touch-icon.png" },
-        { rel: "icon", type: "image/png", sizes: "32x32", href: "/globalassets/favicon/favicon-32x32.png" },
-        { rel: "icon", type: "image/png", sizes: "16x16", href: "/globalassets/favicon/favicon-16x16.png" },
-        { rel: "manifest", href: "/globalassets/favicon/site.webmanifest" },
-        { rel: "mask-icon", href: "/globalassets/favicon/safari-pinned-tab.svg" },
-        { rel: "shortcut icon", href: "/globalassets/favicon/favicon.ico" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: "globalassets/favicon/apple-touch-icon.png" },
+        { rel: "icon", type: "image/png", sizes: "32x32", href: "globalassets/favicon/favicon-32x32.png" },
+        { rel: "icon", type: "image/png", sizes: "16x16", href: "globalassets/favicon/favicon-16x16.png" },
+        { rel: "manifest", href: "globalassets/favicon/site.webmanifest" },
+        { rel: "mask-icon", href: "globalassets/favicon/safari-pinned-tab.svg" },
+        { rel: "shortcut icon", href: "globalassets/favicon/favicon.ico" },
       ];
 
       faviconData.forEach(attrs => {
@@ -42,16 +42,16 @@
     if (!alreadyInjected("theme-css")) {
       const themeLink = document.createElement("link");
       themeLink.rel = "stylesheet";
-      themeLink.href = "/globalassets/css/theme.css";
+      themeLink.href = "globalassets/css/theme.css";
       themeLink.setAttribute("data-injected-resource", "theme-css");
       head.appendChild(themeLink);
     }
 
     // ---- JS ----
     const scripts = [
-      { id: "particles-js", src: "/globalassets/js/particles.js" },
-      { id: "debug-js", src: "/globalassets/js/debug.js" },
-      { id: "theme-js", src: "/globalassets/js/theme.js" },
+      { id: "particles-js", src: "globalassets/js/particles.js" },
+      { id: "debug-js", src: "globalassets/js/debug.js" },
+      { id: "theme-js", src: "globalassets/js/theme.js" },
     ];
 
     scripts.forEach(({ id, src }) => {
