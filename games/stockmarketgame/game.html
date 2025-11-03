@@ -5,26 +5,28 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Stock Market</title>
-  <link rel="stylesheet" href="/K3ysPlace/globalassets/css/theme.css"></link>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="wrap">
     <div id="topCards">
-      <div id="cashCard" class="card"></div>
-      <div id="pauseCard" class="card"></div>
+      <div id="cashCard" class="card blur"></div>
+      <div id="pauseCard" class="card blur"></div>
     </div>
 
     <div id="portfolio"></div>
 
     <div id="eventContainer"></div>
-    <canvas id="stockCanvas" width="880" height="300"></canvas>
+    <canvas id="stockCanvas" width="880" height="300" class="blur"></canvas>
   </div>
+  <script type="module">
+    import { initialize } from '/loader.js';
+    await initialize(); // optional await ensures fallbacks are applied before other scripts
+  </script>
 
-  <script src="/K3ysPlace/globalassets/js/theme.js"></script>
   <script src="main.js"></script>
-  <script src="/KeysPlace/globalassets/js/debug.js"></script>
+  <script type="module" src="../../loader.js"></script>
 </body>
 
 </html>

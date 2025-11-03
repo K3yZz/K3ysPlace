@@ -5,15 +5,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>WS Chat (P2P Friends)</title>
-  <link rel="stylesheet" href="/K3ysPlace/globalassets/css/theme.css"/>
-   <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="header">
     <div class="title">WS Chat</div>
     <div class="controls">
-      <button id="openSettings" class="settingsBtn">⚙ Settings</button>
+      <button id="openSettings" class="settingsBtn Secondary">⚙ Settings</button>
       <input id="connectInput" class="connectInput" type="text" placeholder="Enter friend's ID" />
       <button id="connectBtn" class="copyBtn">Add Friend</button>
     </div>
@@ -22,7 +21,7 @@
   <div class="modalBack" id="modalBack">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <strong id="settingsTitle" style="color:var(--accent)">Settings</strong>
+        <strong id="settingsTitle" style="color:#fff">Settings</strong>
         <div style="display:flex;gap:8px">
           <button id="closeSettings" class="copyBtn">Close</button>
         </div>
@@ -44,7 +43,7 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="container blur panel">
     <div class="left">
       <div id="messages" class="messages"></div>
       <div class="compose">
@@ -63,11 +62,14 @@
       </div>
     </div>
   </div>
+  <script type="module">
+    import { initialize } from '/loader.js';
+    await initialize(); // optional await ensures fallbacks are applied before other scripts
+  </script>
 
   <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-  <script src="/K3ysPlace/globalassets/js/theme.js"></script>
   <script src="main.js"></script>
-  <script src="/KeysPlace/globalassets/js/debug.js"></script>
+  <script type="module" src="../../loader.js"></script>
 </body>
 
 </html>

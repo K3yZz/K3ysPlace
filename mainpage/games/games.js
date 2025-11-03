@@ -1,0 +1,58 @@
+import { getFirstAvailable } from '../../loader.js';
+
+const myGames = [
+  { title: "Stock Market", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
+  { title: "Casino", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" }
+];
+
+const portedGames = [
+  { title: "Undertale Yellow", img: "/globalassets/gameIcons/portedgameIcons/undertaleyellow.png", link: "/portedgames/undertale-yellow/undertale_yellow.html" },
+  { title: "Bitlife", img: "/globalassets/gameIcons/portedgameIcons/bitlife.jpeg", link: "/portedgames/bitlife-life-simulator/play.html" },
+  { title: "Chrome Dino", img: "/globalassets/gameIcons/portedgameIcons/dino.png", link: "/portedgames/chrome-dino" },
+  { title: "Cookie Clicker", img: "/globalassets/gameIcons/portedgameIcons/cookieclicker.png", link: "/portedgames/cookie-clicker" },
+  { title: "Drive Mad", img: "/globalassets/gameIcons/portedgameIcons/drivemad.jpeg", link: "/portedgames/drive-mad" },
+  { title: "Moto X3M", img: "/globalassets/gameIcons/portedgameIcons/moto1.jpeg", link: "/portedgames/Moto-X3M" },
+  { title: "Moto Pool", img: "/globalassets/gameIcons/portedgameIcons/moto2.jpeg", link: "/portedgames/motox3m-pool" },
+  { title: "Moto Spooky", img: "/globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "/portedgames/motox3m-spooky" },
+  { title: "Moto Winter", img: "/globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "/portedgames/motox3m-winter" },
+  { title: "Subway Surfers", img: "/globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "/portedgames/subwaysurfers-sf" },
+  { title: "Emulator", img: "/globalassets/gameIcons/portedgameIcons/emulator.png", link: "/portedgames/emulator/index.html" },
+  { title: "Monkey-Mart", img: "/globalassets/gameIcons/portedgameIcons/monkey-mart.jpeg", link: "/portedgames/monkey-mart/game.html" }
+];
+
+const allGames = [...myGames, ...portedGames];
+const container = document.getElementById('gameContainer');
+
+async function initializeGameButtons() {
+  if (!container) return;
+
+  // Resolve images and links in parallel
+  const imgUrls = await Promise.all(allGames.map(game => getFirstAvailable(game.img)));
+  const linkUrls = await Promise.all(allGames.map(game => getFirstAvailable(game.link)));
+
+  allGames.forEach((game, i) => {
+    const btn = document.createElement('div');
+    btn.classList.add('game-button', 'panel');
+
+    const img = document.createElement('img');
+    img.alt = game.title;
+    img.src = imgUrls[i] || game.img;
+    btn.appendChild(img);
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'title';
+    titleDiv.textContent = game.title;
+    btn.appendChild(titleDiv);
+
+    const linkUrl = linkUrls[i] || game.link;
+    btn.onclick = () => window.location.href = linkUrl;
+
+    container.appendChild(btn);
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeGameButtons);
+} else {
+  initializeGameButtons();
+}

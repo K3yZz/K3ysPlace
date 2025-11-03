@@ -1,139 +1,275 @@
-@font-face {
-  font-family: "CustomFont";
-  src: url('./font.ttf') format("truetype");
-  font-display: swap;
-}
-
+/* ==========================
+   THEME VARIABLES
+========================== */
 :root {
-  --font-main: system-ui, -apple-system, Arial, sans-serif;
-  --font-sub: "CustomFont", sans-serif;
-  --font-ohno: 'Comic Sans MS', 'Comic Sans', cursive;
+  --modern-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
-  --color-white: #fff;
+  --color-text: #ffffff;
+  --color-text-muted: #bbbbbb;
 
-  --color-bg: #111;
-  --color-panel: #222;
-  --color-muted: #888;
-  --color-accent: #0b7;
-  --color-msg-bg: #0b280f;
-  --color-own: #143d2a;
+  --color-accent: rgba(255, 255, 255, 0.1);
+  --color-border: rgba(255, 255, 255, 0.2);
+  --color-shadow: rgba(0, 0, 0, 0.2);
+  --color-hover: rgba(255, 255, 255, 0.2);
+  --color-glow: rgba(255, 140, 0, 0.2);
+  --color-panel-hover: rgba(255, 140, 0, 0.4);
+  --color-panel: rgba(0, 0, 0, 0.15);
+  --color-white: #ffffff;
 
-  --color-bg-blue: #0f1724;
-  --color-panel-blue: #0b1220;
-  --color-muted-blue: #9aa7bd;
-  --color-accent-blue: #60a5fa;
-  --color-msg-bg-blue: #0b1228;
-  --color-own-blue: #14223d;
-
-  --color-bg-red: #240f0f;
-  --color-panel-red: #200b0b;
-  --color-muted-red: #bd9a9a;
-  --color-accent-red: #fa6060;
-  --color-msg-bg-red: #280b0b;
-  --color-own-red: #3d1414;
-
-  --color-bg-img: url('bg-main.jpeg');
+  /* Editable backgrounds */
+  --background-c1: rgba(0, 120, 0, 0.6);
+  --background-c2: rgba(30, 0, 0, 0.85);
+  --background-img: none;
 }
 
-:root.blue {
-  --color-bg: var(--color-bg-blue);
-  --color-panel: var(--color-panel-blue);
-  --color-muted: var(--color-muted-blue);
-  --color-accent: var(--color-accent-blue);
-  --color-msg-bg: var(--color-msg-bg-blue);
-  --color-own: var(--color-own-blue);
+/* THEME PRESETS */
+:root.halloween {
+  --background-c1: rgba(244, 118, 45, 0.9);
+  --background-c2: rgba(52, 7, 61, 0.9);
 }
 
-:root.red {
-  --color-bg: var(--color-bg-red);
-  --color-panel: var(--color-panel-red);
-  --color-muted: var(--color-muted-red);
-  --color-accent: var(--color-accent-red);
-  --color-msg-bg: var(--color-msg-bg-red);
-  --color-own: var(--color-own-red);
+:root.christmas {
+  --background-c1: rgba(0, 120, 0, 0.6);
+  --background-c2: rgba(30, 0, 0, 0.85);
 }
 
-:root.yeah {
-  --color-bg: var(--color-bg-img);
-  --color-accent: rgb(188, 207, 12);
-  --font-main: var(--font-ohno);
+:root.ocean {
+  --background-c1: rgba(0, 180, 255, 0.5);
+  --background-c2: rgba(0, 20, 70, 0.9);
 }
 
-:root.theme1 {
-  --color-bg: var(--color-bg-blue);
-  --color-panel: var(--color-panel-blue);
-  --color-muted: var(--color-muted-blue);
-  --color-accent: var(--color-accent-blue);
-  --color-msg-bg: var(--color-msg-bg-blue);
-  --color-own: var(--color-own-blue);
+:root.coffee {
+  --background-c1: rgba(160, 82, 45, 0.5);
+  --background-c2: rgba(40, 20, 10, 0.85);
 }
 
-html,
+:root.dexter {
+  --background-c1: rgba(0, 0, 0, 0.15);
+  --background-c2: transparent;
+  --background-img: url("../images/dexter.jpeg");
+}
+
+:root.harry-styles {
+  --background-c1: rgba(0, 0, 0, 0.15);
+  --background-c2: transparent;
+  --background-img: url("../images/harry-styles.jpeg");
+}
+
+/* ==========================
+   GLOBAL STYLES
+========================== */
 body {
-  background-color: var(--color-bg);
-  background-image: var(--color-bg);
-  color: var(--color-white);
-  font-family: var(--font-main);
+  margin: 0;
+  padding: 0;
+  font-family: var(--modern-font);
+  overflow: hidden;
+  color: var(--color-text);
+  background: linear-gradient(135deg,
+      var(--background-c1),
+      var(--background-c2)),
+    var(--background-img);
+  background-size: cover, auto;
+  background-attachment: fixed, fixed;
+  background-position: center, center;
+  background-repeat: no-repeat, repeat;
+}
+
+#particles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#menuContainer {
+  margin: 10px auto 0 auto;
+  display: flex;
+  padding: 0 10px;
+  width: 60%;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.menuButton {
+  flex-grow: 1;
+}
+
+/* HTML TAGS */
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 button {
-  background: var(--color-accent);
-  color: #000;
-  border-radius: 8px;
-  border: none;
+  margin: 10px;
+  text-align: center;
+  padding: 10px 0;
   cursor: pointer;
+  background-color: transparent;
+  color: var(--color-text);
   font-weight: 600;
-  padding: 10px 18px;
   font-size: 15px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  border-radius: 12px;
+  border: none;
+  transition: background 0.3s, transform 0.2s;
 }
 
 button.secondary {
-  background: #666;
-  color: #fff;
-  box-shadow: none;
+  text-align: center;
+  padding: 10px 10px;
+  cursor: pointer;
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
+  transition: background 0.3s, transform 0.2s;
 }
 
 button:hover {
-  filter: brightness(1.15);
-  background: var(--color-accent);
+  background-color: var(--color-hover);
+  transform: scale(1.05);
 }
 
-button.active {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--color-white);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+button:active {
+  transform: scale(0.95);
 }
 
-input,
+/* very bad code to hide the scrollbar that inst even the right way */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 20px;
+}
+
+
 select {
-  background: var(--color-panel);
-  color: var(--color-white);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 10px;
-  font-size: 15px;
-  box-sizing: border-box;
-  outline: none;
-  transition: border-color 0.2s;
+  background-color: var(--color-panel);
+  font-family: var(--modern-font);
+  color: white;
+  border: none;
+  min-width: 100px;
+  border-radius: 10px 10px 0 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  appearance: base-select;
 }
 
-input:focus,
+select:hover {
+  background-color: var(--color-hover);
+}
+
 select:focus {
-  border-color: var(--color-accent);
+  outline: none;
 }
 
-/* Canvas */
-canvas {
-  background: var(--color-panel);
+::picker(select) {
+  appearance: base-select;
+  color: white;
+  overflow-x: hidden;
+  border: none;
+  border-radius: 0 0 10px 10px;
+  background-color: var(--color-panel);
+  width: 10px;
+}
+
+option::checkmark {
+  content: "✓";
+  margin-left: auto;
+  order: 1;
+}
+
+input[type="color"] {
+  appearance: none;
+  -moz-appearance: none;
+  background-color: var(--color-panel);
+  border: none;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
 }
 
-/* Muted text */
+input[type="color"]::-webkit-color-swatch {
+  border-radius: 12px;
+  border: 1px rgba(255, 255, 255, 0.5) solid;
+}
+
+input {
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
+  color: var(--color-text);
+}
+
+input:focus {
+  outline: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+th {
+  height: 30px;
+  line-height: 1;
+  font-weight: bold;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  background-color: var(--color-panel-highlight, var(--color-panel));
+}
+
+th button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  line-height: normal;
+}
+
+div.panel {
+  margin: 10px;
+  text-align: center;
+  padding: 10px 10px;
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  border-radius: 12px;
+  border: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/*utility*/
+
+.muted {
+  color: var(--color-text-muted);
+}
+
 .small {
-  color: var(--color-muted);
-  font-size: 13px;
-  letter-spacing: 0.2px;
+  font-size: 10px;
+}
+
+.blur {
+  backdrop-filter: blur(3px);
+  box-shadow: 0 8px 32px var(--color-shadow);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
 }

@@ -1,0 +1,45 @@
+#titleContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+#titleText {
+  font-size: 3em;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 10px auto 0 auto;
+}
+
+#timeText {
+  font-size: 1.2em;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+.note {
+  position: relative;
+  cursor: pointer;
+}
+
+.note .tooltip {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  font-size: 14px;
+  margin-top: 6px;
+  z-index: 10;
+}
+
+.note:hover .tooltip {
+  display: block;
+}
