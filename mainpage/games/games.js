@@ -1,8 +1,8 @@
 import { getFirstAvailable } from '../../loader.js';
 
 const myGames = [
-  { title: "Stock Market", version: "V1.0.0", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
-  { title: "Casino", version: "V1.0.1-alpha", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" }
+  { title: "Stock Market", img: "/globalassets/gameIcons/stockMarket.png", link: "/games/stockmarketgame/game.html" },
+  { title: "Casino", img: "/globalassets/gameIcons/casino.png", link: "/games/casinogame/game.html" }
 ];
 
 const portedGames = [
@@ -15,31 +15,20 @@ const portedGames = [
   { title: "Moto Pool", img: "/globalassets/gameIcons/portedgameIcons/moto2.jpeg", link: "/portedgames/motox3m-pool" },
   { title: "Moto Spooky", img: "/globalassets/gameIcons/portedgameIcons/moto3.jpeg", link: "/portedgames/motox3m-spooky" },
   { title: "Moto Winter", img: "/globalassets/gameIcons/portedgameIcons/moto4.jpeg", link: "/portedgames/motox3m-winter" },
-  { title: "Subway Surfers", img: "/globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "/ported/games/subwaysurfers-sf" },
+  { title: "Subway Surfers", img: "/globalassets/gameIcons/portedgameIcons/subway.jpeg", link: "/portedgames/subwaysurfers-sf" },
   { title: "Emulator", img: "/globalassets/gameIcons/portedgameIcons/emulator.png", link: "/portedgames/emulator/index.html" },
   { title: "Monkey-Mart", img: "/globalassets/gameIcons/portedgameIcons/monkey-mart.jpeg", link: "/portedgames/monkey-mart/game.html" }
 ];
 
 const allGames = [...myGames, ...portedGames];
-const BASE_PATH = '/K3ysPlace/';
 const container = document.getElementById('gameContainer');
 
-function resolvePath(path) {
-  return path.startsWith('/') ? BASE_PATH + path.slice(1) : path;
-}
-
 async function initializeGameButtons() {
-  if (!container) {
-    console.error('[games.js] gameContainer not found!');
-    return;
-  }
+  if (!container) return;
 
-  // Compute image and link URLs in parallel
-  const imgPromises = allGames.map(game => getFirstAvailable ? getFirstAvailable(resolvePath(game.img)) : resolvePath(game.img));
-  const linkPromises = allGames.map(game => getFirstAvailable ? getFirstAvailable(resolvePath(game.link)) : resolvePath(game.link));
-
-  const imgUrls = await Promise.all(imgPromises);
-  const linkUrls = await Promise.all(linkPromises);
+  // Resolve images and links in parallel
+  const imgUrls = await Promise.all(allGames.map(game => getFirstAvailable(game.img)));
+  const linkUrls = await Promise.all(allGames.map(game => getFirstAvailable(game.link)));
 
   allGames.forEach((game, i) => {
     const btn = document.createElement('div');
@@ -47,7 +36,7 @@ async function initializeGameButtons() {
 
     const img = document.createElement('img');
     img.alt = game.title;
-    img.src = imgUrls[i] || resolvePath(game.img); // fallback
+    img.src = imgUrls[i] || game.img;
     btn.appendChild(img);
 
     const titleDiv = document.createElement('div');
@@ -55,13 +44,15 @@ async function initializeGameButtons() {
     titleDiv.textContent = game.title;
     btn.appendChild(titleDiv);
 
-    const linkUrl = linkUrls[i] || resolvePath(game.link);
+    const linkUrl = linkUrls[i] || game.link;
     btn.onclick = () => window.location.href = linkUrl;
 
     container.appendChild(btn);
-    console.log('[games.js] Added button:', game.title, 'img:', img.src, 'link:', linkUrl);
   });
 }
 
-
-initializeGameButtons();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeGameButtons);
+} else {
+  initializeGameButtons();
+}

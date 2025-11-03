@@ -93,15 +93,6 @@ function animateParticles() {
 }
 
 // --------------------------
-// Start particles on load
-// --------------------------
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initParticles);
-} else {
-  initParticles();
-}
-
-// --------------------------
 // Handle window resize
 // --------------------------
 let resizeTimeout;

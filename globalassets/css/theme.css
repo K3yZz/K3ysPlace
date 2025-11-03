@@ -17,8 +17,8 @@
   --color-white: #ffffff;
 
   /* Editable backgrounds */
-  --background-c1: rgba(244, 118, 45, 0.9);
-  --background-c2: rgba(52, 7, 61, 0.9);
+  --background-c1: rgba(0, 120, 0, 0.6);
+  --background-c2: rgba(30, 0, 0, 0.85);
   --background-img: none;
 }
 
@@ -64,11 +64,9 @@ body {
   font-family: var(--modern-font);
   overflow: hidden;
   color: var(--color-text);
-  background: linear-gradient(
-      135deg,
+  background: linear-gradient(135deg,
       var(--background-c1),
-      var(--background-c2)
-    ),
+      var(--background-c2)),
     var(--background-img);
   background-size: cover, auto;
   background-attachment: fixed, fixed;
@@ -146,13 +144,19 @@ button:active {
   transform: scale(0.95);
 }
 
+/* very bad code to hide the scrollbar that inst even the right way */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 20px;
+}
+
+
 select {
   background-color: var(--color-panel);
   font-family: var(--modern-font);
   color: white;
   border: none;
   min-width: 100px;
-  overflow: hidden;
   border-radius: 10px 10px 0 0;
   transition: transform 0.2s ease, background-color 0.2s ease;
   appearance: base-select;
@@ -169,7 +173,9 @@ select:focus {
 ::picker(select) {
   appearance: base-select;
   color: white;
+  overflow-x: hidden;
   border: none;
+  border-radius: 0 0 10px 10px;
   background-color: var(--color-panel);
   width: 10px;
 }

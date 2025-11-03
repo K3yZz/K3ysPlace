@@ -1,7 +1,7 @@
 // =======================
 // THEME SCRIPT
 // =======================
-(function() {
+(function () {
   function initThemeScript() {
     console.log("Theme script initialized ✅");
 
