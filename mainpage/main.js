@@ -105,6 +105,31 @@ function annoyingDebug() {
 
 annoyingDebug();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     // --- DOM Elements ---
     const bugReportButton = document.getElementById("bugReportButton");
