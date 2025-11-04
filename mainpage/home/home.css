@@ -34,12 +34,20 @@
   color: white;
   padding: 8px 12px;
   border-radius: 8px;
-  white-space: nowrap;
   font-size: 14px;
-  margin-top: 6px;
   z-index: 10;
+  white-space: normal;
+  min-width: 220px;
+  min-height: 70px;
+  text-align: center;
+  flex-direction: column;
 }
 
-.note:hover .tooltip {
-  display: block;
+::picker(select) {
+  transform: translateX(-55%);
+}
+
+.note:hover .tooltip,
+.note .tooltip:hover {
+  display: flex;
 }

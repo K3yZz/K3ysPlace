@@ -40,7 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     title: "Bug Report",
                     message: description,
                     email: email,
-                    name: "bugReport",
+                    name: email,
                     time: new Date().toLocaleString()
                 });
 

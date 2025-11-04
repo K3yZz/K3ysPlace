@@ -1,9 +1,10 @@
 import { getFirstAvailable } from '../../loader.js';
 
 const tools = [
-  { title: "The wheel", img: "/globalassets/gameIcons/wheel.png", link: "/games/wheelgame/game.html" },
-  { title: "Chat", img: "/globalassets/gameIcons/chat.png", link: "/games/chatgame/game.html" },
-  { title: "Download roms", img: "/", link: "/games/downloads/index.html" }
+  { title: "The wheel", img: "/globalassets/gameIcons/wheel.png", link: "/tools/wheelgame/index.html" },
+  { title: "Chat", img: "/globalassets/gameIcons/chat.png", link: "/tools/chatgame/index.html" },
+  { title: "Download roms", img: "/", link: "/tools/downloads/index.html" },
+  // { title: "html file loader", img: "/", link: "/tools/html-loader/index.html" }
 ];
 
 async function initializeAppButtons() {
