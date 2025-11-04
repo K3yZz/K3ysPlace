@@ -1,3 +1,20 @@
+/* home.css */
+#passwordWallContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  position: fixed;
+}
+
+#passwordLogin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 #titleContainer {
   display: flex;
   justify-content: center;
@@ -24,28 +41,22 @@
   cursor: pointer;
 }
 
-.note .tooltip {
+.tooltip {
   display: none;
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85);
-  color: white;
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 14px;
-  z-index: 10;
-  white-space: normal;
   min-width: 220px;
-  min-height: 70px;
-  text-align: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-::picker(select) {
-  transform: translateX(-55%);
-}
 
 .note:hover .tooltip,
 .note .tooltip:hover {

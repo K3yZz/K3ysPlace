@@ -9,44 +9,56 @@
 </head>
 
 <body>
+  <div id="passwordWallContainer" class="blur">
+    <span>Enter the password to continue.</span>
+    <input id="passwordLogin" type="password" placeholder="Password..." />
+    <button id="loginButton">Log In</button>
+    <label for="stayLoggedIn" class="small">Stay logged in?</label>
+    <input id="stayLoggedIn" type="checkbox" />
+  </div>
+
   <div id="menuContainer" class="blur">
     <button class="menuButton" id="Home" onclick="window.location.href='index.html'">Home</button>
     <button class="menuButton" id="Games" onclick="window.location.href='mainpage/games/games.html'">Games</button>
     <button class="menuButton" id="Apps" onclick="window.location.href='mainpage/apps/apps.html'">Apps</button>
-    <button class="menuButton" id="Settings"
-      onclick="window.location.href='mainpage/settings/settings.html'">Settings</button>
+    <button class="menuButton" id="Settings" onclick="window.location.href='mainpage/settings/settings.html'">Settings</button>
   </div>
 
   <div id="titleContainer">
     <h1 id="titleText">Merry Christmas!</h1>
+    <div style="display: flex; gap: 10px">
       <span class="note">
         <u>Change Log</u>
-        <div class="tooltip">
-          <select id="version-select">
-            <option value="1.3.1">🎄 Version 1.3.1</option>
-            <option value="1.3.0">🎄 Version 1.3.0</option>
-          </select>
-
-          <div id="version-details" style="margin-top:10px;">
-            -Fixed custom theme not persisting.
+        <div class="tooltip blur">
+          <div class="custom-select" id="version-select-container">
+            <button class="select-btn">🎄 Version 1.3.2</button>
+            <div class="options">
+              <div class="option" data-value="1.3.2">🎄 Version 1.3.2</div>
+              <div class="option" data-value="1.3.1">🎄 Version 1.3.1</div>
+              <div class="option" data-value="1.3.0">🎄 Version 1.3.0</div>
+            </div>
           </div>
+          <div id="version-details" style="margin-top:10px;"></div>
         </div>
       </span>
-    <span class="note">
-      <u>To-Do List</u>
-      <div class="tooltip">
-        🎁 Upcoming Features: <br>
-        -Complete Casino overhaul with new games and improved UI. <br>
-        -Add more themes for customization. <br>
-        -Add more games and apps to the platform. <br>
-        -Add more roms to the emulator. <br>
-        -Fix dropdowns overlaying other objects.
-      </div>
-    </span>
+
+      <span class="note">
+        <u>To-Do List</u>
+        <div class="tooltip blur">
+          🎁 Upcoming Features: <br>
+          - Complete Casino overhaul with new games and improved UI. <br>
+          - Add more themes for customization. <br>
+          - Add more games and apps to the platform. <br>
+          - Add more roms to the emulator. <br>
+          - Fix dropdowns overlaying other objects.
+        </div>
+      </span>
+    </div>
     <h2 id="timeText"></h2>
   </div>
+
+  <script src="mainpage/home/home.js" type="module"></script>
+  <script type="module" src="loader.js"></script>
 </body>
-<script src="mainpage/home/home.js" type="module"></script>
-<script type="module" src="loader.js"></script>
 
 </html>

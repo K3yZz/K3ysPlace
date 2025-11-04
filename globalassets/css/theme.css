@@ -1,3 +1,5 @@
+/* theme.css */
+
 /* ==========================
    THEME VARIABLES
 ========================== */
@@ -64,9 +66,11 @@ body {
   font-family: var(--modern-font);
   overflow: hidden;
   color: var(--color-text);
-  background: linear-gradient(135deg,
+  background: linear-gradient(
+      135deg,
       var(--background-c1),
-      var(--background-c2)),
+      var(--background-c2)
+    ),
     var(--background-img);
   background-size: cover, auto;
   background-attachment: fixed, fixed;
@@ -144,47 +148,62 @@ button:active {
   transform: scale(0.95);
 }
 
-/* very bad code to hide the scrollbar that inst even the right way */
 ::-webkit-scrollbar {
-  width: 10px;
-  border-radius: 20px;
+  display: none;
 }
 
-
-select {
-  background-color: var(--color-panel);
+/*select*/
+.custom-select {
+  position: relative;
   font-family: var(--modern-font);
-  color: white;
-  border: none;
-  min-width: 100px;
-  border-radius: 10px 10px 0 0;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  appearance: base-select;
+  user-select: none;
+  display: inline-block;
 }
 
-select:hover {
+.select-btn {
+  padding: 10px 12px;
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  border: none;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  margin: 0;
+  transition: background-color 0.2s ease;
+}
+
+.select-btn:hover {
   background-color: var(--color-hover);
 }
 
-select:focus {
-  outline: none;
-}
-
-::picker(select) {
-  appearance: base-select;
-  color: white;
-  overflow-x: hidden;
-  border: none;
-  border-radius: 0 0 10px 10px;
+.options {
+  position: relative;
+  top: 100%;
+  left: 0;
+  right: 0;
   background-color: var(--color-panel);
-  width: 10px;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
 }
 
-option::checkmark {
-  content: "✓";
-  margin-left: auto;
-  order: 1;
+.custom-select.active .options {
+  display: flex;
 }
+
+.option {
+  padding: 10px 12px;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.option:hover {
+  background-color: var(--color-hover);
+}
+
+/*  */
 
 input[type="color"] {
   appearance: none;
