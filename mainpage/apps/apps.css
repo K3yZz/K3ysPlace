@@ -1,5 +1,5 @@
 /* ===== Game Container ===== */
-    #appContainer {
+    .appContainer {
       display: flex;
       flex-wrap: wrap;
       /* allow buttons to wrap */
@@ -41,11 +41,6 @@
     .game-button .title {
       font-weight: bold;
       margin-bottom: 5px;
-    }
-
-    .game-button .description {
-      font-size: 0.85em;
-      color: #666;
     }
 
     /* ===== Responsive ===== */

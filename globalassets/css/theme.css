@@ -45,6 +45,11 @@
   --background-c2: rgba(40, 20, 10, 0.85);
 }
 
+:root.sprite {
+  --background-c1: rgba(22, 160, 133, 0.5);
+  --background-c2: rgb(244, 208, 63, 0.85);
+}
+
 :root.dexter {
   --background-c1: rgba(0, 0, 0, 0.15);
   --background-c2: transparent;
@@ -113,11 +118,10 @@ a:hover {
 }
 
 button {
-  margin: 10px;
   text-align: center;
-  padding: 10px 0;
+  padding: 10px 10px;
   cursor: pointer;
-  background-color: transparent;
+  background-color: var(--color-panel);
   color: var(--color-text);
   font-weight: 600;
   font-size: 15px;
@@ -127,10 +131,11 @@ button {
 }
 
 button.secondary {
+  margin: 10px;
   text-align: center;
   padding: 10px 10px;
   cursor: pointer;
-  background-color: var(--color-panel);
+  background-color: transparent;
   color: var(--color-text);
   font-weight: 600;
   font-size: 15px;
@@ -167,7 +172,7 @@ button:active {
   border: none;
   border-radius: 10px 10px 0 0;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   width: 100%;
   margin: 0;
   transition: background-color 0.2s ease;

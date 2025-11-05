@@ -5,46 +5,30 @@ window.addEventListener("DOMContentLoaded", () => {
   function initThemeSettings() {
     const root = document.documentElement;
     const themeToggle = document.getElementById("themeToggle");
+    const selectBtn = themeToggle.querySelector(".select-btn");
+    const options = themeToggle.querySelectorAll(".option");
     const customSection = document.getElementById("customThemeSection");
     const customBg1 = document.getElementById("customBg1");
     const customBg2 = document.getElementById("customBg2");
     const customBgImg = document.getElementById("customBgImg");
     const applyCustomBtn = document.getElementById("applyCustomTheme");
 
+    // Load saved theme (fallback to default)
     const savedTheme = localStorage.getItem("theme") || "default";
     root.className = savedTheme;
-    if (themeToggle) themeToggle.value = savedTheme;
+
+    // Set the button label to the matching option's text (more robust than charAt)
+    const savedOption = themeToggle.querySelector(
+      `.option[data-value="${savedTheme}"]`
+    );
+    selectBtn.textContent = savedOption
+      ? savedOption.textContent
+      : savedTheme.charAt(0).toUpperCase() + savedTheme.slice(1);
 
     let savedCustom = {};
     try {
       savedCustom = JSON.parse(localStorage.getItem("customTheme") || "{}");
     } catch (e) {}
-
-    if (savedTheme === "custom") {
-      customSection.style.display = "flex";
-      if (savedCustom.bg1)
-        root.style.setProperty("--background-c1", savedCustom.bg1);
-      if (savedCustom.bg2)
-        root.style.setProperty("--background-c2", savedCustom.bg2);
-      if (savedCustom.bgImg) {
-        if (savedCustom.bgImg.startsWith("data:")) {
-          document.body.style.backgroundImage = `url(${savedCustom.bgImg})`;
-        } else {
-          root.style.setProperty(
-            "--background-img",
-            `url(${savedCustom.bgImg})`
-          );
-        }
-      }
-      customBg1.value = savedCustom.bg1 || "#ffffff";
-      customBg2.value = savedCustom.bg2 || "#000000";
-      customBgImg.value = savedCustom.bgImg || "";
-    } else {
-      customSection.style.display = "none";
-      root.style.removeProperty("--background-c1");
-      root.style.removeProperty("--background-c2");
-      root.style.removeProperty("--background-img");
-    }
 
     function applyCustomTheme() {
       const bg1 = customBg1.value || "";
@@ -72,41 +56,63 @@ window.addEventListener("DOMContentLoaded", () => {
       if (typeof initParticles === "function") initParticles();
     }
 
-    if (themeToggle) {
-      themeToggle.addEventListener("change", () => {
-        const selectedTheme = themeToggle.value;
-        root.className = selectedTheme;
+    function initCustomTheme() {
+      customSection.style.display = "flex";
+      customBg1.value = savedCustom.bg1 || "#ffffff";
+      customBg2.value = savedCustom.bg2 || "#000000";
+      customBgImg.value = savedCustom.bgImg || "";
+      applyCustomTheme();
+    }
 
-        if (selectedTheme === "custom") {
-          customSection.style.display = "flex";
-          const saved = JSON.parse(localStorage.getItem("customTheme") || "{}");
-          customBg1.value = saved.bg1 || "#ffffff";
-          customBg2.value = saved.bg2 || "#000000";
-          customBgImg.value = saved.bgImg || "";
-          applyCustomTheme();
+    if (savedTheme === "custom") initCustomTheme();
+    else customSection.style.display = "none";
+
+    // ---------------- Dropdown behaviour (matches your CSS which uses .active) ----------------
+    selectBtn.addEventListener("click", (e) => {
+      // toggle the class your CSS expects
+      themeToggle.classList.toggle("active");
+      // prevent the click from bubbling and being treated by the document listener
+      e.stopPropagation();
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener("click", (e) => {
+      if (!themeToggle.contains(e.target))
+        themeToggle.classList.remove("active");
+    });
+
+    // Option clicks
+    options.forEach((option) => {
+      option.addEventListener("click", (e) => {
+        const selected = option.dataset.value;
+        selectBtn.textContent = option.textContent;
+        themeToggle.classList.remove("active");
+        root.className = selected;
+
+        if (selected === "custom") {
+          initCustomTheme();
         } else {
           customSection.style.display = "none";
           root.style.removeProperty("--background-c1");
           root.style.removeProperty("--background-c2");
           root.style.removeProperty("--background-img");
           document.body.style.backgroundImage = "";
-          localStorage.setItem("theme", selectedTheme);
+          localStorage.setItem("theme", selected);
+          if (typeof initParticles === "function") initParticles();
         }
 
-        if (typeof initParticles === "function") initParticles();
+        e.stopPropagation();
       });
-    }
+    });
 
     if (applyCustomBtn)
       applyCustomBtn.addEventListener("click", applyCustomTheme);
-
     [customBg1, customBg2, customBgImg].forEach((input) =>
       input.addEventListener("input", applyCustomTheme)
     );
   }
 
   initThemeSettings();
-
   // -------------------- Bug Report --------------------
   function setupBugReport() {
     const bugReportButton = document.getElementById("bugReportButton");

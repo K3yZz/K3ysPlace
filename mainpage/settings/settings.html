@@ -10,30 +10,30 @@
   <body>
     <div id="menuContainer" class="blur">
       <button
-        class="menuButton"
+        class="menuButton secondary"
         id="Home"
-        onclick="window.location.href='../../index.html'"
+        onclick="window.location.href='index.html'"
       >
         Home
       </button>
       <button
-        class="menuButton"
+        class="menuButton secondary"
         id="Games"
-        onclick="window.location.href='../games/games.html'"
+        onclick="window.location.href='mainpage/games/games.html'"
       >
         Games
       </button>
       <button
-        class="menuButton"
+        class="menuButton secondary"
         id="Apps"
-        onclick="window.location.href='../apps/apps.html'"
+        onclick="window.location.href='mainpage/apps/apps.html'"
       >
         Apps
       </button>
       <button
-        class="menuButton"
+        class="menuButton secondary"
         id="Settings"
-        onclick="window.location.href='settings.html'"
+        onclick="window.location.href='mainpage/settings/settings.html'"
       >
         Settings
       </button>
@@ -44,17 +44,20 @@
 
       <!-- Theme Selector -->
       <section>
-        <span>Choose Theme:</span>
-        <select id="themeToggle">
-          <option value="default">Default</option>
-          <option value="halloween">Halloween</option>
-          <option value="christmas">Christmas</option>
-          <option value="ocean">Ocean</option>
-          <option value="coffee">Coffee</option>
-          <option value="dexter">Dexter</option>
-          <option value="harry-styles">Harry Styles</option>
-          <option value="custom">Custom</option>
-        </select>
+        <div class="custom-select" id="themeToggle">
+          <button class="select-btn">Choose Theme</button>
+          <div class="options">
+            <div class="option" data-value="default">Choose Theme</div>
+            <div class="option" data-value="halloween">Halloween 🎃</div>
+            <div class="option" data-value="christmas">Christmas 🎄</div>
+            <div class="option" data-value="ocean">Ocean 🌊</div>
+            <div class="option" data-value="coffee">Coffee ☕</div>
+            <div class="option" data-value="sprite">Sprite 🥤</div>
+            <div class="option" data-value="dexter-morgan">Dexter Morgan</div>
+            <div class="option" data-value="harry-styles">Harry Styles</div>
+            <div class="option" data-value="custom">Custom</div>
+          </div>
+        </div>
       </section>
 
       <section
@@ -106,7 +109,7 @@
             placeholder="URL of background image"
             style="width: 200px; text-align: center"
           />
-          <button id="applyCustomTheme" class="secondary">
+          <button id="applyCustomTheme">
             Apply Custom Theme
           </button>
         </div>
@@ -125,10 +128,10 @@
             width: 100%;
           "
         >
-          <button id="showStorageBtn" class="secondary">
+          <button id="showStorageBtn">
             Show Local Storage
           </button>
-          <button id="clearStorageBtn" class="secondary" style="color: red">
+          <button id="clearStorageBtn" style="color: red">
             Clear All Storage?
           </button>
         </div>
@@ -140,7 +143,7 @@
         <h2>Send Feedback</h2>
 
         <!-- Button to open the form -->
-        <button id="bugReportButton" class="secondary">
+        <button id="bugReportButton">
           Report a Bug / Suggestion
         </button>
 
@@ -166,8 +169,8 @@
             style="width: 500px"
           />
           <div>
-            <button id="submitBug" class="secondary">Submit</button>
-            <button id="cancelBug" class="secondary">Cancel</button>
+            <button id="submitBug">Submit</button>
+            <button id="cancelBug">Cancel</button>
           </div>
           <span id="bugFeedback"></span>
         </div>

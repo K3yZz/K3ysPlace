@@ -138,11 +138,11 @@ function renderCash() {
 function renderPause() {
   // display current multiplier (derived from global speedMultiplier)
   pauseCard.innerHTML = `
-        <button id="slowBtn" class="secondary">Slow</button>
-        <button id="pauseBtn" class="secondary">${
+        <button id="slowBtn" >Slow</button>
+        <button id="pauseBtn">${
           paused ? "Play" : "Pause"
         }</button>
-        <button id="fastBtn" class="secondary">Fast</button>
+        <button id="fastBtn">Fast</button>
     <span id="speedDisplay">${speedMultiplier.toFixed(1)}x</span>
     `;
 
@@ -176,107 +176,145 @@ function renderPause() {
     renderPause();
   });
 }
+// ------------------- Custom Select -------------------
+function createCustomSelect(container, options, initialValue, onChange) {
+  const button = document.createElement("button");
+  button.className = "select-btn";
+  button.textContent = initialValue || options[0];
+  container.innerHTML = "";
+  container.appendChild(button);
+
+  const optionsDiv = document.createElement("div");
+  optionsDiv.className = "options";
+  container.appendChild(optionsDiv);
+
+  function renderOptions(currentOptions) {
+    optionsDiv.innerHTML = "";
+    currentOptions.forEach((opt) => {
+      const div = document.createElement("div");
+      div.className = "option";
+      div.dataset.value = opt;
+      div.textContent = opt;
+      div.addEventListener("click", () => {
+        button.textContent = opt;
+        optionsDiv.style.display = "none";
+        onChange(opt);
+      });
+      optionsDiv.appendChild(div);
+    });
+  }
+
+  renderOptions(options);
+
+  button.addEventListener("click", () => {
+    optionsDiv.style.display =
+      optionsDiv.style.display === "block" ? "none" : "block";
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!container.contains(e.target)) optionsDiv.style.display = "none";
+  });
+
+  return {
+    updateOptions(newOptions, currentValue) {
+      renderOptions(newOptions);
+      if (newOptions.includes(currentValue)) button.textContent = currentValue;
+      else button.textContent = newOptions[0];
+    },
+    getValue() {
+      return button.textContent;
+    },
+  };
+}
+
 // ------------------- Portfolio -------------------
+const selectInstances = {}; // store all select instances
+
 function renderPortfolio() {
   portfolioDiv.innerHTML = "";
   stocks.forEach((s, i) => {
     if (s.lastBuy === undefined) s.lastBuy = "1";
     if (s.lastSell === undefined) s.lastSell = "1";
+
     const card = document.createElement("div");
     card.className = "card blur";
     card.id = `stockCard${i}`;
     card.innerHTML = `
-        <div class="name" style="color:${
-          s.color
-        }; display:flex; justify-content:space-between; align-items:center;">
-              <span>${s.name}</span>
-            </div>
-        <div>Current: $<span class="currentPrice">${s.price.toFixed(
-          3
-        )}</span></div>
-        <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s
+      <div class="name" style="color:${
+        s.color
+      }; display:flex; justify-content:space-between; align-items:center;">
+        <span>${s.name}</span>
+      </div>
+      <div>Current: $<span class="currentPrice">${s.price.toFixed(
+        3
+      )}</span></div>
+      <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s
       .avgPrice()
       .toFixed(2)}</div>
-        <div class="small profit" style="color:${
-          s.profit() >= 0 ? "#0b7" : "#f55"
-        }">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ""}</div>
-          <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <select id="buyAmt${i}" class="dropdown"></select>
-            <button onclick="buy(${i})" style="height: 28px; padding: 4px 8px;" class="secondary">Buy</button>
-          </div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <select id="sellAmt${i}" class="dropdown"></select>
-            <button onclick="sell(${i})" style="height: 28px; padding: 4px 8px;" class="secondary">Sell</button>
-          </div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <button id="view${i}" style="height:28px; padding:4px 8px;" class="secondary">View</button>
-          </div>
-        </div>`;
+      <div class="small profit" style="color:${
+        s.profit() >= 0 ? "#0b7" : "#f55"
+      }">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ""}</div>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <div id="buyAmt${i}" class="custom-select"></div>
+          <button onclick="buy(${i})" style="height: 28px; padding: 4px 8px;">Buy</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <div id="sellAmt${i}" class="custom-select"></div>
+          <button onclick="sell(${i})" style="height: 28px; padding: 4px 8px;">Sell</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button id="view${i}" style="height:28px; padding:4px 8px;">View</button>
+        </div>
+      </div>
+    `;
     portfolioDiv.appendChild(card);
-    // removed hide/show toggle per request
+
     document.getElementById(`view${i}`).addEventListener("click", () => {
       selectedStockIndex = i;
       renderPause();
     });
-    const buySelect = document.getElementById(`buyAmt${i}`);
-    const sellSelect = document.getElementById(`sellAmt${i}`);
-    buySelect.addEventListener("change", () => {
-      s.lastBuy = buySelect.value;
-    });
-    sellSelect.addEventListener("change", () => {
-      s.lastSell = sellSelect.value;
-    });
+
+    // Create custom select instances or update existing ones
     const maxBuy = Math.floor(money / s.price);
+    const buyOptions = [1, 5, 10].filter((v) => v <= maxBuy);
+    if (maxBuy > 10) buyOptions.push("Max");
+
     const maxSell = s.amountOwned;
-    populateSelectOptions(buySelect, maxBuy, s.lastBuy);
-    populateSelectOptions(sellSelect, maxSell, s.lastSell);
+    const sellOptions = [1, 5, 10].filter((v) => v <= maxSell);
+    if (maxSell > 10) sellOptions.push("Max");
+
+    if (!selectInstances[`buy${i}`]) {
+      selectInstances[`buy${i}`] = createCustomSelect(
+        document.getElementById(`buyAmt${i}`),
+        buyOptions,
+        s.lastBuy,
+        (val) => (s.lastBuy = val)
+      );
+    } else {
+      selectInstances[`buy${i}`].updateOptions(buyOptions, s.lastBuy);
+    }
+
+    if (!selectInstances[`sell${i}`]) {
+      selectInstances[`sell${i}`] = createCustomSelect(
+        document.getElementById(`sellAmt${i}`),
+        sellOptions,
+        s.lastSell,
+        (val) => (s.lastSell = val)
+      );
+    } else {
+      selectInstances[`sell${i}`].updateOptions(sellOptions, s.lastSell);
+    }
   });
+
   renderCash();
 }
 
-function populateSelectOptions(select, max, lastVal) {
-  const fixed = [1, 5, 10];
-  const opts = [];
-  fixed.forEach((v) => {
-    if (v <= max) opts.push(String(v));
-  });
-  if (max > 10) opts.push("Max");
-  if (opts.length === 0) opts.push("1");
-
-  while (select.options.length) select.remove(0);
-  opts.forEach((o) => select.add(new Option(o, o)));
-
-  if (opts.includes(String(lastVal))) {
-    select.value = String(lastVal);
-  } else {
-    if (lastVal === "Max" && opts.includes("Max")) {
-      select.value = "Max";
-    } else {
-      const numericOpts = opts
-        .filter((x) => x !== "Max")
-        .map(Number)
-        .sort((a, b) => a - b);
-      const desired = parseInt(lastVal, 10);
-      if (!isNaN(desired)) {
-        let pick = numericOpts.find((n) => n >= desired);
-        if (!pick)
-          pick = numericOpts[numericOpts.length - 1] || Number(opts[0]);
-        select.value = String(pick);
-      } else {
-        select.value = opts[0];
-      }
-    }
-  }
-}
-
+// ------------------- Update Values -------------------
 function updatePortfolioValues() {
   stocks.forEach((s, i) => {
     const card = document.getElementById(`stockCard${i}`);
     if (!card) return;
-
-    const maxBuy = Math.floor(money / s.price);
-    const maxSell = s.amountOwned;
 
     card.querySelector(".currentPrice").textContent = s.price.toFixed(2);
     card.querySelector(".owned").textContent = `Owned: ${
@@ -289,18 +327,19 @@ function updatePortfolioValues() {
       profitElem.style.color = s.profit() >= 0 ? "#0b7" : "#f55";
     } else profitElem.textContent = "";
 
-    const buySelect = document.getElementById(`buyAmt${i}`);
-    const sellSelect = document.getElementById(`sellAmt${i}`);
+    // Update options without resetting user selection
+    const maxBuy = Math.floor(money / s.price);
+    const buyOptions = [1, 5, 10].filter((v) => v <= maxBuy);
+    if (maxBuy > 10) buyOptions.push("Max");
 
-    if (buySelect)
-      populateSelectOptions(buySelect, maxBuy, s.lastBuy || buySelect.value);
-    if (sellSelect)
-      populateSelectOptions(
-        sellSelect,
-        maxSell,
-        s.lastSell || sellSelect.value
-      );
+    const maxSell = s.amountOwned;
+    const sellOptions = [1, 5, 10].filter((v) => v <= maxSell);
+    if (maxSell > 10) sellOptions.push("Max");
+
+    selectInstances[`buy${i}`]?.updateOptions(buyOptions, s.lastBuy);
+    selectInstances[`sell${i}`]?.updateOptions(sellOptions, s.lastSell);
   });
+
   renderCash();
 }
 

@@ -25,19 +25,28 @@ function assignID() {
   }
 }
 
+//* mainpage stuff idk
 const versionUpdates = {
-  "1.3.2": "- Added a password wall.<br>- Redesigned dropdowns.",
+  "1.3.2": "- Added a password wall.<br>- Redesigned dropdowns.<br>-Added notification to save in emulator.<br>-Modified changelog and worklog.<br>-Game/app buttons are hardcoded for faster loading.<br>-New theme.<br>-Images for emulator and download.",
   "1.3.1": "- Fixed custom theme not persisting.",
   "1.3.0":
     "- New design.<br>- Currently only Stock Market matches the theme, others still look decent.<br>- Casino update delayed. Improvements to wheel coming soon.<br>- Added new games and a new app.",
 };
 
+const worklogUpdates = {
+  "TODO": "🎁 Upcoming Features: <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more themes for customization. <br>- Add more games and apps to the platform. <br>- Add more roms to the emulator. <br>",
+  "Known Problems":
+    "🚫 Known Issues:<br>- Custom image background not working.",
+};
+
+// --- Version Select ---
 const versionSelect = document.getElementById("version-select-container");
 const versionBtn = versionSelect.querySelector(".select-btn");
 const versionOptions = versionSelect.querySelectorAll(".option");
 const versionDetails = document.getElementById("version-details");
 
-versionDetails.innerHTML = versionUpdates[versionOptions[0].dataset.value] || "";
+versionDetails.innerHTML =
+  versionUpdates[versionOptions[0].dataset.value] || "";
 
 versionBtn.addEventListener("click", () => {
   versionSelect.classList.toggle("active");
@@ -57,6 +66,37 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// --- Work Log Select ---
+const worklogSelect = document.getElementById("worklog-select-container");
+const worklogBtn = worklogSelect.querySelector(".select-btn");
+const worklogOptions = worklogSelect.querySelectorAll(".option");
+const worklogDetails = document.getElementById("worklog-details");
+
+worklogDetails.innerHTML = worklogUpdates["TODO"];
+
+worklogBtn.addEventListener("click", () => {
+  worklogSelect.classList.toggle("active");
+});
+
+worklogOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    worklogBtn.textContent = option.textContent;
+    if (option.dataset.value === "TODO") {
+      worklogDetails.innerHTML = worklogUpdates["TODO"];
+    } else {
+      worklogDetails.innerHTML = worklogUpdates["Known Problems"];
+    }
+    worklogSelect.classList.remove("active");
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (!worklogSelect.contains(e.target)) {
+    worklogSelect.classList.remove("active");
+  }
+});
+
+//* --- Password ---
 const passwordWall = document.getElementById("passwordWallContainer");
 const passwordLogin = document.getElementById("passwordLogin");
 const stayLoggedIn = document.getElementById("stayLoggedIn");
@@ -64,7 +104,7 @@ const loginButton = document.getElementById("loginButton");
 
 function handleLogin() {
   const password = passwordLogin.value.trim();
-  if (password === "password!") {
+  if (password === "password") {
     passwordWall.style.display = "none";
     if (stayLoggedIn.checked) {
       localStorage.setItem("loggedIn", "true");

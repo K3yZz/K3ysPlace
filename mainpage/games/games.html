@@ -1,22 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Games - K3yz Place</title>
+    <link rel="stylesheet" href="games.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Games - K3yz Place</title>
-  <link rel="stylesheet" href="games.css">
-</head>
-
-<body>
-  <div id="menuContainer" class="blur">
-    <button class="menuButton" id="Home" onclick="window.location.href='../../index.html'">Home</button>
-    <button class="menuButton" id="Games" onclick="window.location.href='../games/games.html'">Games</button>
-    <button class="menuButton" id="Apps" onclick="window.location.href='../apps/apps.html'">Apps</button>
-    <button class="menuButton" id="Settings" onclick="window.location.href='../settings/settings.html'">Settings</button>
-  </div>
-  <div id="gameContainer"></div>
-  <script src="games.js" type="module"></script>
-  <script type="module" src="../../loader.js"></script>
-</body>
-
+  <body>
+    <div id="menuContainer" class="blur">
+      <button
+        class="menuButton secondary"
+        id="Home"
+        onclick="window.location.href='index.html'"
+      >
+        Home
+      </button>
+      <button
+        class="menuButton secondary"
+        id="Games"
+        onclick="window.location.href='mainpage/games/games.html'"
+      >
+        Games
+      </button>
+      <button
+        class="menuButton secondary"
+        id="Apps"
+        onclick="window.location.href='mainpage/apps/apps.html'"
+      >
+        Apps
+      </button>
+      <button
+        class="menuButton secondary"
+        id="Settings"
+        onclick="window.location.href='mainpage/settings/settings.html'"
+      >
+        Settings
+      </button>
+    </div>
+    <div class="gameContainer" id="notported">
+      <div class="game-button" onclick="window.location='/games/stockmarketgame/game.html'">
+        <img src="/globalassets/gameIcons/stockMarket.png" alt="Stock Market">
+        <span class="title">Stock Market</span>
+      </div>
+      <div class="game-button" onclick="window.location = '/games/casinogame/game.html'">
+        <img src="/globalassets/gameIcons/casino.png" />
+        <span class="title">Casino</span>
+      </div>
+    </div>
+    <div class="gameContainer" id="ported">
+     <div class="game-button" onclick="window.location='/portedgames/undertale-yellow/undertale_yellow.html'">
+        <img src="/globalassets/gameIcons/portedgameIcons/undertaleyellow.png" alt="Undertale Yellow">
+        <span class="title">Undertale Yellow</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/bitlife-life-simulator/play.html'">
+        <img src="/globalassets/gameIcons/portedgameIcons/bitlife.jpeg" alt="Bitlife">
+        <span class="title">Bitlife</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/chrome-dino'">
+        <img src="/globalassets/gameIcons/portedgameIcons/dino.png" alt="Chrome Dino">
+        <span class="title">Chrome Dino</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/cookie-clicker'">
+        <img src="/globalassets/gameIcons/portedgameIcons/cookieclicker.png" alt="Cookie Clicker">
+        <span class="title">Cookie Clicker</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/drive-mad'">
+        <img src="/globalassets/gameIcons/portedgameIcons/drivemad.jpeg" alt="Drive Mad">
+        <span class="title">Drive Mad</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/Moto-X3M'">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto1.jpeg" alt="Moto X3M">
+        <span class="title">Moto X3M</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/motox3m-pool'">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto2.jpeg" alt="Moto Pool">
+        <span class="title">Moto Pool</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/motox3m-spooky'">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto3.jpeg" alt="Moto Spooky">
+        <span class="title">Moto Spooky</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/motox3m-winter'">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto4.jpeg" alt="Moto Winter">
+        <span class="title">Moto Winter</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/subwaysurfers-sf'">
+        <img src="/globalassets/gameIcons/portedgameIcons/subway.jpeg" alt="Subway Surfers">
+        <span class="title">Subway Surfers</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/emulator/index.html'">
+        <img src="/globalassets/gameIcons/portedgameIcons/emulator.jpg" alt="Emulator">
+        <span class="title">Emulator</span>
+      </div>
+      <div class="game-button" onclick="window.location='/portedgames/monkey-mart/game.html'">
+        <img src="/globalassets/gameIcons/portedgameIcons/monkey-mart.jpeg" alt="Monkey-Mart">
+        <span class="title">Monkey-Mart</span>
+      </div>
+    </div>
+    <script type="module" src="../../loader.js"></script>
+  </body>
 </html>

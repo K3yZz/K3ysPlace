@@ -1,22 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Games - K3yz Place</title>
+    <link rel="stylesheet" href="apps.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Apps - K3yz Place</title>
-  <link rel="stylesheet" href="apps.css">
-</head>
-
-<body>
-  <div id="menuContainer" class="blur">
-    <button class="menuButton" id="Home" onclick="window.location.href='../../index.html'">Home</button>
-    <button class="menuButton" id="Games" onclick="window.location.href='../games/games.html'">Games</button>
-    <button class="menuButton" id="Apps" onclick="window.location.href='../apps/apps.html'">Apps</button>
-    <button class="menuButton" id="Settings" onclick="window.location.href='../settings/settings.html'">Settings</button>
-  </div>
-  <div id="appContainer"></div>
-  <script src="apps.js" type="module"></script>
-  <script type="module" src="../../loader.js"></script>
-</body>
-
+  <body>
+    <div id="menuContainer" class="blur">
+      <button
+        class="menuButton secondary"
+        id="Home"
+        onclick="window.location.href='index.html'"
+      >
+        Home
+      </button>
+      <button
+        class="menuButton secondary"
+        id="Games"
+        onclick="window.location.href='mainpage/games/games.html'"
+      >
+        Games
+      </button>
+      <button
+        class="menuButton secondary"
+        id="Apps"
+        onclick="window.location.href='mainpage/apps/apps.html'"
+      >
+        Apps
+      </button>
+      <button
+        class="menuButton secondary"
+        id="Settings"
+        onclick="window.location.href='mainpage/settings/settings.html'"
+      >
+        Settings
+      </button>
+    </div>
+    <div class="appContainer">
+      <div class="game-button" onclick="window.location='/tools/downloads/index.html'">
+        <img src="/globalassets/gameIcons/download.png">
+        <span class="title">Downloads</span>
+      </div>
+      <div class="game-button" onclick="window.location = '/tools/chatgame/index.html'">
+        <img src="/globalassets/gameIcons/chat.png" />
+        <span class="title">Chat</span>
+      </div>
+       <div class="game-button" onclick="window.location = '/tools/wheelgame/index.html'">
+        <img src="/globalassets/gameIcons/wheel.png" />
+        <span class="title">Wheel</span>
+      </div>
+    </div>
+    </div>
+    <script type="module" src="../../loader.js"></script>
+  </body>
 </html>

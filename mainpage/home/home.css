@@ -8,10 +8,17 @@
   height: 100vh;
   z-index: 10000;
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #passwordLogin {
   margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#loginButton {
   margin-bottom: 10px;
 }
 
