@@ -139,9 +139,8 @@ function renderPause() {
   // display current multiplier (derived from global speedMultiplier)
   pauseCard.innerHTML = `
         <button id="slowBtn" >Slow</button>
-        <button id="pauseBtn">${
-          paused ? "Play" : "Pause"
-        }</button>
+        <button id="pauseBtn">${paused ? "Play" : "Pause"
+    }</button>
         <button id="fastBtn">Fast</button>
     <span id="speedDisplay">${speedMultiplier.toFixed(1)}x</span>
     `;
@@ -180,49 +179,139 @@ function renderPause() {
 function createCustomSelect(container, options, initialValue, onChange) {
   const button = document.createElement("button");
   button.className = "select-btn";
-  button.textContent = initialValue || options[0];
+  button.type = "button";
+
+  // Determine initial display text
+  const startValue =
+    (initialValue && initialValue.trim() !== "") ||
+    (options.length > 0 && options[0])
+      ? initialValue || options[0]
+      : "1";
+
+  button.textContent = startValue;
+  button.style.textAlign = "center"; // center text
   container.innerHTML = "";
   container.appendChild(button);
 
+  // Create dropdown container (absolute, detached from layout)
   const optionsDiv = document.createElement("div");
   optionsDiv.className = "options";
-  container.appendChild(optionsDiv);
+  optionsDiv.style.position = "absolute";
+  optionsDiv.style.display = "none";
+  optionsDiv.style.zIndex = 9999;
+  optionsDiv.style.textAlign = "center";
+  optionsDiv.style.whiteSpace = "nowrap"; // prevent wrapping
+  document.body.appendChild(optionsDiv);
+
+  // Helper to measure and set width based on longest text
+  function adjustWidth() {
+    const measure = document.createElement("span");
+    measure.style.visibility = "hidden";
+    measure.style.position = "absolute";
+    measure.style.whiteSpace = "nowrap";
+    measure.style.font = getComputedStyle(button).font;
+    document.body.appendChild(measure);
+
+    const texts = options.length > 0 ? options.slice() : ["1"];
+    texts.push(button.textContent);
+    let maxWidth = 0;
+    texts.forEach((t) => {
+      measure.textContent = t;
+      const w = measure.offsetWidth;
+      if (w > maxWidth) maxWidth = w;
+    });
+    measure.remove();
+
+    // Add padding buffer (to account for button padding/borders)
+    const finalWidth = maxWidth + 32;
+    button.style.width = `${finalWidth}px`;
+    optionsDiv.style.width = `${finalWidth}px`;
+  }
 
   function renderOptions(currentOptions) {
     optionsDiv.innerHTML = "";
-    currentOptions.forEach((opt) => {
+    const list = currentOptions.length > 0 ? currentOptions : ["1"];
+    list.forEach((opt) => {
       const div = document.createElement("div");
       div.className = "option";
       div.dataset.value = opt;
       div.textContent = opt;
-      div.addEventListener("click", () => {
+      div.style.textAlign = "center";
+      div.addEventListener("click", (e) => {
+        e.stopPropagation();
         button.textContent = opt;
-        optionsDiv.style.display = "none";
+        hideOptions();
         onChange(opt);
+        adjustWidth(); // recheck width if text changes
       });
       optionsDiv.appendChild(div);
     });
   }
 
-  renderOptions(options);
+  function positionOptions() {
+    const rect = button.getBoundingClientRect();
+    const left = rect.left + window.pageXOffset;
+    const top = rect.bottom + window.pageYOffset + 4;
+    optionsDiv.style.left = `${left}px`;
+    optionsDiv.style.top = `${top}px`;
+    optionsDiv.style.width = `${button.offsetWidth}px`;
+  }
 
-  button.addEventListener("click", () => {
-    optionsDiv.style.display =
-      optionsDiv.style.display === "block" ? "none" : "block";
+  function showOptions() {
+    positionOptions();
+    optionsDiv.style.display = "flex";
+    optionsDiv.style.flexDirection = "column";
+    window.addEventListener("scroll", positionOptions, true);
+    window.addEventListener("resize", positionOptions);
+  }
+
+  function hideOptions() {
+    optionsDiv.style.display = "none";
+    window.removeEventListener("scroll", positionOptions, true);
+    window.removeEventListener("resize", positionOptions);
+  }
+
+  renderOptions(options);
+  adjustWidth();
+
+  button.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (optionsDiv.style.display === "flex") hideOptions();
+    else showOptions();
   });
 
   document.addEventListener("click", (e) => {
-    if (!container.contains(e.target)) optionsDiv.style.display = "none";
+    if (!container.contains(e.target) && !optionsDiv.contains(e.target)) {
+      hideOptions();
+    }
   });
+
+  const observer = new MutationObserver(() => {
+    if (!document.body.contains(container)) {
+      optionsDiv.remove();
+      observer.disconnect();
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 
   return {
     updateOptions(newOptions, currentValue) {
+      options = newOptions;
       renderOptions(newOptions);
-      if (newOptions.includes(currentValue)) button.textContent = currentValue;
-      else button.textContent = newOptions[0];
+      adjustWidth();
+      if (newOptions.length === 0) {
+        button.textContent = "1";
+      } else if (newOptions.includes(currentValue)) {
+        button.textContent = currentValue;
+      } else {
+        button.textContent = newOptions[0] || "1";
+      }
     },
     getValue() {
       return button.textContent;
+    },
+    close() {
+      hideOptions();
     },
   };
 }
@@ -240,8 +329,7 @@ function renderPortfolio() {
     card.className = "card blur";
     card.id = `stockCard${i}`;
     card.innerHTML = `
-      <div class="name" style="color:${
-        s.color
+      <div class="name" style="color:${s.color
       }; display:flex; justify-content:space-between; align-items:center;">
         <span>${s.name}</span>
       </div>
@@ -249,10 +337,9 @@ function renderPortfolio() {
         3
       )}</span></div>
       <div class="small owned">Owned: ${s.amountOwned} | Avg: $${s
-      .avgPrice()
-      .toFixed(2)}</div>
-      <div class="small profit" style="color:${
-        s.profit() >= 0 ? "#0b7" : "#f55"
+        .avgPrice()
+        .toFixed(2)}</div>
+      <div class="small profit" style="color:${s.profit() >= 0 ? "#0b7" : "#f55"
       }">${s.amountOwned ? `Profit: $${s.profit().toFixed(2)}` : ""}</div>
       <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
         <div style="display:flex; align-items:center; gap:6px;">
@@ -317,9 +404,8 @@ function updatePortfolioValues() {
     if (!card) return;
 
     card.querySelector(".currentPrice").textContent = s.price.toFixed(2);
-    card.querySelector(".owned").textContent = `Owned: ${
-      s.amountOwned
-    } | Avg: $${s.avgPrice().toFixed(2)}`;
+    card.querySelector(".owned").textContent = `Owned: ${s.amountOwned
+      } | Avg: $${s.avgPrice().toFixed(2)}`;
 
     const profitElem = card.querySelector(".profit");
     if (s.amountOwned > 0) {
@@ -435,9 +521,8 @@ function triggerRandomEvent() {
     const msg = document.createElement("div");
     msg.className = "eventMessage";
     const pct = ((impact - 1) * 100).toFixed(0);
-    msg.textContent = `${event.name}: ${stock.name} ${
-      impact > 1 ? "↑" : impact < 1 ? "↓" : "→"
-    }${pct}%`;
+    msg.textContent = `${event.name}: ${stock.name} ${impact > 1 ? "↑" : impact < 1 ? "↓" : "→"
+      }${pct}%`;
     msg.style.background = stock.color;
     msg.style.color = "#000";
     eventContainer.appendChild(msg);
@@ -571,7 +656,7 @@ function draw() {
         panelTop +
         (panelH -
           ((s.avgPrice() - s.displayMin) / (s.displayMax - s.displayMin)) *
-            panelH);
+          panelH);
       ctx.beginPath();
       ctx.strokeStyle = s.color;
       ctx.setLineDash([4, 2]);

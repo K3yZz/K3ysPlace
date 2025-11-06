@@ -137,15 +137,11 @@ select.dropdown:focus {
 }
 
 /*select*/
-.custom-select {
-  display: block;
+.options {
   position: absolute;
-  z-index: 1;
-}
-.select-btn {
- z-index: 5;
+  z-index: 10;
 }
 
-.options {
-  z-index: 5;
+.custom-select {
+  z-index: 10;
 }
