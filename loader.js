@@ -1,35 +1,42 @@
 const resourceCache = new Map();
 const normalizedCache = new Map();
 
-// Detect the "app base" folder if present, fallback to root '/'
 const detectedBase = (() => {
-  const path = window.location.pathname;
-  const segments = path.split('/');
-  if (segments.length > 1 && segments[1] && !segments[1].includes('.')) {
-    return '/' + segments[1] + '/';
+  const path = window.location.pathname || "/";
+  const segments = path.split("/");
+  if (segments.length > 1 && segments[1] && !segments[1].includes(".")) {
+    return "/" + segments[1] + "/";
   }
-  return '/';
+  return "/";
 })();
 
 function normalizePath(p) {
   if (!p) return p;
   if (normalizedCache.has(p)) return normalizedCache.get(p);
-  if (/^https?:\/\//i.test(p) || /^\/\//.test(p)) return p;
-  const normalized = p.replace(/^\.\//, '').replace(/^\/+/, '');
+  if (/^https?:\/\//i.test(p) || /^\/\//.test(p)) {
+    normalizedCache.set(p, p);
+    return p;
+  }
+  const normalized = p.replace(/^\.\//, "").replace(/^\/+/, "");
   normalizedCache.set(p, normalized);
   return normalized;
 }
 
 function makeCandidateUrls(path) {
   const normalized = normalizePath(path);
-  return [detectedBase + normalized, '/' + normalized];
+  return [detectedBase + normalized, "/" + normalized, normalized];
 }
 
 async function resourceExists(url) {
   if (resourceCache.has(url)) return resourceCache.get(url);
   try {
-    const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
-    const ok = res.ok || (await fetch(url, { method: 'GET', cache: 'no-store' })).ok;
+    const head = await fetch(url, { method: "HEAD", cache: "no-store" });
+    if (head.ok) {
+      resourceCache.set(url, true);
+      return true;
+    }
+    const get = await fetch(url, { method: "GET", cache: "no-store" });
+    const ok = get.ok;
     resourceCache.set(url, ok);
     return ok;
   } catch {
@@ -38,156 +45,262 @@ async function resourceExists(url) {
   }
 }
 
-// Persistent cache for first-available URLs
 function getCachedFirstAvailable(path) {
-  return sessionStorage.getItem(`firstAvailable:${path}`);
+  try {
+    return sessionStorage.getItem(`firstAvailable:${path}`);
+  } catch {
+    return null;
+  }
 }
 
 function cacheFirstAvailable(path, url) {
-  sessionStorage.setItem(`firstAvailable:${path}`, url);
+  try {
+    sessionStorage.setItem(`firstAvailable:${path}`, url);
+  } catch {}
 }
 
 async function getFirstAvailable(path) {
+  if (!path) return null;
   const cached = getCachedFirstAvailable(path);
   if (cached) return cached;
-
   const candidates = makeCandidateUrls(path);
-  const checks = candidates.map(url =>
-    resourceExists(url).then(ok => (ok ? url : null))
+  const checks = candidates.map(async (url) =>
+    (await resourceExists(url)) ? url : null
   );
   const results = await Promise.all(checks);
-  const first = results.find(Boolean);
+  const first = results.find(Boolean) || null;
   if (first) cacheFirstAvailable(path, first);
-  return first || null;
+  return first;
 }
 
 function extractHrefFromOnclick(onclick) {
   if (!onclick) return null;
-  const m = /window\.location\.href\s*=\s*['"]([^'"]+)['"]/i.exec(onclick);
-  if (!m) return null;
-  let href = m[1];
-  if (href.startsWith('/')) href = href.slice(1);
-  return href;
+  const m1 = /window\.location(?:\.href)?\s*=\s*['"]([^'"]+)['"]/i.exec(
+    onclick
+  );
+  if (m1) return m1[1];
+  const m2 = /location\.href\s*=\s*['"]([^'"]+)['"]/i.exec(onclick);
+  if (m2) return m2[1];
+  return null;
 }
 
-function attachFallbacksToMenu() {
-  const buttons = Array.from(document.querySelectorAll('.menuButton[onclick]'));
+async function resolvePathForResource(path) {
+  if (!path) return null;
+  if (path.startsWith("data:")) return path;
+  const p = path.startsWith("/") ? path.slice(1) : path;
+  const found = await getFirstAvailable(p);
+  return found || path;
+}
+
+async function attachFallbacksToMenu() {
+  const buttons = Array.from(document.querySelectorAll(".menuButton[onclick]"));
   for (const btn of buttons) {
-    const onclick = btn.getAttribute('onclick');
+    const onclick = btn.getAttribute("onclick") || "";
     const origHref = extractHrefFromOnclick(onclick);
     if (!origHref) continue;
-    btn.removeAttribute('onclick');
-    btn.addEventListener('click', async e => {
+    btn.removeAttribute("onclick");
+    btn.addEventListener("click", async (e) => {
       e.preventDefault();
-      const linkUrl = await getFirstAvailable(origHref);
-      window.location.href = linkUrl || origHref;
+      const candidate = await resolvePathForResource(origHref);
+      window.location.href = candidate || origHref;
     });
   }
 }
 
-function attachFallbacksToLinks() {
-  const links = Array.from(document.querySelectorAll('a[href]'));
+function shouldIgnoreHref(href) {
+  if (!href) return true;
+  const trimmed = href.trim();
+  return (
+    trimmed.startsWith("#") ||
+    trimmed.startsWith("mailto:") ||
+    /^javascript:/i.test(trimmed)
+  );
+}
+
+async function attachFallbacksToLinks() {
+  const links = Array.from(document.querySelectorAll("a[href]"));
   for (const a of links) {
-    let href = a.getAttribute('href');
-    if (!href || href.startsWith('#') || href.startsWith('mailto:')) continue;
-    if (href.startsWith('/')) href = href.slice(1);
-    a.addEventListener('click', async e => {
+    const href = a.getAttribute("href");
+    if (shouldIgnoreHref(href)) continue;
+    a.addEventListener("click", async (e) => {
       e.preventDefault();
-      const linkUrl = await getFirstAvailable(href);
-      window.location.href = linkUrl || href;
+      const candidate = await resolvePathForResource(href);
+      window.location.href = candidate || href;
     });
   }
 }
 
-// Inject a script and wait for it to load
-async function injectScript(src, id) {
-  return new Promise(async resolve => {
-    if (document.querySelector(`[data-injected-resource="${id}"]`)) return resolve();
-    const script = document.createElement('script');
-    script.src = await getFirstAvailable(src) || src;
-    script.defer = true;
-    script.setAttribute('data-injected-resource', id);
+async function attachFallbacksToImages() {
+  const imgs = Array.from(document.querySelectorAll("img"));
+  for (const img of imgs) {
+    const dataSrc = img.getAttribute("data-src");
+    const src = img.getAttribute("src") || dataSrc || "";
+    if (!src || src.startsWith("data:")) continue;
+    const resolved = await resolvePathForResource(src);
+    if (resolved) {
+      if (dataSrc) img.setAttribute("data-src", resolved);
+      img.src = resolved;
+    }
+    const srcset = img.getAttribute("srcset") || "";
+    if (srcset) {
+      const parts = srcset
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const descriptors = parts.map((p) => {
+        const m = p.match(/^\s*([^\s]+)(\s+.+)?$/);
+        return { url: m ? m[1] : p, desc: m && m[2] ? m[2].trim() : "" };
+      });
+      const resolvedEntries = await Promise.all(
+        descriptors.map(async (d) => {
+          if (!d.url || d.url.startsWith("data:")) return null;
+          const r = await resolvePathForResource(d.url);
+          return r ? (d.desc ? `${r} ${d.desc}` : r) : null;
+        })
+      );
+      const final = resolvedEntries.filter(Boolean).join(", ");
+      if (final) img.setAttribute("srcset", final);
+    }
+  }
+}
+
+async function attachFallbacksToBackgrounds() {
+  const els = Array.from(
+    document.querySelectorAll('[data-bg], [style*="background-image"]')
+  );
+  for (const el of els) {
+    const dataBg = el.getAttribute("data-bg");
+    if (dataBg && !dataBg.startsWith("data:")) {
+      const candidate = await resolvePathForResource(dataBg);
+      if (candidate) el.style.backgroundImage = `url("${candidate}")`;
+      continue;
+    }
+    const styleBg = el.style.backgroundImage || "";
+    const m = /url\(["']?([^"')]+)["']?\)/.exec(styleBg);
+    if (!m) continue;
+    const path = m[1];
+    if (path.startsWith("data:")) continue;
+    const candidate = await resolvePathForResource(path);
+    if (candidate) el.style.backgroundImage = `url("${candidate}")`;
+  }
+}
+
+function alreadyInjected(id) {
+  return Boolean(document.querySelector(`[data-injected-resource="${id}"]`));
+}
+
+async function injectScript(src, id, place = "body") {
+  if (alreadyInjected(id)) return;
+  const resolved = await resolvePathForResource(src);
+  const script = document.createElement("script");
+  script.src = resolved || src;
+  if (place === "body") script.defer = true;
+  script.setAttribute("data-injected-resource", id);
+  return new Promise((resolve) => {
     script.onload = () => resolve();
-    document.body.appendChild(script);
+    script.onerror = () => resolve();
+    if (place === "head")
+      (document.head || document.getElementsByTagName("head")[0]).appendChild(
+        script
+      );
+    else
+      (document.body || document.getElementsByTagName("body")[0]).appendChild(
+        script
+      );
   });
 }
 
 async function injectRunnerResources() {
-  const head = document.head || document.getElementsByTagName('head')[0];
-  const body = document.body || document.getElementsByTagName('body')[0];
+  const head = document.head || document.getElementsByTagName("head")[0];
+  const body = document.body || document.getElementsByTagName("body")[0];
   if (!head || !body) return;
 
-  const alreadyInjected = (id) => document.querySelector(`[data-injected-resource="${id}"]`);
-
-  // Favicons
-  if (!alreadyInjected('favicons')) {
+  if (!alreadyInjected("favicons")) {
     const faviconData = [
-      { rel: 'apple-touch-icon', sizes: '180x180', href: 'globalassets/favicon/apple-touch-icon.png' },
-      { rel: 'icon', type: 'image/png', sizes: '32x32', href: 'globalassets/favicon/favicon-32x32.png' },
-      { rel: 'icon', type: 'image/png', sizes: '16x16', href: 'globalassets/favicon/favicon-16x16.png' },
-      { rel: 'manifest', href: 'globalassets/favicon/site.webmanifest' },
-      { rel: 'mask-icon', href: 'globalassets/favicon/safari-pinned-tab.svg' },
-      { rel: 'shortcut icon', href: 'globalassets/favicon/favicon.ico' },
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "globalassets/favicon/apple-touch-icon.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "globalassets/favicon/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "globalassets/favicon/favicon-16x16.png",
+      },
+      { rel: "manifest", href: "globalassets/favicon/site.webmanifest" },
+      { rel: "mask-icon", href: "globalassets/favicon/safari-pinned-tab.svg" },
+      { rel: "shortcut icon", href: "globalassets/favicon/favicon.ico" },
     ];
-    faviconData.forEach(attrs => {
-      const link = document.createElement('link');
-      Object.keys(attrs).forEach(k => link.setAttribute(k, attrs[k]));
-      link.setAttribute('data-injected-resource', 'favicons');
+    for (const attrs of faviconData) {
+      const link = document.createElement("link");
+      for (const k of Object.keys(attrs)) link.setAttribute(k, attrs[k]);
+      link.setAttribute("data-injected-resource", "favicons");
       head.appendChild(link);
-    });
-
+    }
     const metaData = [
-      { name: 'theme-color', content: '#ffffff' },
-      { name: 'msapplication-TileColor', content: '#2d89ef' },
-      { name: 'msapplication-TileImage', content: 'mstile-144x144.png' },
+      { name: "theme-color", content: "#ffffff" },
+      { name: "msapplication-TileColor", content: "#2d89ef" },
+      { name: "msapplication-TileImage", content: "mstile-144x144.png" },
     ];
-    metaData.forEach(attrs => {
-      const meta = document.createElement('meta');
-      Object.keys(attrs).forEach(k => meta.setAttribute(k, attrs[k]));
-      meta.setAttribute('data-injected-resource', 'favicons');
+    for (const attrs of metaData) {
+      const meta = document.createElement("meta");
+      for (const k of Object.keys(attrs)) meta.setAttribute(k, attrs[k]);
+      meta.setAttribute("data-injected-resource", "favicons");
       head.appendChild(meta);
-    });
+    }
   }
 
-  // Theme CSS
-  if (!alreadyInjected('theme-css')) {
-    const themeLink = document.createElement('link');
-    themeLink.rel = 'stylesheet';
-    themeLink.href = await getFirstAvailable('globalassets/css/theme.css') || 'globalassets/css/theme.css';
-    themeLink.setAttribute('data-injected-resource', 'theme-css');
+  if (!alreadyInjected("theme-css")) {
+    const themeHref =
+      (await resolvePathForResource("globalassets/css/theme.css")) ||
+      "globalassets/css/theme.css";
+    const themeLink = document.createElement("link");
+    themeLink.rel = "stylesheet";
+    themeLink.href = themeHref;
+    themeLink.setAttribute("data-injected-resource", "theme-css");
     head.appendChild(themeLink);
   }
 
-  // Inject theme.js first in head (prevents flash)
-  await injectScript('globalassets/js/theme.js', 'theme-js', true);
+  await injectScript("globalassets/js/theme.js", "theme-js", "head");
+  await injectScript("globalassets/js/particles.js", "particles-js");
+  await injectScript("globalassets/js/debug.js", "debug-js");
 
-  // Other scripts in body
-  await injectScript('globalassets/js/particles.js', 'particles-js');
-  await injectScript('globalassets/js/debug.js', 'debug-js');
-
-  // Particles canvas
-  if (!alreadyInjected('particles-canvas')) {
-    const canvas = document.createElement('canvas');
-    canvas.id = 'particles';
-    canvas.setAttribute('data-injected-resource', 'particles-canvas');
+  if (!alreadyInjected("particles-canvas")) {
+    const canvas = document.createElement("canvas");
+    canvas.id = "particles";
+    canvas.setAttribute("data-injected-resource", "particles-canvas");
     body.insertBefore(canvas, body.firstChild);
   }
 
-  // Initialize particles
-  if (typeof initParticles === 'function') initParticles();
+  if (typeof window.initParticles === "function") {
+    try {
+      window.initParticles();
+    } catch {}
+  }
 }
 
 async function initialize() {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', async () => {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", async () => {
       await injectRunnerResources();
       attachFallbacksToMenu();
       attachFallbacksToLinks();
+      await attachFallbacksToImages();
+      await attachFallbacksToBackgrounds();
     });
   } else {
     await injectRunnerResources();
     attachFallbacksToMenu();
     attachFallbacksToLinks();
+    await attachFallbacksToImages();
+    await attachFallbacksToBackgrounds();
   }
 }
 

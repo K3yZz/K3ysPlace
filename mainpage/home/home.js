@@ -30,7 +30,7 @@ const versionUpdates = {
   "1.3.2": "- Added a password wall.<br>- Redesigned dropdowns.<br>-Added notification to save in emulator.<br>-Modified changelog and worklog.<br>-Game/app buttons are hardcoded for faster loading.<br>-New theme.<br>-Images for emulator and download.<br>-New rom games in downloads.",
   "1.3.1": "- Fixed custom theme not persisting.",
   "1.3.0":
-    "- New design.<br>- Currently only Stock Market matches the theme, others still look decent.<br>- Casino update delayed. Improvements to wheel coming soon.<br>- Added new games and a new app.",
+    "- New design.<br>- Added new games and a new app.",
 };
 
 const worklogUpdates = {
