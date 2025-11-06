@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <title>Games - K3yz Place</title>
     <link rel="stylesheet" href="games.css" />
+    <meta
+      name="description"
+      content="Play unported, ported, and emulator games at K3yz Place."
+    />
   </head>
 
   <body>
@@ -37,66 +41,140 @@
         Settings
       </button>
     </div>
-    <div class="gameContainer" id="notported">
-      <div class="game-button" onclick="window.location='/games/stockmarketgame/game.html'">
-        <img src="/globalassets/gameIcons/stockMarket.png" alt="Stock Market">
+
+    <div class="switch-container">
+      <div class="three-way-switch blur">
+        <input type="radio" name="gameSwitch" id="unported" checked />
+        <input type="radio" name="gameSwitch" id="ported" />
+        <input type="radio" name="gameSwitch" id="emulator" />
+
+        <label for="unported"></label>
+        <label for="ported"></label>
+        <label for="emulator"></label>
+
+        <div class="slider"></div>
+      </div>
+    </div>
+
+    <div class="gameContainer" id="notportedContent">
+      <div class="game-button blur" data-href="/games/stockmarketgame/game.html">
+        <img src="/globalassets/gameIcons/stockMarket.png" />
         <span class="title">Stock Market</span>
       </div>
-      <div class="game-button" onclick="window.location = '/games/casinogame/game.html'">
+      <div class="game-button blur" data-href="/games/casinogame/game.html">
         <img src="/globalassets/gameIcons/casino.png" />
         <span class="title">Casino</span>
       </div>
     </div>
-    <div class="gameContainer" id="ported">
-     <div class="game-button" onclick="window.location='/portedgames/undertale-yellow/undertale_yellow.html'">
-        <img src="/globalassets/gameIcons/portedgameIcons/undertaleyellow.png" alt="Undertale Yellow">
+
+    <div class="gameContainer" id="portedContent">
+      <div
+        class="game-button blur"
+        data-href="/portedgames/undertale-yellow/undertale_yellow.html"
+      >
+        <img
+          src="/globalassets/gameIcons/portedgameIcons/undertaleyellow.png"
+        />
         <span class="title">Undertale Yellow</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/bitlife-life-simulator/play.html'">
-        <img src="/globalassets/gameIcons/portedgameIcons/bitlife.jpeg" alt="Bitlife">
+      <div
+        class="game-button blur"
+        data-href="/portedgames/bitlife-life-simulator/play.html"
+      >
+        <img src="/globalassets/gameIcons/portedgameIcons/bitlife.jpeg" />
         <span class="title">Bitlife</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/chrome-dino'">
-        <img src="/globalassets/gameIcons/portedgameIcons/dino.png" alt="Chrome Dino">
+      <div class="game-button blur" data-href="/portedgames/chrome-dino">
+        <img src="/globalassets/gameIcons/portedgameIcons/dino.png" />
         <span class="title">Chrome Dino</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/cookie-clicker'">
-        <img src="/globalassets/gameIcons/portedgameIcons/cookieclicker.png" alt="Cookie Clicker">
+      <div class="game-button blur" data-href="/portedgames/cookie-clicker">
+        <img src="/globalassets/gameIcons/portedgameIcons/cookieclicker.png" />
         <span class="title">Cookie Clicker</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/drive-mad'">
-        <img src="/globalassets/gameIcons/portedgameIcons/drivemad.jpeg" alt="Drive Mad">
+      <div class="game-button blur" data-href="/portedgames/drive-mad">
+        <img src="/globalassets/gameIcons/portedgameIcons/drivemad.jpeg" />
         <span class="title">Drive Mad</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/Moto-X3M'">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto1.jpeg" alt="Moto X3M">
+      <div class="game-button blur" data-href="/portedgames/Moto-X3M">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto1.jpeg" />
         <span class="title">Moto X3M</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/motox3m-pool'">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto2.jpeg" alt="Moto Pool">
+      <div class="game-button blur" data-href="/portedgames/motox3m-pool">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto2.jpeg" />
         <span class="title">Moto Pool</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/motox3m-spooky'">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto3.jpeg" alt="Moto Spooky">
+      <div class="game-button blur" data-href="/portedgames/motox3m-spooky">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto3.jpeg" />
         <span class="title">Moto Spooky</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/motox3m-winter'">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto4.jpeg" alt="Moto Winter">
+      <div class="game-button blur" data-href="/portedgames/motox3m-winter">
+        <img src="/globalassets/gameIcons/portedgameIcons/moto4.jpeg" />
         <span class="title">Moto Winter</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/subwaysurfers-sf'">
-        <img src="/globalassets/gameIcons/portedgameIcons/subway.jpeg" alt="Subway Surfers">
+      <div class="game-button blur" data-href="/portedgames/subwaysurfers-sf">
+        <img src="/globalassets/gameIcons/portedgameIcons/subway.jpeg" />
         <span class="title">Subway Surfers</span>
       </div>
-      <div class="game-button" onclick="window.location='/portedgames/emulator/index.html'">
-        <img src="/globalassets/gameIcons/portedgameIcons/emulator.jpg" alt="Emulator">
-        <span class="title">Emulator</span>
-      </div>
-      <div class="game-button" onclick="window.location='/portedgames/monkey-mart/game.html'">
-        <img src="/globalassets/gameIcons/portedgameIcons/monkey-mart.jpeg" alt="Monkey-Mart">
+      <div class="game-button blur" data-href="/portedgames/monkey-mart/game.html">
+        <img src="/globalassets/gameIcons/portedgameIcons/monkey-mart.jpeg" />
         <span class="title">Monkey-Mart</span>
       </div>
+      <div class="game-button blur" data-href="#">
+        <img src="/globalassets/gameIcons/placeholder.png" />
+        <span class="title">Coming Soon</span>
+      </div>
     </div>
+
+    <div class="gameContainer" id="emulatorsContent">
+      <div class="game-button blur" data-href="/emulators/downloads/index.html">
+        <img src="/globalassets/gameIcons/download.png"/>
+        <span class="title">Download Roms</span>
+      </div>
+      <div class="game-button blur" data-href="/emulators/emulator/index.html">
+        <img src="/globalassets/gameIcons/placeholder.png"/>
+        <span class="title">Emulator</span>
+      </div> 
+    </div>
+
+    <script>
+      const unportedRadio = document.getElementById("unported");
+      const portedRadio = document.getElementById("ported");
+      const emulatorRadio = document.getElementById("emulator");
+
+      const notportedContent = document.getElementById("notportedContent");
+      const portedContent = document.getElementById("portedContent");
+      const emulatorsContent = document.getElementById("emulatorsContent");
+
+      const slider = document.querySelector(".slider");
+      const radioButtons = [unportedRadio, portedRadio, emulatorRadio];
+
+      function updateGameView() {
+        notportedContent.style.display = unportedRadio.checked
+          ? "flex"
+          : "none";
+        portedContent.style.display = portedRadio.checked ? "flex" : "none";
+        emulatorsContent.style.display = emulatorRadio.checked
+          ? "flex"
+          : "none";
+
+        const index = radioButtons.findIndex((r) => r.checked);
+        slider.style.transform = `translateX(${index * 35}px)`;
+      }
+
+      radioButtons.forEach((radio) =>
+        radio.addEventListener("change", updateGameView)
+      );
+      updateGameView();
+
+      document.querySelectorAll(".game-button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const href = btn.dataset.href;
+          if (href && href !== "#") window.location.href = href;
+        });
+      });
+    </script>
+
     <script type="module" src="../../loader.js"></script>
   </body>
 </html>
