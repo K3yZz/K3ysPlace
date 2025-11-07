@@ -9,7 +9,6 @@
       content="Play unported, ported, and emulator games at K3yz Place."
     />
   </head>
-
   <body>
     <div id="menuContainer" class="blur">
       <button
@@ -43,89 +42,31 @@
     </div>
 
     <div class="switch-container">
-      <div class="three-way-switch blur">
-        <input type="radio" name="gameSwitch" id="unported" checked/>
-        <input type="radio" name="gameSwitch" id="ported"/>
-        <input type="radio" name="gameSwitch" id="emulator" />
+      <div class="three-way-switch blur" aria-hidden="false">
+        <!-- radio inputs -->
+        <input type="radio" name="gameSwitch" id="unported" checked aria-label="Unported" />
+        <input type="radio" name="gameSwitch" id="ported" aria-label="Ported" />
+        <input type="radio" name="gameSwitch" id="emulator" aria-label="Emulator" />
+        <!-- visual labels (left intentionally empty so existing CSS/pseudo-elements still work) -->
+        <label for="unported" title="Unported"></label>
+        <label for="ported" title="Ported"></label>
+        <label for="emulator" title="Emulator"></label>
+        <div class="slider" aria-hidden="true"></div>
+      </div>
 
-        <label for="unported"></label>
-        <label for="ported"></label>
-        <label for="emulator"></label>
-
-        <div class="slider"></div>
+      <!-- Search bar -->
+      <div class="search-container">
+        <input type="text" id="gameSearch" placeholder="Search games..." aria-label="Search games" />
       </div>
     </div>
 
-    <div class="gameContainer" id="notportedContent"></div>
-    <div class="gameContainer" id="portedContent"></div>
-    <div class="gameContainer" id="emulatorsContent"></div>
+    <!-- NOTE: IDs now match the JS mapping exactly: unportedContent, portedContent, emulatorContent -->
+    <div class="gameContainer" id="unportedContent" data-fallback-container></div>
+    <div class="gameContainer" id="portedContent" data-fallback-container></div>
+    <div class="gameContainer" id="emulatorContent" data-fallback-container></div>
 
-    <script type="module">
-      const containers = {
-        unported: document.getElementById("notportedContent"),
-        ported: document.getElementById("portedContent"),
-        emulator: document.getElementById("emulatorsContent"),
-      };
-
-      const unportedRadio = document.getElementById("unported");
-      const portedRadio = document.getElementById("ported");
-      const emulatorRadio = document.getElementById("emulator");
-      const radioButtons = [unportedRadio, portedRadio, emulatorRadio];
-      const slider = document.querySelector(".slider");
-
-      function updateGameView() {
-        containers.unported.style.display = unportedRadio.checked ? "flex" : "none";
-        containers.ported.style.display = portedRadio.checked ? "flex" : "none";
-        containers.emulator.style.display = emulatorRadio.checked ? "flex" : "none";
-
-        const index = radioButtons.findIndex((r) => r.checked);
-        slider.style.transform = `translateX(${index * 35}px)`;
-      }
-
-      radioButtons.forEach((radio) =>
-        radio.addEventListener("change", updateGameView)
-      );
-      updateGameView();
-
-      async function loadGames() {
-        try {
-          const res = await fetch("games.json");
-          const data = await res.json();
-
-          for (const category in data) {
-            if (!containers[category]) continue;
-
-            data[category].forEach((game) => {
-              const btn = document.createElement("div");
-              btn.classList.add("game-button", "blur");
-
-              const href = game.link || game.href;
-              btn.dataset.href = href;
-
-              const img = document.createElement("img");
-              img.src = game.icon;
-              btn.appendChild(img);
-
-              const title = document.createElement("span");
-              title.classList.add("title");
-              title.textContent = game.title;
-              btn.appendChild(title);
-
-              containers[category].appendChild(btn);
-
-              btn.addEventListener("click", () => {
-                if (href && href !== "#") window.location.href = href;
-              });
-            });
-          }
-        } catch (err) {
-          console.error("Failed to load games:", err);
-        }
-      }
-
-      loadGames();
-    </script>
-
+    <!-- loader first (provides resolvePathForResource), then UI script -->
     <script type="module" src="../../loader.js"></script>
+    <script type="module" src="games.js"></script>
   </body>
 </html>
