@@ -17,9 +17,16 @@ function normalizePath(p) {
     normalizedCache.set(p, p);
     return p;
   }
-  const normalized = p.replace(/^\.\//, '').replace(/^\/+/, '');
-  normalizedCache.set(p, normalized);
-  return normalized;
+  try {
+    const url = new URL(p, document.baseURI);
+    const normalized = url.pathname.replace(/^\//, '');
+    normalizedCache.set(p, normalized);
+    return normalized;
+  } catch {
+    const normalized = p.replace(/^\.\//, '').replace(/^\/+/, '');
+    normalizedCache.set(p, normalized);
+    return normalized;
+  }
 }
 
 function makeCandidateUrls(path) {
@@ -38,8 +45,10 @@ async function resourceExists(url) {
     const get = await fetch(url, { method: 'GET', cache: 'no-store' });
     const ok = get.ok;
     resourceCache.set(url, ok);
+    if (!ok) console.debug('resourceExists failed for', url, 'status', get.status);
     return ok;
-  } catch {
+  } catch (err) {
+    console.debug('resourceExists error for', url, err);
     resourceCache.set(url, false);
     return false;
   }
@@ -266,6 +275,31 @@ async function injectRunnerResources() {
   }
 }
 
+function debounce(fn, wait = 150) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}
+
+const reprocessAddedNodes = debounce(async () => {
+  await attachFallbacksToMenu();
+  await attachFallbacksToLinks();
+  await attachFallbacksToImages();
+  await attachFallbacksToBackgrounds();
+  await attachFallbacksToClickableDivs();
+}, 200);
+
+const observer = new MutationObserver(mutations => {
+  for (const m of mutations) {
+    if (m.addedNodes && m.addedNodes.length) {
+      reprocessAddedNodes();
+      return;
+    }
+  }
+});
+
 async function initialize() {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', async () => {
@@ -275,6 +309,7 @@ async function initialize() {
       await attachFallbacksToImages();
       await attachFallbacksToBackgrounds();
       await attachFallbacksToClickableDivs();
+      observer.observe(document.body, { childList: true, subtree: true });
     });
   } else {
     await injectRunnerResources();
@@ -283,6 +318,7 @@ async function initialize() {
     await attachFallbacksToImages();
     await attachFallbacksToBackgrounds();
     await attachFallbacksToClickableDivs();
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 }
 

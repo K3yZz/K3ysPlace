@@ -324,7 +324,7 @@
     },
     {
       "title": "Cookieclicker",
-      "icon": "/globalassets/gameIcons/portedgameIcons/cookieclicker.png",
+      "icon": "/globalassets/gameIcons/cookieclicker.png",
       "href": "/portedgames/clcookieclicker.html"
     },
     {
@@ -784,7 +784,7 @@
     },
     {
       "title": "Undertaleyellow",
-      "icon": "/globalassets/gameIcons/portedgameIcons/undertaleyellow.png",
+      "icon": "/globalassets/gameIcons/undertaleyellow.png",
       "href": "/portedgames/clundertaleyellow.html"
     },
     {
@@ -871,11 +871,6 @@
       "title": "Worldshardestgame3",
       "icon": "/globalassets/gameIcons/placeholder.png",
       "href": "/portedgames/clworldshardestgame3.html"
-    },
-    {
-      "title": "Worldshardestgame4",
-      "icon": "/globalassets/gameIcons/placeholder.png",
-      "href": "/portedgames/clworldshardestgame4.html"
     },
     {
       "title": "Yanderesimulator",
