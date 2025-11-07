@@ -1,898 +1,898 @@
 {
   "unported": [
-      {
+    {
       "title": "Stock Market",
-      "icon": "/globalassets/gameIcons/stockMarket.png",
+      "icon": "/portedgames/stockmarket.png",
       "link": "/games/stockmarketgame/game.html"
     },
     {
       "title": "Casino",
-      "icon": "/globalassets/gameIcons/casino.png",
+      "icon": "/portedgames/casino.png",
       "link": "/games/casinogame/game.html"
     }
   ],
   "ported": [
     {
       "title": "Kindergarden",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/kindergarden.png",
       "href": "/portedgames/kindergarden.html"
     },
     {
       "title": "Kindergarden 2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/kindergarden2.png",
       "href": "/portedgames/kindergarden 2.html"
     },
     {
       "title": "R.E.P.O",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/r.e.p.o.png",
       "href": "/portedgames/R.E.P.O.html"
     },
     {
       "title": "Soundboard",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/soundboard.png",
       "href": "/portedgames/Soundboard.html"
     },
     {
       "title": "That's not my neighbor",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/that'snotmyneighbor.png",
       "href": "/portedgames/That's Not My Neighbor.html"
     },
     {
       "title": "Ultrakill",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/ultrakill.png",
       "href": "/portedgames/ULTRAKILL.html"
     },
     {
       "title": "Eaglercraft Alpha 1.2.6 Offline",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/eaglercraftalpha1.2.6offline.png",
       "href": "/portedgames/Eaglercraft-Alpha-1.2.6-Offline.html"
     },
     {
       "title": "10bullets",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/10bullets.png",
       "href": "/portedgames/cl10bullets.html"
     },
     {
       "title": "10minutestildawn",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/10minutestildawn.png",
       "href": "/portedgames/cl10minutestildawn.html"
     },
     {
       "title": "12minibattles",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/12minibattles.png",
       "href": "/portedgames/cl12minibattles.html"
     },
     {
       "title": "8ballpool",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/8ballpool.png",
       "href": "/portedgames/cl8ballpool.html"
     },
     {
       "title": "9007199254740992",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/9007199254740992.png",
       "href": "/portedgames/cl9007199254740992.html"
     },
     {
       "title": "CartoonNetwork TableTennis",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/cartoonnetworktabletennis.png",
       "href": "/portedgames/clCartoonNetworkTableTennisUltimateTournament.html"
     },
     {
       "title": "CircloO2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/circloo2.png",
       "href": "/portedgames/clCircloO2.html"
     },
     {
       "title": "FNAF",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fnaf.png",
       "href": "/portedgames/clFNAF.html"
     },
     {
       "title": "FNAF2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fnaf2.png",
       "href": "/portedgames/clFNAF2.html"
     },
     {
       "title": "FNAF3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fnaf3.png",
       "href": "/portedgames/clFNAF3.html"
     },
     {
       "title": "FNAF4",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fnaf4.png",
       "href": "/portedgames/clFNAF4.html"
     },
     {
       "title": "Achievementunlocked",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/achievementunlocked.png",
       "href": "/portedgames/clachievementunlocked.html"
     },
     {
       "title": "Achievmentunlocked2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/achievmentunlocked2.png",
       "href": "/portedgames/clachievmentunlocked2.html"
     },
     {
       "title": "Achievmentunlocked3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/achievmentunlocked3.png",
       "href": "/portedgames/clachievmentunlocked3.html"
     },
     {
       "title": "Adayintheoffice",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/adayintheoffice.png",
       "href": "/portedgames/cladayintheoffice.html"
     },
     {
       "title": "Agesofconflict",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/agesofconflict.png",
       "href": "/portedgames/clagesofconflict.html"
     },
     {
       "title": "Ahoysurvival",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/ahoysurvival.png",
       "href": "/portedgames/clahoysurvival.html"
     },
     {
       "title": "Aquaparkio",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/aquaparkio.png",
       "href": "/portedgames/claquaparkio.html"
     },
     {
       "title": "Awesometanks",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/awesometanks.png",
       "href": "/portedgames/clawesometanks.html"
     },
     {
       "title": "Awesometanks2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/awesometanks2.png",
       "href": "/portedgames/clawesometanks2.html"
     },
     {
       "title": "Babeltower",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/babeltower.png",
       "href": "/portedgames/clbabeltower.html"
     },
     {
       "title": "Backrooms",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/backrooms.png",
       "href": "/portedgames/clbackrooms.html"
     },
     {
       "title": "Backrooms2D",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/backrooms2d.png",
       "href": "/portedgames/clbackrooms2D.html"
     },
     {
       "title": "Badicecream",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/badicecream.png",
       "href": "/portedgames/clbadicecream.html"
     },
     {
       "title": "Badparenting",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/badparenting.png",
       "href": "/portedgames/clbadparenting.html"
     },
     {
       "title": "Badpiggies",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/badpiggies.png",
       "href": "/portedgames/clbadpiggies.html"
     },
     {
       "title": "Badtimesim",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/badtimesim.png",
       "href": "/portedgames/clbadtimesim.html"
     },
     {
       "title": "Baldisbasics",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/baldisbasics.png",
       "href": "/portedgames/clbaldisbasics.html"
     },
     {
       "title": "Baldisbasicsremaster",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/baldisbasicsremaster.png",
       "href": "/portedgames/clbaldisbasicsremaster.html"
     },
     {
       "title": "Ballblast",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/ballblast.png",
       "href": "/portedgames/clballblast.html"
     },
     {
       "title": "Bananasimulator",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bananasimulator.png",
       "href": "/portedgames/clbananasimulator.html"
     },
     {
       "title": "Basketrandom",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/basketrandom.png",
       "href": "/portedgames/clbasketrandom.html"
     },
     {
       "title": "Basketrandomgood",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/basketrandomgood.png",
       "href": "/portedgames/clbasketrandomgood.html"
     },
     {
       "title": "Battlekarts",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/battlekarts.png",
       "href": "/portedgames/clbattlekarts.html"
     },
     {
       "title": "Bergentruck201x",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bergentruck201x.png",
       "href": "/portedgames/clbergentruck201x.html"
     },
     {
       "title": "Bigicetower tinysquare",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bigicetowertinysquare.png",
       "href": "/portedgames/clbigicetowertinysquare.html"
     },
     {
       "title": "Bigneontower tinysquare",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bigneontowertinysquare.png",
       "href": "/portedgames/clbigneontowertinysquare.html"
     },
     {
       "title": "Bigtower tinysquare",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bigtowertinysquare.png",
       "href": "/portedgames/clbigtowertinysquare.html"
     },
     {
       "title": "Bigtower tinysquare2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bigtowertinysquare2.png",
       "href": "/portedgames/clbigtowertinysquare2.html"
     },
     {
       "title": "Bigtower tinysquare2good",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bigtowertinysquare2good.png",
       "href": "/portedgames/clbigtowertinysquare2good.html"
     },
     {
       "title": "Bindingofisacc sheeptime",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bindingofisaccsheeptime.png",
       "href": "/portedgames/clbindingofisaccsheeptime.html"
     },
     {
       "title": "Bitlife",
-      "icon": "/globalassets/gameIcons/bitlife.jpeg",
+      "icon": "/portedgames/bitlife.png",
       "href": "/portedgames/clbitlife.html"
     },
     {
       "title": "Blockblast",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/blockblast.png",
       "href": "/portedgames/clblockblast.html"
     },
     {
       "title": "Bloodmoney",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bloodmoney.png",
       "href": "/portedgames/clbloodmoney.html"
     },
     {
       "title": "Bloxorz",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bloxorz.png",
       "href": "/portedgames/clbloxorz.html"
     },
     {
       "title": "Bottleflip3d",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bottleflip3d.png",
       "href": "/portedgames/clbottleflip3d.html"
     },
     {
       "title": "Boxingrandom",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/boxingrandom.png",
       "href": "/portedgames/clboxingrandom.html"
     },
     {
       "title": "Brainrot",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/brainrot.png",
       "href": "/portedgames/clbrainrot.html"
     },
     {
       "title": "Bridgerace",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/bridgerace.png",
       "href": "/portedgames/clbridgerace.html"
     },
     {
       "title": "Buckshotroulette",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/buckshotroulette.png",
       "href": "/portedgames/clbuckshotroulette.html"
     },
     {
       "title": "Burritobison",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/burritobison.png",
       "href": "/portedgames/clburritobison.html"
     },
     {
       "title": "Burritobison2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/burritobison2.png",
       "href": "/portedgames/clburritobison2.html"
     },
     {
       "title": "Burritobisonlaunchalibre",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/burritobisonlaunchalibre.png",
       "href": "/portedgames/clburritobisonlaunchalibre.html"
     },
     {
       "title": "Burritobisonrevenge",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/burritobisonrevenge.png",
       "href": "/portedgames/clburritobisonrevenge.html"
     },
     {
       "title": "Capybaraclicker",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/capybaraclicker.png",
       "href": "/portedgames/clcapybaraclicker.html"
     },
     {
       "title": "Cookieclicker",
-      "icon": "/globalassets/gameIcons/cookieclicker.png",
+      "icon": "/portedgames/cookieclicker.png",
       "href": "/portedgames/clcookieclicker.html"
     },
     {
       "title": "Crazycattle3d",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/crazycattle3d.png",
       "href": "/portedgames/clcrazycattle3d.html"
     },
     {
       "title": "Crossyroad",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/crossyroad.png",
       "href": "/portedgames/clcrossyroad.html"
     },
     {
       "title": "Deepestsword",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/deepestsword.png",
       "href": "/portedgames/cldeepestsword.html"
     },
     {
       "title": "Deltarune",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/deltarune.png",
       "href": "/portedgames/cldeltarune.html"
     },
     {
       "title": "Dogeminer",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/dogeminer.png",
       "href": "/portedgames/cldogeminer.html"
     },
     {
       "title": "Dogeminer2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/dogeminer2.png",
       "href": "/portedgames/cldogeminer2.html"
     },
     {
       "title": "Dokidokiliteratureclub",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/dokidokiliteratureclub.png",
       "href": "/portedgames/cldokidokiliteratureclub.html"
     },
     {
       "title": "Driftboss",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/driftboss.png",
       "href": "/portedgames/cldriftboss.html"
     },
     {
       "title": "Drivemad",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/drivemad.png",
       "href": "/portedgames/cldrivemady.html"
     },
     {
       "title": "Earntodie",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/earntodie.png",
       "href": "/portedgames/clearntodie.html"
     },
     {
       "title": "Earntodie2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/earntodie2.png",
       "href": "/portedgames/clearntodie2.html"
     },
     {
       "title": "Eggycar",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/eggycar.png",
       "href": "/portedgames/cleggycar.html"
     },
     {
       "title": "Fireboyandwatergirl",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fireboyandwatergirl.png",
       "href": "/portedgames/clfireboyandwatergirl.html"
     },
     {
       "title": "Fireboyandwatergirl2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fireboyandwatergirl2.png",
       "href": "/portedgames/clfireboyandwatergirl2.html"
     },
     {
       "title": "Fireboyandwatergirl3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fireboyandwatergirl3.png",
       "href": "/portedgames/clfireboyandwatergirl3.html"
     },
     {
       "title": "Fireboyandwatergirl5",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fireboyandwatergirl5.png",
       "href": "/portedgames/clfireboyandwatergirl5.html"
     },
     {
       "title": "Fireboyandwatergirl6",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fireboyandwatergirl6.png",
       "href": "/portedgames/clfireboyandwatergirl6.html"
     },
     {
       "title": "Fruitninja",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/fruitninja.png",
       "href": "/portedgames/clfruitninja.html"
     },
     {
       "title": "Georgeandtheprinter",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/georgeandtheprinter.png",
       "href": "/portedgames/clgeorgeandtheprinter.html"
     },
     {
       "title": "Getawayshootout",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/getawayshootout.png",
       "href": "/portedgames/clgetawayshootout.html"
     },
     {
       "title": "Googledino",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/googledino.png",
       "href": "/portedgames/clgoogledino.html"
     },
     {
       "title": "Granny",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/granny.png",
       "href": "/portedgames/clgranny.html"
     },
     {
       "title": "Growagarden",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/growagarden.png",
       "href": "/portedgames/clgrowagarden.html"
     },
     {
       "title": "Gun Spin",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/gunspin.png",
       "href": "/portedgames/clgun-spin.html"
     },
     {
       "title": "Gunmayhem",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/gunmayhem.png",
       "href": "/portedgames/clgunmayhem.html"
     },
     {
       "title": "Gunmayhem2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/gunmayhem2.png",
       "href": "/portedgames/clgunmayhem2.html"
     },
     {
       "title": "Highwaytraffic3d",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/highwaytraffic3d.png",
       "href": "/portedgames/clhighwaytraffic3d.html"
     },
     {
       "title": "Holeio",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/holeio.png",
       "href": "/portedgames/clholeio.html"
     },
     {
       "title": "Houseofhazards",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/houseofhazards.png",
       "href": "/portedgames/clhouseofhazards.html"
     },
     {
       "title": "Hungrylamu",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/hungrylamu.png",
       "href": "/portedgames/clhungrylamu.html"
     },
     {
       "title": "Idlebreakout",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/idlebreakout.png",
       "href": "/portedgames/clidlebreakout.html"
     },
     {
       "title": "Impossiblequiz",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/impossiblequiz.png",
       "href": "/portedgames/climpossiblequiz.html"
     },
     {
       "title": "Impossiblequiz2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/impossiblequiz2.png",
       "href": "/portedgames/climpossiblequiz2.html"
     },
     {
       "title": "Infinitecraft",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/infinitecraft.png",
       "href": "/portedgames/clinfinitecraft.html"
     },
     {
       "title": "Inkgame",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/inkgame.png",
       "href": "/portedgames/clinkgame.html"
     },
     {
       "title": "Jetpackjoyride",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/jetpackjoyride.png",
       "href": "/portedgames/cljetpackjoyride.html"
     },
     {
       "title": "Karlson",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/karlson.png",
       "href": "/portedgames/clkarlson.html"
     },
     {
       "title": "Learntofly",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/learntofly.png",
       "href": "/portedgames/cllearntofly.html"
     },
     {
       "title": "Learntofly2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/learntofly2.png",
       "href": "/portedgames/cllearntofly2.html"
     },
     {
       "title": "Learntofly3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/learntofly3.png",
       "href": "/portedgames/cllearntofly3.html"
     },
     {
       "title": "Leveldevil",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/leveldevil.png",
       "href": "/portedgames/clleveldevil.html"
     },
     {
       "title": "Melonplayground",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/melonplayground.png",
       "href": "/portedgames/clmelonplayground.html"
     },
     {
       "title": "Monkeymart",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/monkeymart.png",
       "href": "/portedgames/clmonkeymart.html"
     },
     {
       "title": "Motox3m2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/motox3m2.png",
       "href": "/portedgames/clmotox3m2.html"
     },
     {
       "title": "Motox3m3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/motox3m3.png",
       "href": "/portedgames/clmotox3m3.html"
     },
     {
       "title": "Motox3mm",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/motox3mm.png",
       "href": "/portedgames/clmotox3mm.html"
     },
     {
       "title": "Motox3mpoolparty",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/motox3mpoolparty.png",
       "href": "/portedgames/clmotox3mpoolparty.html"
     },
     {
       "title": "Motox3mspookyland",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/motox3mspookyland.png",
       "href": "/portedgames/clmotox3mspookyland.html"
     },
     {
       "title": "Motox3mwinter",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/motox3mwinter.png",
       "href": "/portedgames/clmotox3mwinter.html"
     },
     {
       "title": "Nubbysnumberfactory",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/nubbysnumberfactory.png",
       "href": "/portedgames/clnubbysnumberfactory.html"
     },
     {
       "title": "Paperio",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/paperio.png",
       "href": "/portedgames/clpaperio.html"
     },
     {
       "title": "Raftwars",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/raftwars.png",
       "href": "/portedgames/clraftwars.html"
     },
     {
       "title": "Raftwars2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/raftwars2.png",
       "href": "/portedgames/clraftwars2.html"
     },
     {
       "title": "Rooftopsnipers",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/rooftopsnipers.png",
       "href": "/portedgames/clrooftopsnipers.html"
     },
     {
       "title": "Rooftopsnipers2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/rooftopsnipers2.png",
       "href": "/portedgames/clrooftopsnipers2.html"
     },
     {
       "title": "Run 2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/run2.png",
       "href": "/portedgames/clrun-2.html"
     },
     {
       "title": "Run",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/run.png",
       "href": "/portedgames/clrun.html"
     },
     {
       "title": "Run3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/run3.png",
       "href": "/portedgames/clrun3.html"
     },
     {
       "title": "Sandboxels",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/sandboxels.png",
       "href": "/portedgames/clsandboxels.html"
     },
     {
       "title": "Sandtris",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/sandtris.png",
       "href": "/portedgames/clsandtris.html"
     },
     {
       "title": "Scribblenauts",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/scribblenauts.png",
       "href": "/portedgames/clscribblenauts.html"
     },
     {
       "title": "Slitherio",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/slitherio.png",
       "href": "/portedgames/clslitherio.html"
     },
     {
       "title": "Slope",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/slope.png",
       "href": "/portedgames/clslope.html"
     },
     {
       "title": "Snowrider",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/snowrider.png",
       "href": "/portedgames/clsnowrider.html"
     },
     {
       "title": "Soccerrandom",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/soccerrandom.png",
       "href": "/portedgames/clsoccerrandom.html"
     },
     {
       "title": "Solarsmash",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/solarsmash.png",
       "href": "/portedgames/clsolarsmash.html"
     },
     {
       "title": "Stickrpgcomplete",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/stickrpgcomplete.png",
       "href": "/portedgames/clstickrpgcomplete.html"
     },
     {
       "title": "Subwaysurfersbarcelona",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersbarcelona.png",
       "href": "/portedgames/clsubwaysurfersbarcelona.html"
     },
     {
       "title": "Subwaysurfersbeijing",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersbeijing.png",
       "href": "/portedgames/clsubwaysurfersbeijing.html"
     },
     {
       "title": "Subwaysurfersberlin",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersberlin.png",
       "href": "/portedgames/clsubwaysurfersberlin.html"
     },
     {
       "title": "Subwaysurfersbuenosaires",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersbuenosaires.png",
       "href": "/portedgames/clsubwaysurfersbuenosaires.html"
     },
     {
       "title": "Subwaysurfershavana",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfershavana.png",
       "href": "/portedgames/clsubwaysurfershavana.html"
     },
     {
       "title": "Subwaysurfershouston",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfershouston.png",
       "href": "/portedgames/clsubwaysurfershouston.html"
     },
     {
       "title": "Subwaysurfersiceland",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersiceland.png",
       "href": "/portedgames/clsubwaysurfersiceland.html"
     },
     {
       "title": "Subwaysurferslondon",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurferslondon.png",
       "href": "/portedgames/clsubwaysurferslondon.html"
     },
     {
       "title": "Subwaysurfersmexico",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersmexico.png",
       "href": "/portedgames/clsubwaysurfersmexico.html"
     },
     {
       "title": "Subwaysurfersmiami",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersmiami.png",
       "href": "/portedgames/clsubwaysurfersmiami.html"
     },
     {
       "title": "Subwaysurfersmonaco",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersmonaco.png",
       "href": "/portedgames/clsubwaysurfersmonaco.html"
     },
     {
       "title": "Subwaysurfersneworeleans",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersneworeleans.png",
       "href": "/portedgames/clsubwaysurfersneworeleans.html"
     },
     {
       "title": "Subwaysurfersneworleans",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersneworleans.png",
       "href": "/portedgames/clsubwaysurfersneworleans.html"
     },
     {
       "title": "Subwaysurferssanfrancisco (1)",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurferssanfrancisco(1).png",
       "href": "/portedgames/clsubwaysurferssanfrancisco (1).html"
     },
     {
       "title": "Subwaysurferssanfrancisco(1)",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurferssanfrancisco(1).png",
       "href": "/portedgames/clsubwaysurferssanfrancisco(1).html"
     },
     {
       "title": "Subwaysurferssanfrancisco",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurferssanfrancisco.png",
       "href": "/portedgames/clsubwaysurferssanfrancisco.html"
     },
     {
       "title": "Subwaysurfersstpetersburg",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurfersstpetersburg.png",
       "href": "/portedgames/clsubwaysurfersstpetersburg.html"
     },
     {
       "title": "Subwaysurferswinterholiday",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurferswinterholiday.png",
       "href": "/portedgames/clsubwaysurferswinterholiday.html"
     },
     {
       "title": "Subwaysurferszurich",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/subwaysurferszurich.png",
       "href": "/portedgames/clsubwaysurferszurich.html"
     },
     {
       "title": "Thedeadseat",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/thedeadseat.png",
       "href": "/portedgames/clthedeadseat.html"
     },
     {
       "title": "Thisistheonlylevel",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/thisistheonlylevel.png",
       "href": "/portedgames/clthisistheonlylevel.html"
     },
     {
       "title": "Thisistheonlylevel2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/thisistheonlylevel2.png",
       "href": "/portedgames/clthisistheonlylevel2.html"
     },
     {
       "title": "Tinyfishing",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/tinyfishing.png",
       "href": "/portedgames/cltinyfishing.html"
     },
     {
       "title": "Undertaler",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/undertaler.png",
       "href": "/portedgames/clundertaler.html"
     },
     {
       "title": "Undertaleyellow",
-      "icon": "/globalassets/gameIcons/undertaleyellow.png",
+      "icon": "/portedgames/undertaleyellow.png",
       "href": "/portedgames/clundertaleyellow.html"
     },
     {
       "title": "Vex",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex.png",
       "href": "/portedgames/clvex.html"
     },
     {
       "title": "Vex2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex2.png",
       "href": "/portedgames/clvex2.html"
     },
     {
       "title": "Vex3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex3.png",
       "href": "/portedgames/clvex3.html"
     },
     {
       "title": "Vex3xmas",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex3xmas.png",
       "href": "/portedgames/clvex3xmas.html"
     },
     {
       "title": "Vex4",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex4.png",
       "href": "/portedgames/clvex4.html"
     },
     {
       "title": "Vex5",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex5.png",
       "href": "/portedgames/clvex5.html"
     },
     {
       "title": "Vex6",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex6.png",
       "href": "/portedgames/clvex6.html"
     },
     {
       "title": "Vex7",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex7.png",
       "href": "/portedgames/clvex7.html"
     },
     {
       "title": "Vex8",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vex8.png",
       "href": "/portedgames/clvex8.html"
     },
     {
       "title": "Vexchallenges",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vexchallenges.png",
       "href": "/portedgames/clvexchallenges.html"
     },
     {
       "title": "Vexx3m",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vexx3m.png",
       "href": "/portedgames/clvexx3m.html"
     },
     {
       "title": "Vexx3m2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/vexx3m2.png",
       "href": "/portedgames/clvexx3m2.html"
     },
     {
       "title": "Volleyrandom",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/volleyrandom.png",
       "href": "/portedgames/clvolleyrandom.html"
     },
     {
       "title": "Webfishing",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/webfishing.png",
       "href": "/portedgames/clwebfishing.html"
     },
     {
       "title": "Worldshardestgame",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/worldshardestgame.png",
       "href": "/portedgames/clworldshardestgame.html"
     },
     {
       "title": "Worldshardestgame2",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/worldshardestgame2.png",
       "href": "/portedgames/clworldshardestgame2.html"
     },
     {
       "title": "Worldshardestgame3",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/worldshardestgame3.png",
       "href": "/portedgames/clworldshardestgame3.html"
     },
     {
       "title": "Yanderesimulator",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/yanderesimulator.png",
       "href": "/portedgames/clyanderesimulator.html"
     },
     {
       "title": "Polytrackbutnotflagged",
-      "icon": "/globalassets/gameIcons/placeholder.png",
+      "icon": "/portedgames/polytrackbutnotflagged.png",
       "href": "/portedgames/polytrackbutnotflagged.html"
     }
   ],
   "emulator": [
     {
       "title": "Downloads",
-      "icon": "/globalassets/gameIcons/download.png",
+      "icon": "/portedgames/downloads.png",
       "href": "/emulators/downloads/index.html"
     },
     {
-      "title":"Emulator",
-      "icon":"/globalassets/gameIcons/emulator.jpg",
-      "href":"/emulators/EmulatorJS/index.html"
+      "title": "Emulator",
+      "icon": "/portedgames/emulator.png",
+      "href": "/emulators/EmulatorJS/index.html"
     }
   ]
 }
