@@ -44,8 +44,8 @@
 
     <div class="switch-container">
       <div class="three-way-switch blur">
-        <input type="radio" name="gameSwitch" id="unported" checked />
-        <input type="radio" name="gameSwitch" id="ported" />
+        <input type="radio" name="gameSwitch" id="unported" checked/>
+        <input type="radio" name="gameSwitch" id="ported"/>
         <input type="radio" name="gameSwitch" id="emulator" />
 
         <label for="unported"></label>
@@ -56,107 +56,27 @@
       </div>
     </div>
 
-    <div class="gameContainer" id="notportedContent">
-      <div class="game-button blur" data-href="/games/stockmarketgame/game.html">
-        <img src="/globalassets/gameIcons/stockMarket.png" />
-        <span class="title">Stock Market</span>
-      </div>
-      <div class="game-button blur" data-href="/games/casinogame/game.html">
-        <img src="/globalassets/gameIcons/casino.png" />
-        <span class="title">Casino</span>
-      </div>
-    </div>
+    <div class="gameContainer" id="notportedContent"></div>
+    <div class="gameContainer" id="portedContent"></div>
+    <div class="gameContainer" id="emulatorsContent"></div>
 
-    <div class="gameContainer" id="portedContent">
-      <div
-        class="game-button blur"
-        data-href="/portedgames/undertale-yellow/undertale_yellow.html"
-      >
-        <img
-          src="/globalassets/gameIcons/portedgameIcons/undertaleyellow.png"
-        />
-        <span class="title">Undertale Yellow</span>
-      </div>
-      <div
-        class="game-button blur"
-        data-href="/portedgames/bitlife-life-simulator/play.html"
-      >
-        <img src="/globalassets/gameIcons/portedgameIcons/bitlife.jpeg" />
-        <span class="title">Bitlife</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/chrome-dino">
-        <img src="/globalassets/gameIcons/portedgameIcons/dino.png" />
-        <span class="title">Chrome Dino</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/cookie-clicker">
-        <img src="/globalassets/gameIcons/portedgameIcons/cookieclicker.png" />
-        <span class="title">Cookie Clicker</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/drive-mad">
-        <img src="/globalassets/gameIcons/portedgameIcons/drivemad.jpeg" />
-        <span class="title">Drive Mad</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/Moto-X3M">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto1.jpeg" />
-        <span class="title">Moto X3M</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/motox3m-pool">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto2.jpeg" />
-        <span class="title">Moto Pool</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/motox3m-spooky">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto3.jpeg" />
-        <span class="title">Moto Spooky</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/motox3m-winter">
-        <img src="/globalassets/gameIcons/portedgameIcons/moto4.jpeg" />
-        <span class="title">Moto Winter</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/subwaysurfers-sf">
-        <img src="/globalassets/gameIcons/portedgameIcons/subway.jpeg" />
-        <span class="title">Subway Surfers</span>
-      </div>
-      <div class="game-button blur" data-href="/portedgames/monkey-mart/game.html">
-        <img src="/globalassets/gameIcons/portedgameIcons/monkey-mart.jpeg" />
-        <span class="title">Monkey-Mart</span>
-      </div>
-      <div class="game-button blur" data-href="#">
-        <img src="/globalassets/gameIcons/placeholder.png" />
-        <span class="title">Coming Soon</span>
-      </div>
-    </div>
+    <script type="module">
+      const containers = {
+        unported: document.getElementById("notportedContent"),
+        ported: document.getElementById("portedContent"),
+        emulator: document.getElementById("emulatorsContent"),
+      };
 
-    <div class="gameContainer" id="emulatorsContent">
-      <div class="game-button blur" data-href="/emulators/downloads/index.html">
-        <img src="/globalassets/gameIcons/download.png"/>
-        <span class="title">Download Roms</span>
-      </div>
-      <div class="game-button blur" data-href="/emulators/emulator/index.html">
-        <img src="/globalassets/gameIcons/placeholder.png"/>
-        <span class="title">Emulator</span>
-      </div> 
-    </div>
-
-    <script>
       const unportedRadio = document.getElementById("unported");
       const portedRadio = document.getElementById("ported");
       const emulatorRadio = document.getElementById("emulator");
-
-      const notportedContent = document.getElementById("notportedContent");
-      const portedContent = document.getElementById("portedContent");
-      const emulatorsContent = document.getElementById("emulatorsContent");
-
-      const slider = document.querySelector(".slider");
       const radioButtons = [unportedRadio, portedRadio, emulatorRadio];
+      const slider = document.querySelector(".slider");
 
       function updateGameView() {
-        notportedContent.style.display = unportedRadio.checked
-          ? "flex"
-          : "none";
-        portedContent.style.display = portedRadio.checked ? "flex" : "none";
-        emulatorsContent.style.display = emulatorRadio.checked
-          ? "flex"
-          : "none";
+        containers.unported.style.display = unportedRadio.checked ? "flex" : "none";
+        containers.ported.style.display = portedRadio.checked ? "flex" : "none";
+        containers.emulator.style.display = emulatorRadio.checked ? "flex" : "none";
 
         const index = radioButtons.findIndex((r) => r.checked);
         slider.style.transform = `translateX(${index * 35}px)`;
@@ -167,12 +87,43 @@
       );
       updateGameView();
 
-      document.querySelectorAll(".game-button").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const href = btn.dataset.href;
-          if (href && href !== "#") window.location.href = href;
-        });
-      });
+      async function loadGames() {
+        try {
+          const res = await fetch("games.json");
+          const data = await res.json();
+
+          for (const category in data) {
+            if (!containers[category]) continue;
+
+            data[category].forEach((game) => {
+              const btn = document.createElement("div");
+              btn.classList.add("game-button", "blur");
+
+              const href = game.link || game.href;
+              btn.dataset.href = href;
+
+              const img = document.createElement("img");
+              img.src = game.icon;
+              btn.appendChild(img);
+
+              const title = document.createElement("span");
+              title.classList.add("title");
+              title.textContent = game.title;
+              btn.appendChild(title);
+
+              containers[category].appendChild(btn);
+
+              btn.addEventListener("click", () => {
+                if (href && href !== "#") window.location.href = href;
+              });
+            });
+          }
+        } catch (err) {
+          console.error("Failed to load games:", err);
+        }
+      }
+
+      loadGames();
     </script>
 
     <script type="module" src="../../loader.js"></script>
