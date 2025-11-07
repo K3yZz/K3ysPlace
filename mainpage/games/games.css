@@ -3,8 +3,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  overflow-y: scroll;
-  height: 70%;
+   overflow-y: auto;
+   overflow-x: hidden;
+  max-height: 70vh; 
   gap: 20px;
   padding: 20px;
 }

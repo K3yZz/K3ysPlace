@@ -27,7 +27,7 @@ function assignID() {
 
 //* mainpage stuff idk
 const versionUpdates = {
-  "1.3.3": "- Added new games and roms.<br>",
+  "1.3.3": "- Added 100s of new games and roms.<br>- New emulator.",
   "1.3.2": "- Added a password wall.<br>- Redesigned dropdowns.<br>-Added notification to save in emulator.<br>-Modified changelog and worklog.<br>-Game/app buttons are hardcoded for faster loading.<br>-New theme.<br>-Images for emulator and download.<br>-New rom games in downloads.",
   "1.3.1": "- Fixed custom theme not persisting.",
   "1.3.0":
@@ -35,7 +35,7 @@ const versionUpdates = {
 };
 
 const worklogUpdates = {
-  "TODO": "🎁 Upcoming Features: <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more themes for customization. <br>- Add more games and apps to the platform. <br>",
+  "TODO": "🎁 Upcoming Features: <br> - Add icons for all games. <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more themes for customization. <br>- Add more apps to the platform. <br>",
   "Known Problems":
     "🚫 Known Issues:<br>- Custom image background not working.",
 };
