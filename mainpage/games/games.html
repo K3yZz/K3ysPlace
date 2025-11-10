@@ -1,72 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Games - K3yz Place</title>
-    <link rel="stylesheet" href="games.css" />
-    <meta
-      name="description"
-      content="Play unported, ported, and emulator games at K3yz Place."
-    />
-  </head>
-  <body>
-    <div id="menuContainer" class="blur">
-      <button
-        class="menuButton secondary"
-        id="Home"
-        onclick="window.location.href='index.html'"
-      >
-        Home
-      </button>
-      <button
-        class="menuButton secondary"
-        id="Games"
-        onclick="window.location.href='mainpage/games/games.html'"
-      >
-        Games
-      </button>
-      <button
-        class="menuButton secondary"
-        id="Apps"
-        onclick="window.location.href='mainpage/apps/apps.html'"
-      >
-        Apps
-      </button>
-      <button
-        class="menuButton secondary"
-        id="Settings"
-        onclick="window.location.href='mainpage/settings/settings.html'"
-      >
-        Settings
-      </button>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Games - K3yz Place</title>
+  <meta name="description" content="Play unported, ported, and emulator games at K3yz Place." />
+  <link rel="stylesheet" href="games.css" />
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav id="menuContainer" class="blur">
+    <button class="menuButton secondary" id="Home" onclick="window.location.href='../../index.html'">
+      Home
+    </button>
+    <button class="menuButton secondary" id="Games" onclick="window.location.href='games.html'">
+      Games
+    </button>
+    <button class="menuButton secondary" id="Apps" onclick="window.location.href='../apps/apps.html'">
+      Apps
+    </button>
+    <button class="menuButton secondary" id="Settings" onclick="window.location.href='../settings/settings.html'">
+      Settings
+    </button>
+  </nav>
+
+  <!-- Switch + Search -->
+  <div class="switch-container">
+    <div class="three-way-switch blur" aria-label="Game Category Selector">
+      <input type="radio" name="gameSwitch" id="unported" checked aria-label="Unported" />
+      <input type="radio" name="gameSwitch" id="ported" aria-label="Ported" />
+      <input type="radio" name="gameSwitch" id="emulator" aria-label="Emulator" />
+
+      <label for="unported" title="Unported"></label>
+      <label for="ported" title="Ported"></label>
+      <label for="emulator" title="Emulator"></label>
+
+      <div class="slider" aria-hidden="true"></div>
     </div>
 
-    <div class="switch-container">
-      <div class="three-way-switch blur" aria-hidden="false">
-        <!-- radio inputs -->
-        <input type="radio" name="gameSwitch" id="unported" checked aria-label="Unported" />
-        <input type="radio" name="gameSwitch" id="ported" aria-label="Ported" />
-        <input type="radio" name="gameSwitch" id="emulator" aria-label="Emulator" />
-        <!-- visual labels (left intentionally empty so existing CSS/pseudo-elements still work) -->
-        <label for="unported" title="Unported"></label>
-        <label for="ported" title="Ported"></label>
-        <label for="emulator" title="Emulator"></label>
-        <div class="slider" aria-hidden="true"></div>
-      </div>
-
-      <!-- Search bar -->
-      <div class="search-container">
-        <input type="text" id="gameSearch" placeholder="Search games..." aria-label="Search games" />
-      </div>
+    <div class="search-container">
+      <input type="text" id="gameSearch" placeholder="Search games..." aria-label="Search games" />
     </div>
+  </div>
 
-    <!-- NOTE: IDs now match the JS mapping exactly: unportedContent, portedContent, emulatorContent -->
-    <div class="gameContainer" id="unportedContent" data-fallback-container></div>
-    <div class="gameContainer" id="portedContent" data-fallback-container></div>
-    <div class="gameContainer" id="emulatorContent" data-fallback-container></div>
+  <!-- Game Containers -->
+  <div class="gameContainer" id="notportedContent" data-fallback-container></div>
+  <div class="gameContainer" id="portedContent" data-fallback-container></div>
+  <div class="gameContainer" id="emulatorsContent" data-fallback-container></div>
 
-    <!-- loader first (provides resolvePathForResource), then UI script -->
-    <script type="module" src="../../loader.js"></script>
-    <script type="module" src="games.js"></script>
-  </body>
+  <!-- Scripts -->
+  <script type="module" src="../../loader.js"></script>
+  <script type="module" src="games.js"></script>
+</body>
+
 </html>
