@@ -31,8 +31,8 @@
 }
 
 :root.christmas {
-  --background-c1: rgba(0, 120, 0, 0.6);
-  --background-c2: rgba(30, 0, 0, 0.85);
+  --background-c1: rgba(226, 8, 8, 0.9);
+  --background-c2: rgba(213, 112, 112, 0.6);
 }
 
 :root.ocean {
@@ -89,7 +89,7 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: -2;
   pointer-events: none;
 }
 

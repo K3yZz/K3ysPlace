@@ -35,9 +35,9 @@ const versionUpdates = {
 };
 
 const worklogUpdates = {
-  "TODO": "🎁 Upcoming Features: <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more themes for customization. <br>- Add more apps to the platform. <br>",
+  "TODO": "🎁 Upcoming Features: <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more apps to the platform. <br>",
   "Known Problems":
-    "🚫 Known Issues:<br>- Custom image background not working. <br>- Stockmarket dropdowns broken design wise? <br>- Older particle effect broken?",
+    "🚫 Known Issues:<br>- Custom image background not working. <br>- Stockmarket dropdowns broken design wise?",
 };
 
 // --- Version Select ---

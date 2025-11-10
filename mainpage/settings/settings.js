@@ -127,7 +127,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const localStorageDisplay = document.getElementById("localStorageDisplay");
 
   function generateTable() {
-    const keys = Object.keys(localStorage).filter(k => !k.startsWith("IodineGBA") && !k.startsWith("eruda"));
+    const keys = Object.keys(localStorage).filter(k => !k.startsWith("eruda"));
     if (!keys.length) { localStorageDisplay.innerHTML = "<div>Local Storage is empty.</div>"; return; }
 
     const table = document.createElement("table");

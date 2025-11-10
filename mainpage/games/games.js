@@ -26,7 +26,7 @@ updateGameView();
 
 async function loadGames() {
   const COVER_URL = "/globalassets/gameIcons";
-  const HTML_URL = "portedgames/";
+  const HTML_URL = "/portedgames";
 
   const replacePlaceholders = (str) =>
     typeof str === "string"

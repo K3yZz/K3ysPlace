@@ -12,9 +12,9 @@
   <div id="topBarWrapper">
     <div id="chipsDisplay"></div>
     <div id="tabsContainer">
-      <button id="blackjackTab" class="active secondary" onclick="clickTab('blackjack')">Blackjack</button>
-      <button id="slotMachineTab" class="secondary" onclick="clickTab('slotMachine')">Slots</button>
-      <button id="dayJobTab" class="secondary" onclick="clickTab('dayJob')">Day Job</button>
+      <button id="blackjackTab" class="active" onclick="clickTab('blackjack')">Blackjack</button>
+      <button id="slotMachineTab" onclick="clickTab('slotMachine')">Slots</button>
+      <button id="dayJobTab" onclick="clickTab('dayJob')">Day Job</button>
     </div>
   </div>
 
@@ -25,17 +25,17 @@
 
     <div id="blackjackControls" class="controls">
       <input id="bjBet" type="number" min="1" value="100" />
-      <button id="dealBtn" class="secondary" onclick="bjDeal()">Deal</button>
-      <button id="hitBtn" class="secondary" onclick="bjHit()" disabled>Hit</button>
-      <button id="splitBtn" class="secondary" onclick="bjSplit()" disabled>Split</button>
-      <button id="standBtn" class="secondary" onclick="bjStand()" disabled>Stand</button>
+      <button id="dealBtn"onclick="bjDeal()">Deal</button>
+      <button id="hitBtn" onclick="bjHit()" disabled>Hit</button>
+      <button id="splitBtn" onclick="bjSplit()" disabled>Split</button>
+      <button id="standBtn" onclick="bjStand()" disabled>Stand</button>
       <div class="spacer"></div>
       <div class="small" id="bjStatus">Place bet and press Deal.</div>
     </div>
 
     <div id="slotControls" class="controls" style="display:none">
       <input id="slotBet" type="number" min="1" value="50" />
-      <button id="spinBtn" class="secondary" onclick="slotSpin()">Spin</button>
+      <button id="spinBtn"  onclick="slotSpin()">Spin</button>
       <div class="spacer"></div>
       <div class="small" id="slotStatus">Pick a bet and press Spin.</div>
     </div>
