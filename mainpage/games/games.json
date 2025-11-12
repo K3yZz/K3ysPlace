@@ -3420,6 +3420,14 @@
         "authorLink": "https://yandex.com/games"
       },
       {
+        "id": 414,
+        "name": "Twerk Race 3D",
+        "cover": "{COVER_URL}/414.png",
+        "url": "{HTML_URL}/414.html",
+        "author": "Yandex",
+        "authorLink": "https://yandex.com/games"
+      },
+      {
         "id": 415,
         "name": "Twisted Rope 3D",
         "cover": "{COVER_URL}/415.png",

@@ -325,16 +325,4 @@ async function initialize() {
 
 await initialize();
 
-export {
-  getFirstAvailable,
-  makeCandidateUrls,
-  resourceExists,
-  resolvePathForResource,
-  attachFallbacksToImages,
-  attachFallbacksToLinks,
-  attachFallbacksToBackgrounds,
-  attachFallbacksToClickableDivs,
-  attachFallbacksToMenu,
-  injectRunnerResources,
-  injectScript
-};
+export { getFirstAvailable, makeCandidateUrls, resourceExists };

@@ -170,7 +170,7 @@ button:active {
   background-color: var(--color-panel);
   color: var(--color-text);
   border: none;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   cursor: pointer;
   text-align: center;
   width: 100%;
@@ -180,7 +180,6 @@ button:active {
 
 .select-btn:hover {
   background-color: var(--color-hover);
-  transform: none;
 }
 
 .options {
@@ -199,11 +198,6 @@ button:active {
   display: flex;
 }
 
-.custom-select.active .select-btn {
-  border-radius: 10px 10px 0 0;
-  border-bottom: 2px solid var(--color-panel);
-}
-
 .option {
   padding: 10px 12px;
   cursor: pointer;
@@ -212,7 +206,6 @@ button:active {
 
 .option:hover {
   background-color: var(--color-hover);
-  transform: none;
 }
 
 /*  */

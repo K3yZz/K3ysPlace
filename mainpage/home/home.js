@@ -37,7 +37,7 @@ const versionUpdates = {
 const worklogUpdates = {
   "TODO": "🎁 Upcoming Features: <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more apps to the platform. <br>",
   "Known Problems":
-    "🚫 Known Issues:<br>- Fix Slider. <br>- Custom image background not working. <br>- Stockmarket dropdowns broken design wise?",
+    "🚫 Known Issues:<br>- Custom image background not working. <br>- Stockmarket dropdowns broken design wise?",
 };
 
 // --- Version Select ---
