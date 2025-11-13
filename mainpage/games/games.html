@@ -2,15 +2,16 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Games - K3yz Place</title>
   <meta name="description" content="Play unported, ported, and emulator games at K3yz Place." />
   <link rel="stylesheet" href="games.css" />
 </head>
 
 <body>
-  <!-- Navigation -->
-  <nav id="menuContainer" class="blur">
+  <!-- ===== Menu (unchanged) ===== -->
+  <nav id="menuContainer" class="blur" aria-label="Main navigation">
     <button class="menuButton secondary" id="Home" onclick="window.location.href='../../index.html'">
       Home
     </button>
@@ -25,31 +26,40 @@
     </button>
   </nav>
 
-  <!-- Switch + Search -->
+  <!-- ===== Switch + Search ===== -->
   <div class="switch-container">
-    <div class="three-way-switch blur" aria-label="Game Category Selector">
-      <input type="radio" name="gameSwitch" id="unported" checked aria-label="Unported" />
-      <input type="radio" name="gameSwitch" id="ported" aria-label="Ported" />
-      <input type="radio" name="gameSwitch" id="emulator" aria-label="Emulator" />
-
-      <label for="unported" title="Unported"></label>
-      <label for="ported" title="Ported"></label>
-      <label for="emulator" title="Emulator"></label>
-
+    <div class="three-way-switch blur" role="tablist" aria-label="Game Category Selector">
+      <input type="radio" name="gameSwitch" id="unported" value="unported" checked />
+      <input type="radio" name="gameSwitch" id="ported" value="ported" />
+      <input type="radio" name="gameSwitch" id="emulator" value="emulator" />
       <div class="slider" aria-hidden="true"></div>
     </div>
 
-    <div class="search-container">
-      <input type="text" id="gameSearch" placeholder="Search games..." aria-label="Search games" />
+
+    <div class="search-container" role="search">
+      <input type="search" id="gameSearch" placeholder="Search games..." aria-label="Search games" />
+      <div id="searchStatus" aria-live="polite" class="sr-only"></div>
     </div>
   </div>
 
-  <!-- Game Containers -->
-  <div class="gameContainer" id="notportedContent" data-fallback-container></div>
-  <div class="gameContainer" id="portedContent" data-fallback-container></div>
-  <div class="gameContainer" id="emulatorsContent" data-fallback-container></div>
+  <!-- ===== Game Sections ===== -->
+  <main>
+    <section class="gameContainer" id="notportedContent" data-fallback-container aria-labelledby="unported"
+      role="region"></section>
+    <section class="gameContainer" id="portedContent" data-fallback-container aria-labelledby="ported" role="region">
+    </section>
+    <section class="gameContainer" id="emulatorsContent" data-fallback-container aria-labelledby="emulator"
+      role="region"></section>
+  </main>
 
-  <!-- Scripts -->
+  <!-- ===== Loader ===== -->
+  <div id="loaderWrap" class="blur" aria-hidden="true">
+    <div id="loaderLabel">Loading games…</div>
+    <progress id="loaderProgress" value="0" max="100"></progress>
+    <div id="loaderPct" class="sr-only" aria-live="polite">0%</div>
+  </div>
+
+  <!-- ===== Scripts ===== -->
   <script type="module" src="../../loader.js"></script>
   <script type="module" src="games.js"></script>
 </body>

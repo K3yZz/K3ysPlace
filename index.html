@@ -11,7 +11,7 @@
 
 <body>
   <div id="passwordWallContainer" class="blur">
-    <span>Enter the password to continue.</span>
+    <span>Enter the password to continue. (NEW PASSWORD SENT ON GMAIL)</span>
     <input id="passwordLogin" type="password" placeholder="Password..." />
     <button id="loginButton">Login</button>
     <input id="stayLoggedIn" type="checkbox" />
@@ -69,10 +69,28 @@
       </span>
     </div>
     <h2 id="timeText"></h2>
+    <div class="music-player blur">
+      <div class="player-top">
+        <img id="cover" alt="Cover" />
+        <canvas id="waveCanvas" height="50px"></canvas>
+      </div>
+      <div class="player-controls">
+        <span id="currentTime">0:00</span>
+        <input type="range" id="progress" value="0" min="0" max="100" />
+        <button id="prev">⏮</button>
+        <button id="play">▶️</button>
+        <button id="next">⏭️</button>
+        <span id="duration">0:00</span>
+      </div>
+      <audio id="audio"></audio>
+    </div>
+
   </div>
 
   <script src="mainpage/home/home.js" type="module"></script>
+  <script src="mainpage/home/musicplayer.js"></script>
   <script type="module" src="loader.js"></script>
+  <script src="base_path.js"></script>
 </body>
 
 </html>

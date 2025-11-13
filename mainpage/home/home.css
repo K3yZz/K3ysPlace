@@ -69,3 +69,43 @@
 .note .tooltip:hover {
   display: flex;
 }
+
+.music-player {
+  width: 600px;
+  margin: auto;
+  background: #222;
+  color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.player-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.player-top img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+#waveCanvas {
+  flex: 1;
+  border-radius: 10px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#progress {
+  flex: 1;
+}
+
+

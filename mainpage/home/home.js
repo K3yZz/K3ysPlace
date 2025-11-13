@@ -27,17 +27,18 @@ function assignID() {
 
 //* mainpage stuff idk
 const versionUpdates = {
-  "1.3.3": "- Added over 600 new games. <br>- New emulator. <br>- New particle effect.",
-  "1.3.2": "- Added a password wall.<br>- Redesigned dropdowns.<br>-Added notification to save in emulator.<br>-Modified changelog and worklog.<br>-Game/app buttons are hardcoded for faster loading.<br>-New theme.<br>-Images for emulator and download.<br>-New rom games in downloads.",
+  "1.3.3":
+    "<br>- Added music player - Added over 600 new games. <br>- New emulator. <br>- New particle effect.",
+  "1.3.2":
+    "- Added a password wall.<br>- Redesigned dropdowns.<br>-Added notification to save in emulator.<br>-Modified changelog and worklog.<br>-Game/app buttons are hardcoded for faster loading.<br>-New theme.<br>-Images for emulator and download.<br>-New rom games in downloads.",
   "1.3.1": "- Fixed custom theme not persisting.",
-  "1.3.0":
-    "- New design.<br>- Added new games and a new app.",
+  "1.3.0": "- New design.<br>- Added new games and a new app.",
 };
 
 const worklogUpdates = {
-  "TODO": "🎁 Upcoming Features: <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more apps to the platform. <br>",
+  TODO: "🎁 Upcoming Features: <br> - Complete Casino overhaul with new games and improved UI. <br>- Add more apps to the platform. <br>",
   "Known Problems":
-    "🚫 Known Issues:<br>- Custom image background not working. <br>- Stockmarket dropdowns broken design wise?",
+    "🚫 Known Issues:<br>-Loading for ported games is a bit odd. <br>- Custom image background not working. <br>- Stockmarket dropdowns broken design wise?",
 };
 
 // --- Version Select ---
@@ -103,12 +104,20 @@ const passwordLogin = document.getElementById("passwordLogin");
 const stayLoggedIn = document.getElementById("stayLoggedIn");
 const loginButton = document.getElementById("loginButton");
 
+// === CONFIG ===
+const CURRENT_PASSWORD = "lemon"; // your new password
+const PASSWORD_VERSION = "v2"; // change this whenever password changes
+
 function handleLogin() {
   const password = passwordLogin.value.trim();
-  if (password === "password") {
+  if (password === CURRENT_PASSWORD) {
     passwordWall.style.display = "none";
     if (stayLoggedIn.checked) {
       localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("passwordVersion", PASSWORD_VERSION);
+    } else {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("passwordVersion");
     }
   } else {
     alert("Incorrect password!");
@@ -118,13 +127,20 @@ function handleLogin() {
 loginButton.addEventListener("click", handleLogin);
 
 passwordLogin.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    handleLogin();
-  }
+  if (e.key === "Enter") handleLogin();
 });
 
-if (localStorage.getItem("loggedIn") === "true") {
+// === AUTO LOGIC ON PAGE LOAD ===
+const storedLoggedIn = localStorage.getItem("loggedIn") === "true";
+const storedVersion = localStorage.getItem("passwordVersion");
+
+if (storedLoggedIn && storedVersion === PASSWORD_VERSION) {
   passwordWall.style.display = "none";
+} else {
+  // force logout if old password version
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("passwordVersion");
+  passwordWall.style.display = "flex";
 }
 
 assignID();
