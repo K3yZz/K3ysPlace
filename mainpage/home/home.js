@@ -28,7 +28,7 @@ function assignID() {
 //* mainpage stuff idk
 const versionUpdates = {
   "1.3.3":
-    "<br>- Added music player - Added over 600 new games. <br>- New emulator. <br>- New particle effect.",
+    "- Added over 600 new games. <br>- New emulator. <br>- New particle effect.",
   "1.3.2":
     "- Added a password wall.<br>- Redesigned dropdowns.<br>-Added notification to save in emulator.<br>-Modified changelog and worklog.<br>-Game/app buttons are hardcoded for faster loading.<br>-New theme.<br>-Images for emulator and download.<br>-New rom games in downloads.",
   "1.3.1": "- Fixed custom theme not persisting.",

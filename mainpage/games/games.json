@@ -3,12 +3,12 @@
     {
       "title": "Stock Market",
       "icon": "{COVER_URL}/stockMarket.png",
-      "link": "/games/stockmarketgame/game.html"
+      "link": "{HTML_URL}/games/stockmarketgame/game.html"
     },
     {
       "title": "Casino",
       "icon": "{COVER_URL}/casino.png",
-      "link": "/games/casinogame/game.html"
+      "link": "{HTML_URL}/games/casinogame/game.html"
     }
   ],
   "ported": [
@@ -4943,12 +4943,12 @@
     {
       "title": "Downloads",
       "icon": "{COVER_URL}/download.png",
-      "href": "/emulators/downloads/index.html"
+      "href": "{HTML_URL}/emulators/downloads/index.html"
     },
     {
       "title": "Emulator",
       "icon": "{COVER_URL}/emulator.jpg",
-      "href": "/emulators/EmulatorJS/index.html"
+      "href": "{HTML_URL}/emulators/EmulatorJS/index.html"
     }
   ]
 }

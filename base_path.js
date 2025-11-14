@@ -5,16 +5,19 @@ console.log(BASE_PATH);
 // Update all <img> elements with data-src
 document.querySelectorAll('img[data-src]').forEach(img => {
   img.src = BASE_PATH + img.getAttribute('data-src');
+  console.log("updated img");
 });
 
 // Update all <a> elements with data-href
 document.querySelectorAll('a[data-href]').forEach(link => {
   link.href = BASE_PATH + link.getAttribute('data-href');
+  console.log("updated links");
 });
 
 // Update buttons with data-href (optional)
 document.querySelectorAll('button[data-href]').forEach(button => {
   button.onclick = () => {
     window.location.href = BASE_PATH + button.getAttribute('data-href');
+    console.log("updated buttons");
   };
 });

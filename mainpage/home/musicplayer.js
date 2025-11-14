@@ -75,11 +75,14 @@ function loadSong(index) {
   const song = playlist[index];
   audio.src = song.src;
 
+  // Update Now Playing text
+  document.getElementById("npTitle").textContent = `${song.title} — ${song.artist}`;
+
   fetchCoverArt(song.artist, song.title)
     .then(url => cover.src = url)
     .catch(err => {
       console.error(err);
-      cover.src = ""; // fallback blank
+      cover.src = "";
     });
 
   audio.play();
@@ -126,6 +129,17 @@ function formatTime(sec) {
   const s = Math.floor(sec % 60);
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
+
+function resizeCanvasForHiDPI() {
+  const dpr = window.devicePixelRatio || 1;
+  const cw = canvas.clientWidth;
+  const ch = 25;
+  canvas.width = Math.max(1, Math.floor(cw * dpr));
+  canvas.height = Math.max(1, Math.floor(ch * dpr));
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', resizeCanvasForHiDPI);
+resizeCanvasForHiDPI();
 
 // Initialize
 loadSong(currentIndex);
